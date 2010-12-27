@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Edit Machine Maintenance" paneName="{PANE_NAME}"
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ValidationResultEvent;
+			import mx.validators.ValidationResult;
+			import com.olo.ostrich.neck.dto.MachineMaintenance;
+			
+			static public const PANE_NAME:String = "editMachineMaintenancePane";
+			
+			[Bindable] private var _maintenance:MachineMaintenance = null;
+			private var _moneyValid:Boolean = true;
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is MachineMaintenance)) throw new Error("EditMachineMaintenancePane::set dataProvider - Only accepts the Machine Maintenance type");
+					
+					_maintenance = MachineMaintenance(dp);
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _maintenance;
+			}
+			
+			
+			private function onChange():void
+			{
+				if ((maintenanceDF.selectedDate != null) && (costTI.text.length > 0) && (descriptionTA.text.length > 0) && (_moneyValid == true))
+				{
+					super.isValid = true;
+				}
+				else
+				{
+					super.isValid = false;
+				}
+			}
+			
+			
+			private function onValid():void
+			{
+				_moneyValid = true;
+				super.isValid = true;
+			}
+			
+			
+			private function onInValid():void
+			{
+				_moneyValid = false;
+				super.isValid = false;
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+	<mx:NumberFormatter id="numberFormatter" precision="2" rounding="none" decimalSeparatorTo="." thousandsSeparatorTo="," useThousandsSeparator="true" useNegativeSign="true"/>
+	<mx:CurrencyValidator id="moneyValidator" valid="{onValid()}" invalid="{onInValid()}" source="{costTI}" property="text" alignSymbol="left" trigger="{costTI}" triggerEvent="change"/>
+
+	<mx:Binding destination="_maintenance.maintenanceDate" source="maintenanceDF.selectedDate"/>
+	<mx:Binding destination="_maintenance.description" source="descriptionTA.text"/>
+	<mx:Binding destination="_maintenance.dollarCost" source="Number(costTI.text)"/>
+	
+	<mx:DateField id="maintenanceDF" change="onChange()" selectedDate="{_maintenance.maintenanceDate}" left="179" top="21"/>
+	<mx:Label text="Date:" fontWeight="bold" textAlign="right" left="125" top="23"/>
+	<mx:Label text="Cost:" fontWeight="bold" textAlign="right" left="128" top="71"/>
+	<mx:TextInput id="costTI" text="{_maintenance.dollarCost}" change="onChange()" width="90" left="179" top="69"/>
+	<mx:Label text="Description:" top="112" left="10" textAlign="right" fontWeight="bold"/>
+	<mx:TextArea id="descriptionTA" text="{_maintenance.description}" change="onChange()" left="11" top="138" right="10" bottom="10"/>
+	
+</DefaultWizardCanvasPane>

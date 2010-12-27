@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Object xmlns:mx="http://www.adobe.com/2006/mxml">
+
+	<mx:HTTPService id="flickrRecentFeedService" url="http://api.flickr.com/services/feeds/photos_public.gne" method="GET" resultFormat="e4x">
+		<mx:request>
+			<id>52399946@N05</id>
+			<lang>en-us</lang>
+			<format>rss_200</format>
+		</mx:request>
+	</mx:HTTPService>
+	
+	<mx:HTTPService id="foursquareVenueInfoService" url="http://api.foursquare.com/v1/venue" method="GET" resultFormat="e4x">
+		<mx:request>
+			<vid>2090683</vid>
+		</mx:request>
+	</mx:HTTPService>
+	
+	<!-- Remote Object Services -->
+	<mx:RemoteObject id="yogurtService" destination="YogurtService"/>
+	<mx:RemoteObject id="machineService" destination="MachineService"/>
+	<mx:RemoteObject id="newsService" destination="NewsService"/>
+	<mx:RemoteObject id="configUtilitiesService" destination="ConfigUtilitiesService"/>
+	<mx:RemoteObject id="inventoryService" destination="InventoryService"/>
+
+</mx:Object>

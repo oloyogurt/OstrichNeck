@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Edit Inventory" paneName="{PANE_NAME}" width="832" height="468"
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.dto.Machine;
+			import com.olo.ostrich.neck.dto.MachineInventory;
+			import com.olo.ostrich.neck.dto.Yogurt;
+			import com.olo.ostrich.neck.model.MachineInventoryModel;
+			
+			static public const PANE_NAME:String = "editMachineInventoryPane";
+		
+			[Bindable] private var _model:MachineInventoryModel = null;
+		
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is MachineInventoryModel)) throw new Error ("EditMachineInventoryPane:set dataProvider - Only accepts the MachineInventoryModel type");
+					
+					_model = MachineInventoryModel(dp);
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _model;
+			}
+			
+			
+			private function onActiveCBClick(event:Event):void
+			{
+				activeCB.executeBindings();
+			}
+			
+			
+			private function onDeactivate():void
+			{
+				_model.machineInventory.active = false;
+				isValid = true;
+			}
+			
+			
+			private function onIncrement():void
+			{
+				++_model.machineInventory.totalCartons;
+				isValid = true;
+			}
+			
+			
+			private function onDecrement():void
+			{
+				if (_model.machineInventory.totalCartons > 0)
+				{
+					--_model.machineInventory.totalCartons;
+					isValid = true;
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Binding destination="_model.machineInventory.active" source="activeCB.selected"/>
+	<mx:Binding destination="_model.machineInventory.totalCartons" source="{int(totalCartonsLabel.text)}"/>
+	<mx:Binding destination="_model.date" source="currentDateDF.selectedDate"/>
+	
+	<mx:Label text="Current Yogurt Inventory:" fontSize="13" fontWeight="bold" left="10" top="10"/>
+	<mx:HRule left="10" right="10" top="37"/>
+	<mx:Label text="Olo Flavor Name:" textAlign="right" fontWeight="bold" left="10" top="113" width="144"/>
+	<mx:Label text="Manufacturer Flavor Name:" fontWeight="bold" textAlign="right" top="113" right="263"/>
+	<mx:TextInput text="{_model.yogurt.oloName}" left="162" top="111" editable="false" enabled="false" width="187"/>
+	<mx:TextInput text="{_model.yogurt.yocreamName}" top="111" editable="false" enabled="false" right="68" width="187"/>
+	<mx:Label text="Machine Name:" width="144" fontWeight="bold" textAlign="right" top="59" left="10"/>
+	<mx:Label text="Machine Number:" textAlign="right" fontWeight="bold" right="263" width="161" top="59"/>
+	<mx:TextInput text="{_model.machine.name}" width="187" left="162" top="57" editable="false" enabled="false"/>
+	<mx:TextInput text="{_model.machine.machineNumber}" editable="false" enabled="false" right="68" width="187" top="57"/>
+	<mx:Label text="Start Date:" width="144" textAlign="right" fontWeight="bold" top="170" left="10"/>
+	<mx:TextInput text="{_model.machineInventory.startDate}" width="187" editable="false" enabled="false" top="166" left="162"/>
+	<mx:CheckBox id="activeCB" click="onActiveCBClick(event)" selected="{_model.machineInventory.active}" x="408" y="166" label="Active" fontWeight="bold" textAlign="right" enabled="true"/>
+	<mx:Label text="Date:" fontWeight="bold" left="500" top="168"/>
+	<mx:DateField id="currentDateDF" selectedDate="{_model.date}" left="545" top="166"/>
+	<mx:Label text="Total Cartons:" textAlign="center" fontWeight="bold" fontSize="15" top="256" left="94"/>
+	<mx:Label id="totalCartonsLabel" text="{_model.machineInventory.totalCartons}" fontWeight="bold" fontSize="36" color="#29BC7C" top="243" left="223"/>
+	<mx:Button click="onIncrement()" x="64" y="352" label="+" width="140" height="79" fontWeight="bold" fontSize="56"/>
+	<mx:Button click="onDecrement()" x="226" y="352" label="-" width="140" height="79" fontWeight="bold" fontSize="56"/>
+	
+	<mx:Box borderStyle="solid" horizontalAlign="center" paddingBottom="10" verticalAlign="bottom" borderThickness="4" borderColor="#294A60" width="286" height="188" bottom="37" right="46">
+		<mx:TextArea text="Deactivating an inventory causes trending over time to cease. Once marked inactive a machine must be assigned a new flavor to reactivate its inventory. Deactivating an inventory is useful when a machine is moved out of service, possibly awaiting repairs, to freeze trending statistics and flavor removal from the scoreboard." height="130" width="244"/>
+		<mx:Button label="Deactivate" click="onDeactivate()" enabled="{_model.machineInventory.active}"/>
+	</mx:Box>
+
+	
+</DefaultWizardCanvasPane>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Update Distributor" paneName="{PANE_NAME}" 
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="358" height="438">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import com.olo.ostrich.neck.dto.Distributor;
+			
+			static public const PANE_NAME:String = "updateDistributorPane";
+			
+			[Bindable] private var _distributor:Distributor = null;
+			[Bindable] private var _transportTypes:ArrayCollection = new ArrayCollection ([{label:"Delivery", data:1},
+																							{label:"Pickup", data:2}]);
+																							
+			override public function set dataProvider(dp:Object):void
+			{
+				if (!(dp is Distributor)) throw new Error ("UpdateDistributorPane:set dataProvider - Only accepts the Distributor type");
+				{
+					_distributor = Distributor(dp);
+					
+					transportCB.selectedIndex = (_distributor.transport - 1);
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _distributor;
+			}
+			
+			
+			private function onChange():void
+			{
+				_distributor.transport = (transportCB.selectedIndex + 1);
+				
+				if ((transportCB.selectedIndex >= 0) && (nameTI.text.length > 0))
+				{
+					isValid = true;
+				}
+				else
+				{
+					isValid = false;
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Binding destination="_distributor.name" source="nameTI.text"/>
+	<mx:Binding destination="_distributor.webAddress" source="webAddressTI.text"/>
+	<mx:Binding destination="_distributor.webOrderAddress" source="orderingAddressTI.text"/>
+	<mx:Binding destination="_distributor.notes" source="notesTA.text"/>
+	<mx:Binding destination="_distributor.contactName" source="contactNameTI.text"/>
+	<mx:Binding destination="_distributor.contactPhone" source="contactPhoneTI.text"/>
+	<mx:Binding destination="_distributor.contactEmail" source="contactEmailTI.text"/>
+	
+	<mx:Label text="Name:" fontWeight="bold" top="45" left="88"/>
+	<mx:Label text="Transport:" fontWeight="bold" top="80" left="66"/>
+	<mx:Label text="Notes:" fontWeight="bold" top="176" left="21"/>
+	<mx:Label text="Distributor Details" fontWeight="bold" left="10" top="10"/>
+	<mx:Label text="Distributor Contact" fontWeight="bold" top="295" left="10"/>
+	<mx:Label text="Web Address:" fontWeight="bold" left="45" top="115"/>
+	<mx:Label text="Ordering Address:" fontWeight="bold" left="21" top="150"/>
+	<mx:Label text="Name:" fontWeight="bold" left="61" top="323"/>
+	<mx:Label text="Phone:" fontWeight="bold" top="358" left="63"/>
+	<mx:Label text="Email:" fontWeight="bold" left="63" top="393"/>
+	<mx:TextInput left="138" change="onChange()" text="{_distributor.name}" top="43" id="nameTI"/>
+	<mx:ComboBox id="transportCB" change="onChange()" dataProvider="{_transportTypes}" left="138" top="78"></mx:ComboBox>
+	<mx:TextInput left="138" top="113" change="onChange()" text="{_distributor.webAddress}" id="webAddressTI"/>
+	<mx:TextInput left="138" top="148" change="onChange()" text="{_distributor.webOrderAddress}" id="orderingAddressTI"/>
+	<mx:TextArea top="202" text="{_distributor.notes}" change="onChange()" left="21" height="76" right="21" id="notesTA"/>
+	<mx:TextInput left="116" top="321" text="{_distributor.contactName}" change="onChange()" id="contactNameTI"/>
+	<mx:TextInput left="116" top="356" text="{_distributor.contactPhone}" change="onChange()" id="contactPhoneTI"/>
+	<mx:TextInput left="116" top="391" text="{_distributor.contactEmail}" change="onChange()" id="contactEmailTI"/>	
+	
+</DefaultWizardCanvasPane>

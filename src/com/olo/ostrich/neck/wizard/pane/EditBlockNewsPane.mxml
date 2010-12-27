@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Edit Block News" paneName="{PANE_NAME}"
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="510" height="322">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.dto.BlockNews;
+			
+			static public const PANE_NAME:String = "editBlockNewsPane";
+			
+			[Bindable] private var _blockNews:BlockNews = null;
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is BlockNews)) throw new Error("EditBlockNewsPane:set dataProvider - Only accepts the BlockNews type");
+					
+					_blockNews = BlockNews(dp);
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _blockNews;
+			}
+			
+			
+			private function onChange():void
+			{
+				if ((contentTI.text.length > 0) && (titleTI.text.length > 0) && (endDF.selectedDate != null))
+				{
+					super.isValid = true;
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Binding destination="_blockNews.title" source="titleTI.text"/>
+	<mx:Binding destination="_blockNews.startDate" source="startDF.selectedDate"/>
+	<mx:Binding destination="_blockNews.endDate" source="endDF.selectedDate"/>
+	<mx:Binding destination="_blockNews.contentBody" source="contentTI.text"/>
+	<mx:Binding destination="_blockNews.active" source="activeCB.selected"/>
+	<mx:Binding destination="_blockNews.bgColor" source="bgColorPicker.selectedColor"/>
+	<mx:Binding destination="_blockNews.textColor" source="textColorPicker.selectedColor"/>
+	
+	<mx:Label text="Title:" fontWeight="bold" textAlign="right" left="10" top="25" width="73"/>
+	<mx:Label text="Start Date:" left="14" top="58" textAlign="right" fontWeight="bold"/>
+	<mx:Label text="End Date:" top="91" left="10" textAlign="right" fontWeight="bold" width="73"/>
+	<mx:Label text="Content:" top="144" left="10" textAlign="right" fontWeight="bold"/>
+	<mx:TextInput id="titleTI" change="onChange()" text="{_blockNews.title}" top="23" left="91" right="10"/>
+	<mx:DateField id="startDF" change="onChange()" selectedDate="{_blockNews.startDate}" left="91" top="56"/>
+	<mx:DateField id="endDF" change="onChange()" selectedDate="{_blockNews.endDate}" left="91" top="89"/>
+	<mx:ColorPicker id="bgColorPicker" change="onChange()" selectedColor="{_blockNews.bgColor}" left="127" top="122"/>
+	<mx:ColorPicker id="textColorPicker" change="onChange()" selectedColor="{_blockNews.textColor}" top="122" left="285"/>
+	<mx:CheckBox selected="{_blockNews.active}" change="onChange()" label="Active" left="418" top="120" fontWeight="bold" width="82" id="activeCB"/>
+	<mx:TextArea text="{_blockNews.contentBody}" change="onChange()" left="10" top="170" right="10" bottom="10" id="contentTI"/>
+	<mx:Label text="Background Color:" fontWeight="bold" textAlign="right" left="10" top="122"/>
+	<mx:Label text="Text Color:" fontWeight="bold" textAlign="right" left="211" top="122"/>
+	
+</DefaultWizardCanvasPane>

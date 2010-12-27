@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane xmlns="com.olo.ostrich.neck.wizard.pane.*" paneTitle="Edit Summary News" paneName="{PANE_NAME}" xmlns:mx="http://www.adobe.com/2006/mxml" width="442" height="174">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.dto.SummaryNews;
+			
+			static public const PANE_NAME:String = "editSummaryNewsPane";
+			
+			[Bindable] private var _summaryNews:SummaryNews = null;
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is SummaryNews)) throw new Error("EditSummaryNewsPane:set dataProvider - Only accepts the SummaryNews type");
+					
+					_summaryNews = SummaryNews(dp);
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _summaryNews;
+			}
+			
+			
+			private function onChange():void
+			{
+				if ((endDF.selectedDate != null) && (messageTI.text.length > 0))
+				{
+					super.isValid = true;
+				}
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Binding destination="_summaryNews.active" source="activeCB.selected"/>
+	<mx:Binding destination="_summaryNews.startDate" source="startDF.selectedDate"/>
+	<mx:Binding destination="_summaryNews.endDate" source="endDF.selectedDate"/>
+	<mx:Binding destination="_summaryNews.message" source="messageTI.text"/>
+	
+	<mx:Label text="Start Date:" fontWeight="bold" left="10" top="25" textAlign="right" width="71"/>
+	<mx:Label text="End Date:" left="10" top="73" fontWeight="bold" textAlign="right" width="71"/>
+	<mx:Label text="Message:" top="132" left="10" textAlign="right" fontWeight="bold" width="71"/>
+	<mx:DateField id="startDF" change="onChange()" selectedDate="{_summaryNews.startDate}" left="119" top="23"/>
+	<mx:DateField id="endDF" selectedDate="{_summaryNews.endDate}" change="onChange()" left="119" top="71"/>
+	<mx:CheckBox label="Active" id="activeCB" change="onChange()" selected="{_summaryNews.active}" left="373" top="71" fontWeight="bold"/>
+	<mx:TextInput id="messageTI" text="{_summaryNews.message}" change="onChange()" maxChars="47" left="89" right="10" top="130"/>
+	
+	
+</DefaultWizardCanvasPane>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Object xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:dto="com.olo.ostrich.neck.dto.*" xmlns:model="com.olo.ostrich.neck.model.*">
+
+	<!-- Instantiate DTO objects so that serializer can map to java objects -->
+	<dto:Yogurt/>
+	<dto:Machine/>
+	<dto:MachineInventory/>
+	<model:MachineMaintenanceModel/>
+
+</Object>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane xmlns="com.olo.ostrich.neck.wizard.pane.*" paneTitle="Add Dirty Words" paneName="{PANE_NAME}" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.IViewCursor;
+			import com.olo.ostrich.neck.dto.DirtyWord;
+			import mx.collections.ArrayCollection;
+			
+			static public const PANE_NAME:String = "addDirtyWords";
+			[Bindable] private var _dirtyWords:ArrayCollection = null;
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					_dirtyWords = ArrayCollection(dp);
+				}
+			}
+			
+			
+			private function onAddWord():void
+			{
+				if (dirtyWordTI.text)
+				{
+					var found:Boolean = false;
+					for each (var word:DirtyWord in _dirtyWords)
+					{
+						if (word.word == dirtyWordTI.text)
+						{
+							found = true;
+							break;
+						}
+					}
+					
+					if (found == false)
+					{
+						var newWord:DirtyWord = new DirtyWord();
+						newWord.word = dirtyWordTI.text;
+						_dirtyWords.addItem(newWord);
+					}
+					
+					dirtyWordTI.text = null;
+				}
+				
+				onChange();
+			}
+			
+			
+			private function onRemoveWords():void
+			{
+				var selectedItems:Array = dirtyWordList.selectedItems;
+				
+				for each (var selectedItem:DirtyWord in selectedItems)
+				{
+					var cursor:IViewCursor = _dirtyWords.createCursor();
+					while (!cursor.afterLast)
+					{
+						var word:DirtyWord = DirtyWord(cursor.current);
+						if (word.word == selectedItem.word)
+						{
+							cursor.remove();
+							break;
+						}
+						
+						cursor.moveNext();
+					}
+				}
+				
+				onChange();
+			}
+			
+			
+			private function onChange():void
+			{
+				if (_dirtyWords && (_dirtyWords.length > 0)) isValid = true;
+			}
+
+		]]>
+	</mx:Script>
+	
+	<mx:Label text="Dirty Word:" bottom="40" left="10" fontWeight="bold"/>
+	<mx:TextInput id="dirtyWordTI" enter="onAddWord()" left="91" right="10" bottom="38"/>
+	<mx:Button label="Add" paddingRight="2" paddingLeft="2" bottom="10" enabled="{Boolean(dirtyWordTI.text)}" click="onAddWord()" left="10"/>
+	<mx:Button label="Remove" paddingLeft="2" paddingRight="2" bottom="10" enabled="{dirtyWordList.selectedItem}" click="onRemoveWords()" left="58" width="57"/>
+	<mx:List id="dirtyWordList" allowMultipleSelection="true" dataProvider="{_dirtyWords}" labelField="word" top="10" left="10" right="10" bottom="68"/>
+	
+</DefaultWizardCanvasPane>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Machine Cleaning" paneName="{PANE_NAME}" 
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="380" height="182">
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.util.UtilityCarafe;
+			import com.olo.ostrich.neck.dto.Machine;
+			
+			static public const PANE_NAME:String = "changeMachineCleaningPane";
+			
+			[Bindable] private var _machine:Machine = null;
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is Machine)) throw new Error("ChangeMachineCleaningPane:set dataProvider - Only accepts the Machine type");
+					
+					_machine = Machine(dp);
+					
+					breakdownCB.selectedIndex = (_machine.dayOfWeekBreakdown - 1);
+					sanitizeCB.selectedIndex = (_machine.dayOfWeekSanitize - 1);
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _machine;
+			}
+			
+			
+			private function onChange():void
+			{
+				super.isValid = true;
+				
+				_machine.dayOfWeekBreakdown = (breakdownCB.selectedIndex + 1);
+				_machine.dayOfWeekSanitize = (sanitizeCB.selectedIndex + 1);
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Label text="Day of Week Breakdown:" fontWeight="bold" textAlign="right" top="46" left="30"/>
+	<mx:Label text="Day of Week Sanitize:" fontWeight="bold" textAlign="right" top="118" width="150" left="30"/>
+	<mx:ComboBox id="breakdownCB" change="onChange()" dataProvider="{UtilityCarafe.daysOfWeek}" y="44" left="188"></mx:ComboBox>
+	<mx:ComboBox id="sanitizeCB" change="onChange()" dataProvider="{UtilityCarafe.daysOfWeek}" y="116" left="188"></mx:ComboBox>
+</DefaultWizardCanvasPane>

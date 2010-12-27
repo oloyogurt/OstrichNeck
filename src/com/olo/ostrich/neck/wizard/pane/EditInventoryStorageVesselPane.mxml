@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Inventory Storage Vessel" paneName="{PANE_NAME}" 
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			static public const PANE_NAME:String = "editInventoryStorageVesselPane";
+		]]>
+	</mx:Script>
+	
+</DefaultWizardCanvasPane>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Inventory Distributor" paneName="{PANE_NAME}"
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="494" height="300">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			static public const PANE_NAME:String = "editInventoryDistributorPane";
+			
+			[Bindable] private var _distributors:ArrayCollection = null;
+			
+			override public function set auxProvider(ap:Object):void
+			{
+				//if (!(ap is ArrayCollection)) throw new Error("ERROR: EditInventoryDistributorPane only accepts an array of Distributor objects.");
+				_distributors = ArrayCollection(ap);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:AdvancedDataGrid id="adg1" dataProvider="{_distributors}" designViewDataType="flat" left="10" right="88" top="10" bottom="40">
+		<mx:columns>
+			<mx:AdvancedDataGridColumn headerText="Name" dataField="name"/>
+			<mx:AdvancedDataGridColumn headerText="Transport" dataField="transportString"/>
+		</mx:columns>
+	</mx:AdvancedDataGrid>
+	<mx:Label text="Search:" textAlign="right" fontWeight="bold" left="10" bottom="10"/>
+	<mx:TextInput left="66" bottom="10"/>
+	
+</DefaultWizardCanvasPane>

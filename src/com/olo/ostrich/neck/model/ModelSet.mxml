@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Object xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:model="com.olo.ostrich.neck.model.*">
+
+	<!-- Instantiate Model objects so that serializer can map to java objects -->
+	<model:MachineInventoryModel/>
+
+</Object>

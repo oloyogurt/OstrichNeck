@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane xmlns="com.olo.ostrich.neck.wizard.pane.*" paneTitle="Add Hash References" paneName="{PANE_NAME}" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.IViewCursor;
+			import com.olo.ostrich.neck.dto.HashReference;
+			import mx.collections.ArrayCollection;
+			
+			static public const PANE_NAME:String = "addHashReferences";
+			[Bindable] private var _hashReferences:ArrayCollection = null;
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					_hashReferences = ArrayCollection(dp);
+				}
+			}
+			
+			
+			private function onAddHashReference():void
+			{
+				if (hashReferenceTI.text)
+				{
+					var found:Boolean = false;
+					for each (var hashRef:HashReference in _hashReferences)
+					{
+						if (hashRef.value == hashReferenceTI.text)
+						{
+							found = true;
+							break;
+						}
+					}
+					
+					if (found == false)
+					{
+						var newHashReference:HashReference = new HashReference();
+						newHashReference.value = hashReferenceTI.text;
+						_hashReferences.addItem(newHashReference);
+					}
+					
+					hashReferenceTI.text = null;
+				}
+				
+				onChange();
+			}
+			
+			
+			private function onRemoveHashReferences():void
+			{
+				var selectedItems:Array = hashReferenceList.selectedItems;
+				
+				for each (var selectedItem:HashReference in selectedItems)
+				{
+					var cursor:IViewCursor = _hashReferences.createCursor()
+					while (!cursor.afterLast)
+					{
+						var ref:HashReference = HashReference(cursor.current);
+						if (ref.value == selectedItem.value)
+						{
+							cursor.remove();
+							break;
+						}
+						
+						cursor.moveNext();
+					}
+				}
+				
+				onChange();
+			}
+			
+			
+			private function onChange():void
+			{
+				if (_hashReferences && (_hashReferences.length > 0)) isValid = true;
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Label text="Hash Reference:" bottom="40" left="10" fontWeight="bold"/>
+	<mx:TextInput id="hashReferenceTI" enter="onAddHashReference()" left="117" right="10" bottom="38"/>
+	<mx:Button label="Add" paddingRight="2" paddingLeft="2" bottom="10" enabled="{Boolean(hashReferenceTI.text)}" click="onAddHashReference()" left="10"/>
+	<mx:Button label="Remove" paddingLeft="2" paddingRight="2" bottom="10" enabled="{hashReferenceList.selectedItem}" click="onRemoveHashReferences()" left="58" width="57"/>
+	<mx:List id="hashReferenceList" allowMultipleSelection="true" dataProvider="{_hashReferences}" labelField="value" top="10" left="10" right="10" bottom="68"/>
+	
+</DefaultWizardCanvasPane>

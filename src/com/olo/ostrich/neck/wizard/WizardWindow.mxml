@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" paddingBottom="5" paddingTop="5" paddingLeft="5" paddingRight="5" title="{_wizardTitle}" layout="absolute" borderColor="#4F6469">
+
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.wizard.pane.IWizardPane;
+			import com.olo.ostrich.neck.wizard.pane.DefaultWizardCanvasPane;
+			import mx.events.IndexChangedEvent;
+			import mx.managers.PopUpManager;
+			import mx.collections.ArrayCollection;
+			
+			static private const NEXT_LABEL:String = "Next";
+			static private const DONE_LABEL:String = "Done";
+		
+			[Bindable] private var _wizardTitle:String = "Edit Wizard";
+			[Bindable] private var _proceedButtonLabel:String = DONE_LABEL;
+			[Bindable] private var _currentPane:DefaultWizardCanvasPane = null;
+			private var _wizardPanes:ArrayCollection = new ArrayCollection();
+			private var _wizardUser:IWizardUser = null;
+			
+			
+			public function set wizardUser(wizardUser:IWizardUser):void
+			{
+				_wizardUser = wizardUser;
+			}
+			
+			
+			public function set wizardTitle(title:String):void
+			{
+				_wizardTitle = title;
+			} 
+			
+			
+			[Bindable] public function get wizardTitle():String
+			{
+				return _wizardTitle;
+			}
+			
+			
+			public function set wizardPanes(panes:ArrayCollection):void
+			{
+				_wizardPanes = panes;
+				
+				if (_wizardPanes != null)
+				{
+					for each (var pane:DisplayObject in _wizardPanes)
+					{
+						panesVS.width = Math.max(panesVS.width, pane.width);
+						panesVS.height = Math.max(panesVS.height, pane.height);
+						panesVS.addChild(pane);
+					}
+					
+					panesVS.dispatchEvent(new IndexChangedEvent(IndexChangedEvent.CHANGE));
+				}
+			}
+			
+			
+			public function get wizardPanes():ArrayCollection
+			{
+				return _wizardPanes;
+			}
+			
+			
+			public function getPaneDataProvider(paneName:String):Object
+			{
+				var dp:Object = null;
+				
+				for each (var pane:IWizardPane in _wizardPanes)
+				{
+					if (pane.paneName == paneName)
+					{
+						dp = pane.dataProvider;
+						break;
+					}
+				}
+				
+				return dp;
+			}
+			
+			
+			public function setPaneDataProvider(paneName:String, dataProvider:Object):void
+			{
+				for each (var pane:IWizardPane in _wizardPanes)
+				{
+					if (pane.paneName == paneName)
+					{
+						pane.dataProvider = dataProvider;
+						break;
+					}
+				}
+			}
+			
+			
+			public function getPaneAuxProvider(paneName:String):Object
+			{
+				var ap:Object = null;
+				
+				for each (var pane:IWizardPane in _wizardPanes)
+				{
+					if (pane.paneName == paneName)
+					{
+						ap = pane.auxProvider;
+						break;
+					}
+				}
+				
+				return ap;
+			}
+			
+			
+			public function setPaneAuxProvider(paneName:String, auxProvider:Object):void
+			{
+				for each (var pane:IWizardPane in _wizardPanes)
+				{
+					if (pane.paneName == paneName)
+					{
+						pane.auxProvider = auxProvider;
+						break;
+					}
+				}
+			}
+			
+			
+			private function onCancelClick():void
+			{
+				PopUpManager.removePopUp(this);
+				if (_wizardUser) _wizardUser.wizardCancel();
+			}
+			
+			
+			private function onPreviousClick():void
+			{
+				if (panesVS.selectedIndex > 0) --panesVS.selectedIndex;
+			}
+			
+			
+			private function onProceedClick():void
+			{
+				if (proceedButton.label == DONE_LABEL)
+				{
+					PopUpManager.removePopUp(this);
+					if (_wizardUser) _wizardUser.wizardComplete();
+				}
+				else
+				{
+					++panesVS.selectedIndex;
+				}
+			}
+			
+			
+			private function onPaneChange():void
+			{
+				_currentPane = DefaultWizardCanvasPane(panesVS.selectedChild);
+				
+				if (panesVS.selectedIndex < (panesVS.numChildren - 1))
+				{
+					_proceedButtonLabel = NEXT_LABEL;
+				}
+				else
+				{
+					_proceedButtonLabel = DONE_LABEL;
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:ViewStack id="panesVS" change="onPaneChange()" borderStyle="none" cornerRadius="5" width="100%" height="100%"/>
+
+	<mx:ControlBar>
+		<mx:Button label="Cancel" click="{onCancelClick()}"/>
+		<mx:Spacer width="100%"/>
+		<mx:Button label="Previous" click="onPreviousClick()" visible="{(_wizardPanes.length > 1) &amp;&amp; (panesVS.selectedIndex > 0)}"/>
+		<mx:Button id="proceedButton" enabled="{_currentPane.isValid}" label="{_proceedButtonLabel}" click="onProceedClick()"/>
+	</mx:ControlBar>
+	
+</mx:TitleWindow>

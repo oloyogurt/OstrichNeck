@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Machine Details" paneName="{PANE_NAME}" 
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="346" height="168">
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import com.olo.ostrich.neck.dto.Machine;
+			
+			static public const PANE_NAME:String = "editMachineDetailsPane";
+			
+			[Bindable] private var _machine:Machine = null;
+			[Bindable] private var _colors:ArrayCollection = new ArrayCollection([{label:"Seafoam", data:1}, 
+                  																  {label:"Crushed Berries", data:2}, 
+                  																  {label:"Banana", data:3},
+                  																  {label:"Bear In Mind", data:4},
+                  																  {label:"Below Zero", data:5}]);
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is Machine)) throw new Error("EditMachineDetailsPane:set dataProvider - Only accepts the Machine type");
+				
+					_machine = Machine(dp);
+					
+					colorCB.selectedIndex = (_machine.color - 1);
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _machine;
+			}
+			
+			
+			private function onChange():void
+			{
+				super.isValid = true;
+				
+				_machine.color = (colorCB.selectedIndex + 1);
+			}
+						
+		]]>
+	</mx:Script>
+	
+	<mx:Binding destination="_machine.name" source="nameTI.text"/>
+	<mx:Binding destination="_machine.machineNumber" source="{int(numberTI.text)}"/>
+	<mx:Binding destination="_machine.manufactureDate" source="{dateField.selectedDate}"/>
+	
+	
+	<mx:Label text="Name:" fontWeight="bold" width="118" textAlign="right" left="10" top="22"/>
+	<mx:Label text="Number:" width="118" fontWeight="bold" textAlign="right" left="10" top="57"/>
+	<mx:Label text="Color:" width="118" fontWeight="bold" textAlign="right" left="10" top="92"/>
+	<mx:Label text="Manufacture Date:" width="118" fontWeight="bold" textAlign="right" left="10" top="127"/>
+	<mx:TextInput change="onChange()" text="{_machine.name}" id="nameTI" width="169" top="20" left="136"/>
+	<mx:TextInput change="onChange()" text="{_machine.machineNumber}" id="numberTI" width="169" top="55" left="136"/>
+	<mx:DateField change="onChange()" id="dateField" selectedDate="{_machine.manufactureDate}" x="136" y="125" width="169"/>
+	<mx:ComboBox change="onChange()" id="colorCB" dataProvider="{_colors}" x="136" y="90" width="169">
+	</mx:ComboBox>
+	
+</DefaultWizardCanvasPane>

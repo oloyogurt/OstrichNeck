@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:UIComponent xmlns:mx="http://www.adobe.com/2006/mxml">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				
+				graphics.clear();
+				
+				var arrowHeight:Number = height * .5;
+				var arrowWidth:Number = arrowHeight/1.2;
+
+				graphics.beginFill(0x00FF00);
+				//graphics.lineStyle(2, 0X000000);
+				
+				// Draw head
+				graphics.moveTo((arrowWidth + (arrowWidth/2)), 0);
+				graphics.lineTo(((arrowWidth*2) + (arrowWidth/2)), arrowHeight);
+				graphics.lineTo((arrowWidth/2), arrowHeight);
+				
+				// Draw box
+				graphics.moveTo(arrowWidth, arrowHeight);
+				graphics.lineTo((arrowWidth*2), arrowHeight);
+				graphics.lineTo((arrowWidth*2), (arrowHeight * 2));
+				graphics.lineTo(arrowWidth, (arrowHeight * 2));
+				
+				graphics.endFill();
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:UIComponent>

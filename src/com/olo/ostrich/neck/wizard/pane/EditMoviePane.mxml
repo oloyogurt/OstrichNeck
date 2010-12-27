@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Edit Video" paneName="{PANE_NAME}" 
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="258">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.dto.EggConfig;
+			import com.olo.ostrich.neck.dto.VideoInfo;
+			
+			static public const PANE_NAME:String = "editMoviePane";
+			
+			[Bindable] private var _video:VideoInfo = null;
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is VideoInfo)) throw new Error("EditMoviePane:set dataProvider - Only accepts the Video type");
+					
+					_video = VideoInfo(dp);
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _video;
+			}
+			
+			
+			private function onURLChange():void
+			{
+				videoID.text = null;
+				
+				if (youTubeURLTI.text &&  (youTubeURLTI.text.length > 0))
+				{
+					if (youTubeURLTI.text.match(/v=[^&]*&?/))
+					{
+						videoID.text = youTubeURLTI.text.match(/v=([^&]*)&?/)[1];
+					}
+				}
+				
+				onChange();
+			}
+			
+			
+			private function onChange():void
+			{
+				super.isValid = true;
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Binding source="youTubeURLTI.text" destination="_video.url"/>
+	<mx:Binding source="videoDescTI.text" destination="_video.description"/>
+	<mx:Binding source="videoID.text" destination="_video.videoId"/>
+	
+	<mx:Label text="Video Attributes" horizontalCenter="-1" top="24" fontWeight="bold" fontSize="14"/>
+	<mx:HRule left="17" right="18" top="53"/>
+	<mx:Label text="YouTube Video Id:" fontWeight="bold" fontSize="12" left="28" top="136"/>
+	<mx:TextInput id="youTubeURLTI" change="onURLChange()" text="{_video.url}" left="163" top="88" width="219"/>
+	<mx:TextInput id="videoID" change="onChange()" text="{_video.videoId}" width="97" left="163" top="136" enabled="false"/>
+	<mx:Label text="Video Description:" fontWeight="bold" fontSize="12" left="28" top="183"/>
+	<mx:TextInput id="videoDescTI" change="onChange()" text="{_video.description}" width="223" maxChars="30" left="162" top="183"/>
+	<mx:Label text="YouTube Video URL:" fontWeight="bold" fontSize="12" left="15" top="88"/>
+	
+</DefaultWizardCanvasPane>

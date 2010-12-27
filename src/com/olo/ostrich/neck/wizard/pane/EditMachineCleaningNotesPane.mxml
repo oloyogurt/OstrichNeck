@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Edit Machine Cleaning Notes" paneName="{PANE_NAME}" 
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.dto.MachineCleaning;
+			
+			static public const PANE_NAME:String = "editMachineCleaningNotesPane";
+			
+			[Bindable] private var _cleaning:MachineCleaning = null;
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is MachineCleaning)) throw new Error("EditMachineCleaningNotesPane::set dataProvider - Only accepts the Machine Cleaning Type");
+					
+					_cleaning = MachineCleaning(dp);
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _cleaning;
+			}
+			
+			
+			private function onChange():void
+			{
+				super.isValid = true;
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Binding destination="_cleaning.cleaningDate" source="cleaningDF.selectedDate"/>
+	<mx:Binding destination="_cleaning.poc" source="pocTI.text"/>
+	<mx:Binding destination="_cleaning.description" source="descriptionTA.text"/>
+	
+	<mx:DateField id="cleaningDF" change="onChange()" selectedDate="{_cleaning.cleaningDate}" left="179" top="21"/>
+	<mx:Label text="Date:" fontWeight="bold" textAlign="right" left="125" top="23"/>
+	<mx:Label text="Point of Contact:" fontWeight="bold" textAlign="right" left="70" top="71"/>
+	<mx:TextInput id="pocTI" text="{_cleaning.poc}" change="onChange()" width="90" left="179" top="69"/>
+	<mx:Label text="Description:" top="112" left="10" textAlign="right" fontWeight="bold"/>
+	<mx:TextArea id="descriptionTA" text="{_cleaning.description}" change="onChange()" left="11" top="138" right="10" bottom="10"/>
+	
+</DefaultWizardCanvasPane>

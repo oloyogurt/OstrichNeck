@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Update Inventory Vessels" paneName="{PANE_NAME}"
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import com.olo.ostrich.neck.dto.InventoryStorageVessel;
+			
+			static public const PANE_NAME:String = "updateInventoryVesselsPane";
+			
+			[Bindable] private var _inventoryVessel:InventoryStorageVessel = null;
+			[Bindable] private var _types:ArrayCollection = new ArrayCollection([{label:"Walk-in Cooler", data:1},
+																				{label:"Freezer", data:2},
+																				{label:"Shelving", datat:3}]);
+			[Bindable] private var _categories:ArrayCollection = new ArrayCollection([{label:"Yogurt", data:1}, 
+      																  {label:"Topping", data:2}, 
+      																  {label:"Household", data:3},
+      																  {label:"Other", data:4}]);
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is InventoryStorageVessel)) throw new Error ("UpdateInventoryVesselsPane:set dataProvider - Only accepts the InventoryStorageVessel type");
+					{
+						_inventoryVessel = InventoryStorageVessel(dp);
+						
+						categoryDB.selectedIndex = (_inventoryVessel.category - 1);
+						typeCB.selectedIndex = (_inventoryVessel.type - 1);
+					}
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _inventoryVessel;
+			}
+			
+			
+			private function onChange():void
+			{
+				_inventoryVessel.category = (categoryDB.selectedIndex + 1);
+				_inventoryVessel.type = (typeCB.selectedIndex + 1);
+					
+				if ((nameTI.text.length > 0) && (categoryDB.selectedIndex >= 0) && (typeCB.selectedIndex >= 0) && (standardCapacityTI.text.length > 0)
+					&& (minCapacityTI.text.length > 0) && (maxCapacityTI.text.length > 0))
+				{
+					isValid = true;
+				}
+				else
+				{
+					isValid = false;
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Binding destination="_inventoryVessel.name" source="nameTI.text"/>
+	<mx:Binding destination="_inventoryVessel.standardCapacity" source="int(standardCapacityTI.text)"/>
+	<mx:Binding destination="_inventoryVessel.minCapacity" source="int(minCapacityTI.text)"/>
+	<mx:Binding destination="_inventoryVessel.maxCapacity" source="int(maxCapacityTI.text)"/>
+	
+	<mx:Label text="Name:" fontWeight="bold" textAlign="right" left="104.5" top="31"/>
+	<mx:Label text="Type:" fontWeight="bold" textAlign="right" left="110.5" top="76"/>
+	<mx:Label text="Category:" fontWeight="bold" textAlign="right" left="85.5" top="123"/>
+	<mx:TextInput change="onChange()" text="{_inventoryVessel.name}" left="188.5" top="29" id="nameTI"/>
+	<mx:ComboBox change="onChange()" dataProvider="{_types}" x="188" y="76" id="typeCB"></mx:ComboBox>
+	<mx:ComboBox change="onChange()" dataProvider="{_categories}" x="188.5" y="121" id="categoryDB"></mx:ComboBox>
+	<mx:Label text="Standard Capacity:" fontWeight="bold" textAlign="right" left="33.5" top="171"/>
+	<mx:Label text="Min Capacity:" fontWeight="bold" textAlign="right" left="66.5" top="214"/>
+	<mx:Label text="Max Capacity:" fontWeight="bold" textAlign="right" left="62.5" top="254"/>
+	<mx:TextInput change="onChange()" text="{_inventoryVessel.standardCapacity}" id="standardCapacityTI" horizontalCenter="68" verticalCenter="30"/>
+	<mx:TextInput change="onChange()" text="{_inventoryVessel.minCapacity}" x="188.5" y="212" id="minCapacityTI"/>
+	<mx:TextInput change="onChange()" text="{_inventoryVessel.maxCapacity}" x="188.5" y="252" id="maxCapacityTI"/>
+	
+</DefaultWizardCanvasPane>

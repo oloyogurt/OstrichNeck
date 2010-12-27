@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TextArea xmlns:mx="http://www.adobe.com/2006/mxml">
+     <mx:Script>
+          <![CDATA[
+ 
+               // auto resize setting
+               private var _autoResizable:Boolean = true;
+ 
+               // getter
+               [Bindable(event="changeAutoResize")]
+               public function get autoResize():Boolean
+               {
+                    return _autoResizable;
+               }
+ 
+               // setter
+               public function set autoResize(b:Boolean):void
+               {
+                    _autoResizable = b;
+                    // if the text field component is created
+                    // and is auto resizable
+                    // we call the resize method
+                    if (this.mx_internal::getTextField() != null && 
+                         _autoResizable == true)
+                         resizeTextArea();
+                    // dispatch event to make the autoResize 
+                    // property bindable
+                    dispatchEvent(new Event("changeAutoResize"));
+               }
+ 
+               // setter override
+               override public function set text(value:String):void
+               {
+                    // calling super method 
+                    super.text = value;
+                    // if is auto resizable we call 
+                    // the resize method
+                    if (_autoResizable)
+                         resizeTextArea();
+               }
+ 
+               // resize function for the text area
+               private function resizeTextArea():void
+               {
+                   	var ta_height:uint = 25;
+
+					validateNow();
+					
+					for(var i:int=0; i < mx_internal::getTextField().numLines; i++) {
+						ta_height += mx_internal::getTextField().getLineMetrics(i).height;
+					}
+
+					this.height = ta_height;
+               }
+          ]]>
+     </mx:Script>
+</mx:TextArea>

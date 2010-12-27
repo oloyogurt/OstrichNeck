@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" horizontalScrollPolicy="off" verticalScrollPolicy="off" borderStyle="none" backgroundColor="#000000" width="100%" height="100%" alpha="0.85">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.component.scoreboard.parts.ScoreboardItem;
+			import com.olo.ostrich.neck.model.ScoreboardModel;
+			import com.olo.ostrich.neck.event.MachineEvent;
+			import mx.collections.ArrayCollection;
+			
+			private var _scoreboardData:ArrayCollection = null;
+			
+			
+			public function set scoreboardData(data:ArrayCollection):void
+			{
+				_scoreboardData = data;
+				
+				if (_scoreboardData != null)
+				{
+					scoreboardVBox.removeAllChildren();
+					
+					for each (var model:ScoreboardModel in _scoreboardData)
+					{
+						var entry:ScoreboardItem = new ScoreboardItem();
+						entry.percentHeight = 100;
+						entry.percentWidth = 100;
+						entry.dataProvider = model;
+						
+						scoreboardVBox.addChildAt(entry, (scoreboardVBox.numChildren));
+					}
+				}
+			}
+			
+			
+			public function hasData():Boolean
+			{
+				var value:Boolean = true;
+				
+				if (!_scoreboardData || (_scoreboardData.length < 1))
+				{
+					value = false;
+				} 
+				
+				return value;
+			}
+			
+			
+			public function loadData():void
+			{
+				dispatchEvent(new MachineEvent(MachineEvent.FETCH_SCOREBOARD_DATA));
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:VBox id="scoreboardVBox" borderStyle="none" backgroundColor="0x000000" height="100%" width="100%">
+		
+	</mx:VBox>
+	
+</mx:Canvas>
