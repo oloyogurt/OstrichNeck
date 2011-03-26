@@ -63,18 +63,21 @@
 	<mx:Binding destination="_inventoryVessel.standardCapacity" source="int(standardCapacityTI.text)"/>
 	<mx:Binding destination="_inventoryVessel.minCapacity" source="int(minCapacityTI.text)"/>
 	<mx:Binding destination="_inventoryVessel.maxCapacity" source="int(maxCapacityTI.text)"/>
+	<mx:Binding destination="_inventoryVessel.containerInfo" source="capacityDetailsTA.text"/>
 	
-	<mx:Label text="Name:" fontWeight="bold" textAlign="right" left="104.5" top="31"/>
-	<mx:Label text="Type:" fontWeight="bold" textAlign="right" left="110.5" top="76"/>
-	<mx:Label text="Category:" fontWeight="bold" textAlign="right" left="85.5" top="123"/>
-	<mx:TextInput change="onChange()" text="{_inventoryVessel.name}" left="188.5" top="29" id="nameTI"/>
-	<mx:ComboBox change="onChange()" dataProvider="{_types}" x="188" y="76" id="typeCB"></mx:ComboBox>
-	<mx:ComboBox change="onChange()" dataProvider="{_categories}" x="188.5" y="121" id="categoryDB"></mx:ComboBox>
-	<mx:Label text="Standard Capacity:" fontWeight="bold" textAlign="right" left="33.5" top="171"/>
-	<mx:Label text="Min Capacity:" fontWeight="bold" textAlign="right" left="66.5" top="214"/>
-	<mx:Label text="Max Capacity:" fontWeight="bold" textAlign="right" left="62.5" top="254"/>
-	<mx:TextInput change="onChange()" text="{_inventoryVessel.standardCapacity}" id="standardCapacityTI" horizontalCenter="68" verticalCenter="30"/>
-	<mx:TextInput change="onChange()" text="{_inventoryVessel.minCapacity}" x="188.5" y="212" id="minCapacityTI"/>
-	<mx:TextInput change="onChange()" text="{_inventoryVessel.maxCapacity}" x="188.5" y="252" id="maxCapacityTI"/>
+	<mx:Label text="Name:" fontWeight="bold" textAlign="right" top="31" left="104.5"/>
+	<mx:Label text="Type:" fontWeight="bold" textAlign="right" top="61" left="110.5"/>
+	<mx:Label text="Category:" fontWeight="bold" textAlign="right" top="87" left="85.5"/>
+	<mx:TextInput change="onChange()" text="{_inventoryVessel.name}" id="nameTI" top="29" left="188.5"/>
+	<mx:ComboBox change="onChange()" dataProvider="{_types}" id="typeCB" top="59" left="188.5"></mx:ComboBox>
+	<mx:ComboBox change="onChange()" dataProvider="{_categories}" id="categoryDB" top="85" left="188.5"></mx:ComboBox>
+	<mx:Label text="Container Details:" fontWeight="bold" textAlign="right" top="191" left="39"/>
+	<mx:Label text="Min Capacity:" fontWeight="bold" textAlign="right" top="113" left="66.5"/>
+	<mx:Label text="Max Capacity:" fontWeight="bold" textAlign="right" top="139" left="62.5"/>
+	<mx:TextInput change="onChange()" text="{_inventoryVessel.minCapacity}" id="minCapacityTI" top="111" left="187.5" width="109"/>
+	<mx:TextInput change="onChange()" text="{_inventoryVessel.maxCapacity}" id="maxCapacityTI" top="137" left="187.5" width="109"/>
+	<mx:TextInput change="onChange()" text="{_inventoryVessel.standardCapacity}" id="standardCapacityTI" top="163" left="187.5" width="109"/>
+	<mx:TextArea change="onChange()" text="{_inventoryVessel.containerInfo}" id="capacityDetailsTA" left="187.5" top="190" height="73"/>
+	<mx:Label text="Standard Capacity:" left="22.5" top="165" fontWeight="bold" textAlign="right" width="123.5"/>
 	
 </DefaultWizardCanvasPane>

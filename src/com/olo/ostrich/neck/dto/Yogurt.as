@@ -1,8 +1,10 @@
 package com.olo.ostrich.neck.dto
 {
+	import flash.external.ExternalInterface;
+	
 	[Bindable]
 	[RemoteClass(alias="com.olo.ostrich.nest.dto.Yogurt")]
-	public class Yogurt implements ICloneable
+	public class Yogurt extends ItemDetailBase implements ICloneable
 	{
 		public var id:Number;
 		public var yocreamName:String;

@@ -7,8 +7,8 @@ package com.olo.ostrich.neck.command
 	import com.olo.ostrich.neck.wizard.WizardFactory;
 	import com.olo.ostrich.neck.wizard.WizardWindow;
 	import com.olo.ostrich.neck.wizard.pane.EditInventoryDistributorPane;
+	import com.olo.ostrich.neck.wizard.pane.EditInventoryPane;
 	import com.olo.ostrich.neck.wizard.pane.EditInventoryStorageVesselPane;
-	import com.olo.ostrich.neck.wizard.pane.EditYogurtInventoryPane;
 	
 	import flash.events.Event;
 	
@@ -27,6 +27,7 @@ package com.olo.ostrich.neck.command
 		public function EditInventoryCommand()
 		{
 		}
+		
 
 		public function execute(event:Event):void
 		{
@@ -38,9 +39,11 @@ package com.olo.ostrich.neck.command
 				_containers = InventoryEvent(event).containers;
 				
 				_wizard = WizardFactory.getInstance().activateNewWizard(this, WizardFactory.EDIT_INVENTORY_WIZARD_TYPE);
-				_wizard.setPaneDataProvider(EditYogurtInventoryPane.PANE_NAME, _modelClone);
+				_wizard.setPaneDataProvider(EditInventoryPane.PANE_NAME, _modelClone);
+				
 				_wizard.setPaneDataProvider(EditInventoryDistributorPane.PANE_NAME, _modelClone);
 				_wizard.setPaneAuxProvider(EditInventoryDistributorPane.PANE_NAME, _distributors);
+				
 				_wizard.setPaneDataProvider(EditInventoryStorageVesselPane.PANE_NAME, _modelClone);
 				_wizard.setPaneAuxProvider(EditInventoryStorageVesselPane.PANE_NAME, _containers);
 			}

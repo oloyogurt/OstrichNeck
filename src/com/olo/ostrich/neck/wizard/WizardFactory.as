@@ -7,6 +7,7 @@ package com.olo.ostrich.neck.wizard
 	import com.olo.ostrich.neck.wizard.pane.EditBlockNewsPane;
 	import com.olo.ostrich.neck.wizard.pane.EditEggConfigPane;
 	import com.olo.ostrich.neck.wizard.pane.EditInventoryDistributorPane;
+	import com.olo.ostrich.neck.wizard.pane.EditInventoryItemDatePane;
 	import com.olo.ostrich.neck.wizard.pane.EditInventoryStorageVesselPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineCleaningNotesPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineDetailsPane;
@@ -14,8 +15,11 @@ package com.olo.ostrich.neck.wizard
 	import com.olo.ostrich.neck.wizard.pane.EditMachineMaintenancePane;
 	import com.olo.ostrich.neck.wizard.pane.EditMoviePane;
 	import com.olo.ostrich.neck.wizard.pane.EditSummaryNewsPane;
-	import com.olo.ostrich.neck.wizard.pane.EditYogurtInventoryPane;
+	import com.olo.ostrich.neck.wizard.pane.EditInventoryPane;
 	import com.olo.ostrich.neck.wizard.pane.EditYogurtPane;
+	import com.olo.ostrich.neck.wizard.pane.InventoryCountsPane;
+	import com.olo.ostrich.neck.wizard.pane.ModifyOrderPane;
+	import com.olo.ostrich.neck.wizard.pane.SelectDistributorPane;
 	import com.olo.ostrich.neck.wizard.pane.UpdateDistributorPane;
 	import com.olo.ostrich.neck.wizard.pane.UpdateInventoryVesselsPane;
 	
@@ -43,6 +47,10 @@ package com.olo.ostrich.neck.wizard
 		static public const EDIT_EGG_CONFIG_WIZARD_TYPE:String = "editEggConfigWizardType";
 		static public const EDIT_MOVIE_WIZARD_TYPE:String = "editMovieWizardType";
 		static public const EDIT_INVENTORY_WIZARD_TYPE:String = "editInventoryWizardType";
+		static public const EDIT_INVENTORY_ITEM_DATE_WIZARD_TYPE:String = "editInventoryItemDateWizardType";
+		static public const CREATE_NEW_ORDER_WIZARD_TYPE:String = "createNewOrderWizardType";
+		static public const MODIFY_ORDER_TYPE:String = "modifyOrderType";
+		static public const INVENTORY_COUTS:String = "inventoryCounts"; 
 		
 		
 		static private var _instance:WizardFactory = null;
@@ -152,10 +160,30 @@ package com.olo.ostrich.neck.wizard
 			}
 			else if (wizardType == EDIT_INVENTORY_WIZARD_TYPE)
 			{
-				panes = [new EditYogurtInventoryPane(),
+				panes = [new EditInventoryPane(),
 						 new EditInventoryDistributorPane(),
 						 new EditInventoryStorageVesselPane()];
-				title = "Edit Yogurt Inventory";
+				title = "Edit Inventory";
+			}
+			else if (wizardType == EDIT_INVENTORY_ITEM_DATE_WIZARD_TYPE)
+			{
+				panes = [new EditInventoryItemDatePane()];
+				title = "Edit Inventory Item Date";
+			}
+			else if (wizardType == CREATE_NEW_ORDER_WIZARD_TYPE)
+			{
+				panes = [new SelectDistributorPane()];
+				title = "Create A New Order";
+			}
+			else if (wizardType == MODIFY_ORDER_TYPE)
+			{
+				panes = [new ModifyOrderPane()];
+				title = "Modify The Order";
+			}
+			else if (wizardType == INVENTORY_COUTS)
+			{
+				panes = [new InventoryCountsPane()];
+				title = "Inventory Counts";
 			}
 			
 			wizard.wizardPanes = new ArrayCollection(panes);

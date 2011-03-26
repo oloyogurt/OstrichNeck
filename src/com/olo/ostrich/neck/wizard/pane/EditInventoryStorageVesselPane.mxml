@@ -1,12 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DefaultWizardCanvasPane paneTitle="Inventory Storage Vessel" paneName="{PANE_NAME}" 
-	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="475" height="368">
 	
 	<mx:Script>
 		<![CDATA[
+			import com.olo.ostrich.neck.dto.InventoryStorageVessel;
+			import com.olo.ostrich.neck.dto.InventoryItem;
+			import mx.collections.ArrayCollection;
 			
 			static public const PANE_NAME:String = "editInventoryStorageVesselPane";
+			
+			[Bindable] private var _inventoryContainers:ArrayCollection = null;
+			[Bindable] private var _inventory:InventoryItem = null;
+			[Bindable] private var _iSelected:int = -1;
+			
+			
+			override public function set auxProvider(ap:Object):void
+			{
+				if (!(ap is ArrayCollection)) throw new Error("ERROR: EditInventoryStorageVesselPane:set auxProvider only accepts an array of InventoryStrorageVessels.");
+				
+				_inventoryContainers = ArrayCollection(ap);
+				
+				if (_inventory && _inventory.inventoryStorageVessel)
+				{
+					setStorageVessel();
+				}
+			}
+			
+			
+			override public function get auxProvider():Object
+			{
+				return _inventoryContainers;
+			}
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is InventoryItem)) throw new Error("EditInventoryStorageVesselPane:set dataProvider - Only accepts an array of InventoryItem types");
+
+					_inventory = InventoryItem(dp);
+					
+					if (_inventoryContainers && (_inventoryContainers.length > 0))
+					{
+						setStorageVessel();
+					}
+				}
+			}
+			
+			
+			private function setStorageVessel():void
+			{
+				for (var i:int=0; i < _inventoryContainers.length; ++i)
+				{
+					if (_inventory.inventoryStorageVessel.id == InventoryStorageVessel(_inventoryContainers[i]).id)
+					{
+						_iSelected = i;
+						onChange();
+						break;
+					}
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _inventory;
+			}
+			
+			
+			private function onChange():void
+			{
+				super.isValid = (containersGrid.selectedItem) ? true : false;
+				
+				_inventory.inventoryStorageVessel = InventoryStorageVessel(containersGrid.selectedItem);
+			}
+			
+			
+			private function onSearch():void
+			{
+				var pattern:RegExp = new RegExp(searchTI.text, "i");
+				for (var i:int=0; i < _inventoryContainers.length; ++i)
+				{
+					var vessel:InventoryStorageVessel = InventoryStorageVessel(_inventoryContainers.getItemAt(i));
+					if (vessel.name.match(pattern))
+					{
+						containersGrid.selectedIndex = i;
+						containersGrid.scrollToIndex(i);
+						break;
+					}
+				}
+				
+				onChange();
+			}
 		]]>
 	</mx:Script>
+	
+	<mx:AdvancedDataGrid id="containersGrid" change="onChange()" selectedIndex="{_iSelected}" dataProvider="{_inventoryContainers}" designViewDataType="flat" left="10" right="10" top="10" bottom="40">
+		<mx:columns>
+			<mx:AdvancedDataGridColumn headerText="Name" dataField="name"/>
+			<mx:AdvancedDataGridColumn headerText="Current Capacity" dataField="currentCapacity"/>
+			<mx:AdvancedDataGridColumn headerText="Max Capacity" dataField="maxCapacity"/>
+		</mx:columns>
+	</mx:AdvancedDataGrid>
+	<mx:Label text="Search:" textAlign="right" fontWeight="bold" left="10" bottom="10"/>
+	<mx:TextInput id="searchTI" change="onSearch()" left="66" bottom="10" right="10"/>
 	
 </DefaultWizardCanvasPane>

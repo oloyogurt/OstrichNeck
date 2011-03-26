@@ -6,7 +6,7 @@ package com.olo.ostrich.neck.dto
 	{
 		// Keep in synch with server object
 		static private const STORAGE_TYPE_WALK_IN_COOLER:int = 1;
-		static private const STORAGE_TYPE_WALK_IN_COOLER_STR:String = "Walk-in Cooler";
+		static private const STORAGE_TYPE_WALK_IN_COOLER_STR:String = "Walk-in";
 		static private const STORAGE_TYPE_FREEZER:int = 2;
 		static private const STORAGE_TYPE_FREEZER_STR:String = "Freezer";
 		static private const STORAGE_TYPE_SHELF:int = 3;
@@ -18,10 +18,10 @@ package com.olo.ostrich.neck.dto
 		public var type:int;
 		public var category:int;
 		public var overstock:Boolean;
-		public var currentCapacity:int;
 		public var standardCapacity:int;
 		public var minCapacity:int;
 		public var maxCapacity:int;
+		public var containerInfo:String;
 		
 		
 		public function InventoryStorageVessel()
@@ -38,10 +38,10 @@ package com.olo.ostrich.neck.dto
 			clone.type = type;
 			clone.category = category;
 			clone.overstock = overstock;
-			clone.currentCapacity = currentCapacity;
 			clone.standardCapacity = standardCapacity;
 			clone.minCapacity = minCapacity;
 			clone.maxCapacity = maxCapacity;
+			clone.containerInfo = containerInfo;
 			
 			return clone;
 		}
@@ -53,7 +53,7 @@ package com.olo.ostrich.neck.dto
 		}
 		
 		
-		[Transient] public function typeStr():String
+		[Transient] public function get typeStr():String
 		{
 			var rtnStr:String = "UNKNOWN";
 			
