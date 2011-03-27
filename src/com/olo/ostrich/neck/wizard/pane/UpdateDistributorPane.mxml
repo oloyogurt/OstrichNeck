@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DefaultWizardCanvasPane paneTitle="Update Distributor" paneName="{PANE_NAME}" 
-	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="358" height="438">
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="358" height="494">
 	
 	<mx:Script>
 		<![CDATA[
@@ -44,6 +44,22 @@
 				}
 			}
 			
+			private function onDayChange():void
+			{
+				var days:int = 0;
+				if (mondayCB.selected) days |= Distributor.MONDAY_ORDER_BIT;
+				if (tuesdayCB.selected) days |= Distributor.TUESDAY_ORDER_BIT;
+				if (wednesdayCB.selected) days |= Distributor.WEDNESDAY_ORDER_BIT;
+				if (thursdayCB.selected) days |= Distributor.THURSDAY_ORDER_BIT;
+				if (fridayCB.selected) days |= Distributor.FRIDAY_ORDER_BIT;
+				if (saturdayCB.selected) days |= Distributor.SATURDAY_ORDER_BIT;
+				if (sundayCB.selected) days |= Distributor.SUNDAY_ORDER_BIT;
+				
+				_distributor.orderDays = days;
+				
+				onChange();
+			}
+			
 		]]>
 	</mx:Script>
 	
@@ -57,21 +73,29 @@
 	
 	<mx:Label text="Name:" fontWeight="bold" top="45" left="88"/>
 	<mx:Label text="Transport:" fontWeight="bold" top="80" left="66"/>
-	<mx:Label text="Notes:" fontWeight="bold" top="176" left="21"/>
+	<mx:Label text="Notes:" fontWeight="bold" top="247" left="21"/>
 	<mx:Label text="Distributor Details" fontWeight="bold" left="10" top="10"/>
-	<mx:Label text="Distributor Contact" fontWeight="bold" top="295" left="10"/>
+	<mx:Label text="Distributor Contact" fontWeight="bold" top="362" left="19"/>
 	<mx:Label text="Web Address:" fontWeight="bold" left="45" top="115"/>
 	<mx:Label text="Ordering Address:" fontWeight="bold" left="21" top="150"/>
-	<mx:Label text="Name:" fontWeight="bold" left="61" top="323"/>
-	<mx:Label text="Phone:" fontWeight="bold" top="358" left="63"/>
-	<mx:Label text="Email:" fontWeight="bold" left="63" top="393"/>
+	<mx:Label text="Name:" fontWeight="bold" left="70" top="390"/>
+	<mx:Label text="Phone:" fontWeight="bold" top="425" left="72"/>
+	<mx:Label text="Email:" fontWeight="bold" left="72" top="460"/>
 	<mx:TextInput left="138" change="onChange()" text="{_distributor.name}" top="43" id="nameTI"/>
 	<mx:ComboBox id="transportCB" change="onChange()" dataProvider="{_transportTypes}" left="138" top="78"></mx:ComboBox>
 	<mx:TextInput left="138" top="113" change="onChange()" text="{_distributor.webAddress}" id="webAddressTI"/>
 	<mx:TextInput left="138" top="148" change="onChange()" text="{_distributor.webOrderAddress}" id="orderingAddressTI"/>
-	<mx:TextArea top="202" text="{_distributor.notes}" change="onChange()" left="21" height="76" right="21" id="notesTA"/>
-	<mx:TextInput left="116" top="321" text="{_distributor.contactName}" change="onChange()" id="contactNameTI"/>
-	<mx:TextInput left="116" top="356" text="{_distributor.contactPhone}" change="onChange()" id="contactPhoneTI"/>
-	<mx:TextInput left="116" top="391" text="{_distributor.contactEmail}" change="onChange()" id="contactEmailTI"/>	
+	<mx:TextArea top="273" text="{_distributor.notes}" change="onChange()" left="21" height="76" right="21" id="notesTA"/>
+	<mx:TextInput left="125" top="388" text="{_distributor.contactName}" change="onChange()" id="contactNameTI" width="160"/>
+	<mx:TextInput left="125" top="423" text="{_distributor.contactPhone}" change="onChange()" id="contactPhoneTI" width="160"/>
+	<mx:TextInput left="125" top="458" text="{_distributor.contactEmail}" change="onChange()" id="contactEmailTI"/>	
+	<mx:Label text="Order Days:" fontWeight="bold" left="12" top="185" width="75" textAlign="right"/>
+	<mx:CheckBox label="Monday" click="onDayChange()" selected="{((_distributor.orderDays &amp; Distributor.MONDAY_ORDER_BIT) == Distributor.MONDAY_ORDER_BIT)}" fontWeight="normal" left="95" top="183" id="mondayCB"/>
+	<mx:CheckBox label="Tuesday" click="onDayChange()" selected="{((_distributor.orderDays &amp; Distributor.TUESDAY_ORDER_BIT) == Distributor.TUESDAY_ORDER_BIT)}" fontWeight="normal" left="171" top="183" id="tuesdayCB"/>
+	<mx:CheckBox label="Wednesday" click="onDayChange()" selected="{((_distributor.orderDays &amp; Distributor.WEDNESDAY_ORDER_BIT) == Distributor.WEDNESDAY_ORDER_BIT)}" fontWeight="normal" left="251" top="183" id="wednesdayCB"/>
+	<mx:CheckBox label="Thursday" click="onDayChange()" selected="{((_distributor.orderDays &amp; Distributor.THURSDAY_ORDER_BIT) == Distributor.THURSDAY_ORDER_BIT)}" fontWeight="normal" left="39" top="211" id="thursdayCB"/>
+	<mx:CheckBox label="Friday" click="onDayChange()" selected="{((_distributor.orderDays &amp; Distributor.FRIDAY_ORDER_BIT) == Distributor.FRIDAY_ORDER_BIT)}" fontWeight="normal" left="127" top="211" id="fridayCB"/>
+	<mx:CheckBox label="Saturday" click="onDayChange()" selected="{((_distributor.orderDays &amp; Distributor.SATURDAY_ORDER_BIT) == Distributor.SATURDAY_ORDER_BIT)}" fontWeight="normal" left="193" top="211" id="saturdayCB"/>
+	<mx:CheckBox label="Sunday" click="onDayChange()" selected="{((_distributor.orderDays &amp; Distributor.SUNDAY_ORDER_BIT) == Distributor.SUNDAY_ORDER_BIT)}" fontWeight="normal" left="281" top="211" id="sundayCB"/>
 	
 </DefaultWizardCanvasPane>

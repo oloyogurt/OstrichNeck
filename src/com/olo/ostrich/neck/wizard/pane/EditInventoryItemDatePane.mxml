@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Inventory Item Dates" paneName="{PANE_NAME}" 
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="307" height="176">
+	
+	
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.dto.InventoryItemDate;
+			
+			static public const PANE_NAME:String = "editInventoryItemDatePane";
+			
+			[Bindable] private var _inventoryItemDate:InventoryItemDate = null;
+			[Bindable] private var _createMode:Boolean = false;
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is InventoryItemDate)) throw new Error("EditInventoryItemDatePane:set dataProvider - Only accepts an InventoryItemDate type");
+					
+					_inventoryItemDate = InventoryItemDate(dp);
+					
+					if (_inventoryItemDate.id == 0)
+					{
+						_createMode = true;
+					}
+					
+					onChange();
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _inventoryItemDate;
+			}
+			
+			
+			private function onChange():void
+			{
+				super.isValid = (_inventoryItemDate) ? true : false;
+			} 
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Binding destination="_inventoryItemDate.itemCount" source="int(itemCountTI.text)"/>
+	<mx:Binding destination="_inventoryItemDate.dateFormat" source="inventoryDF.selectedDate"/>
+	
+	<mx:Label text="Item Count:" textAlign="right" fontWeight="bold" left="63" top="52" fontSize="12" width="83"/>
+	<mx:Label text="Date:" visible="{_createMode}" textAlign="right" fontWeight="bold" top="102" fontSize="12" width="83" left="63"/>
+	<mx:TextInput id="itemCountTI" left="154" text="{_inventoryItemDate.itemCount}" top="52" editable="true" width="74"/>
+	<mx:DateField id="inventoryDF" visible="{_createMode}" change="onChange()" selectedDate="{_inventoryItemDate.dateFormat}" top="102" left="154"/>
+	
+</DefaultWizardCanvasPane>

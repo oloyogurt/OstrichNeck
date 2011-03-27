@@ -37,6 +37,7 @@ package com.olo.ostrich.neck.dto
 		public var id:Number;
 		public var name:String;
 		public var manufactureName:String;
+		public var itemsInCase:int;
 		public var category:int;
 		public var itemNumber:String;
 		public var cost:Number;
@@ -53,6 +54,8 @@ package com.olo.ostrich.neck.dto
 		public var inventoryStorageVessel:InventoryStorageVessel;
 		public var itemDetail:ItemDetailBase;
 		
+		[Transient] public var boxCount:int = 0; 
+		
 		
 		public function InventoryItem()
 		{
@@ -65,6 +68,7 @@ package com.olo.ostrich.neck.dto
 			clone.id = id;
 			clone.name = name;
 			clone.manufactureName = manufactureName;
+			clone.itemsInCase = itemsInCase;
 			clone.category = category;
 			clone.itemNumber = itemNumber;
 			clone.cost = cost;
@@ -80,6 +84,8 @@ package com.olo.ostrich.neck.dto
 			clone.inventoryStorageVessel = inventoryStorageVessel;
 			
 			clone.itemDetail = itemDetail;
+			
+			clone.boxCount = boxCount;
 			
 			return clone;
 		}

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Edit Inventory Counts" paneName="{PANE_NAME}" borderColor="#7BA7C6" backgroundColor="#504D59" creationComplete="onCreationComplete()"
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="636" height="410">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.SortField;
+			import mx.collections.Sort;
+			import com.olo.ostrich.neck.dto.InventoryItem;
+			import mx.collections.ArrayCollection;
+			
+			static public const PANE_NAME:String = "inventoryCountsPane";
+			
+			[Bindable] private var _inventories:ArrayCollection = null;
+			
+			
+			private function onCreationComplete():void
+			{
+				searchTI.setFocus();
+				searchTI.drawFocus(true);
+			}
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is ArrayCollection)) throw new Error("ERROR: InventoryCountsPane:set dataProvider - Only accepts an ArrayCollection");
+					
+					_inventories = ArrayCollection(dp);
+					_inventories.filterFunction = filterFunction;
+					
+					if (_inventories.sort == null)
+					{
+						var sf1:SortField = new SortField();
+						sf1.name = "name";
+						var sort:Sort = new Sort();
+						sort.fields = [sf1];
+						_inventories.sort = sort;
+						_inventories.refresh();
+					}
+					
+					_inventories.refresh();
+					
+					super.isValid = true;
+				}
+			}
+			
+			
+			public function filterFunction(item:Object):Boolean
+			{
+				var inventoryItem:InventoryItem = InventoryItem(item);
+				if (inventoryItem.category == InventoryItem.INVENTORY_CATEGORY_YOGURT)
+				{
+					return (yogurtCB.selected == true) ? true : false;
+				}
+				else if (inventoryItem.category == InventoryItem.INVENTORY_CATEGORY_TOPPING)
+				{
+					return (toppingsCB.selected == true) ? true : false;
+				}
+				else if (inventoryItem.category == InventoryItem.INVENTORY_CATEGORY_HOUSEHOLD)
+				{
+					return (householdsCB.selected == true) ? true : false;
+				}
+				else if (inventoryItem.category == InventoryItem.INVENTORY_CATEGORY_OTHER)
+				{
+					return (otherCB.selected == true) ? true : false;
+				}
+				
+				return true;
+			}
+			
+			
+			private function onSearch():void
+			{
+				var pattern:RegExp = new RegExp(searchTI.text, "i");
+				for (var i:int=0; i < _inventories.length; ++i)
+				{
+					var item:InventoryItem = InventoryItem(_inventories.getItemAt(i));
+					if (item.name.match(pattern))
+					{
+						inventoryGrid.selectedIndex = i;
+						inventoryGrid.scrollToIndex(i);
+						break;
+					}
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Panel layout="absolute" left="10" right="10" top="10" bottom="41" title="Inventory Items" fontWeight="normal">
+		<mx:AdvancedDataGrid id="inventoryGrid" dataProvider="{_inventories}" designViewDataType="flat" editable="true" left="5" top="5" right="5" bottom="5">
+			<mx:columns>
+				<mx:AdvancedDataGridColumn headerText="Item Name" dataField="name" editable="false"/>
+				<mx:AdvancedDataGridColumn headerText="Boxes" dataField="boxCount" editable="true" width="80"/>
+				<mx:AdvancedDataGridColumn headerText="Items" dataField="currentQuantity" editable="true" width="80"/>
+				<mx:AdvancedDataGridColumn headerText="Type" dataField="categoryStrValue" editable="false" width="100"/>
+				<mx:AdvancedDataGridColumn headerText="Manufacturer" dataField="manufactureName" editable="false" width="100"/>
+			</mx:columns>
+		</mx:AdvancedDataGrid>
+	</mx:Panel>
+	
+	<mx:CheckBox id="yogurtCB" label="Yogurt" click="_inventories.refresh()" fontWeight="bold" color="#C7E9F0" selected="true" x="10" y="378"/>
+	<mx:CheckBox id="toppingsCB" label="Toppings" click="_inventories.refresh()" fontWeight="bold" color="#C7E9F0" bottom="10" left="82" selected="true"/>
+	<mx:CheckBox id="householdsCB" label="Households" click="_inventories.refresh()" fontWeight="bold" color="#C7E9F0" bottom="10" left="165" selected="true"/>
+	<mx:CheckBox id="otherCB" label="Other" click="_inventories.refresh()" fontWeight="bold" color="#C7E9F0" bottom="10" left="263" selected="true"/>
+	<mx:Label text="Search:" fontWeight="bold" color="#C7E9F0" fontSize="12" left="339" bottom="10"/>
+	<mx:VRule bottom="8" left="329" width="2" height="25"/>
+	<mx:TextInput id="searchTI" change="onSearch()" bottom="10" left="403" right="10"/>
+	
+</DefaultWizardCanvasPane>

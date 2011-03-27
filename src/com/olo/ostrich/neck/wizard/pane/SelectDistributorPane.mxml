@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane xmlns="com.olo.ostrich.neck.wizard.pane.*" paneName="{PANE_NAME}" 
+	xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			import com.olo.ostrich.neck.dto.Distributor;
+			import mx.collections.ArrayCollection;
+		
+			static public const PANE_NAME:String = "selectDistributorPane";
+			
+			[Bindable] private var _distributors:ArrayCollection = null;
+			[Bindable] private var _distributor:Distributor = null;
+			[Bindable] private var _iSelected:int = -1;
+			
+			
+			override public function set auxProvider(ap:Object):void
+			{
+				if (!(ap is ArrayCollection)) throw new Error("ERROR: SelectDistributorPane:set auxProvider only accepts an array of Distributor objects.");
+				
+				_distributors = ArrayCollection(ap);
+				
+				if (_distributor && _distributors && (_distributors.length > 0))
+				{
+					setDistribSelection();
+				}
+				
+				if (_distributors.sort == null)
+				{
+					var sf:SortField = new SortField();
+					sf.name = "name";
+					var sort:Sort = new Sort();
+					sort.fields = [sf];
+					_distributors.sort = sort;
+					_distributors.refresh();
+				}	
+			}
+			
+			
+			override public function get auxProvider():Object
+			{
+				return _distributors;
+			}
+
+
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is Distributor)) throw new Error("SelectDistributorPane:set dataProvider - Only acceptsa Distributor type");
+					
+					_distributor = Distributor(dp);
+					
+					if (_distributors && (_distributors.length > 0))
+					{
+						setDistribSelection();
+					}
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _distributor;
+			}
+
+
+			private function setDistribSelection():void
+			{
+				for (var i:int=0; i < _distributors.length; ++i)
+				{
+					if (_distributor.id == Distributor(_distributors[i]).id)
+					{
+						_iSelected = i;
+						onChange();
+						break;
+					}
+				}
+			}
+			
+			
+			private function onChange():void
+			{
+				super.isValid = (distribGrid.selectedItem) ? true : false;
+				
+				_distributor = Distributor(distribGrid.selectedItem);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:AdvancedDataGrid id="distribGrid" change="onChange()" selectedIndex="{_iSelected}" dataProvider="{_distributors}" designViewDataType="flat" left="10" right="10" top="38" bottom="10">
+		<mx:columns>
+			<mx:AdvancedDataGridColumn headerText="Name" dataField="name"/>
+			<mx:AdvancedDataGridColumn headerText="Transport" dataField="transportString" width="100"/>
+		</mx:columns>
+	</mx:AdvancedDataGrid>
+	<mx:Label text="Which distributor is this order with?" left="10" top="10" fontWeight="bold" fontSize="12"/>
+	
+</DefaultWizardCanvasPane>

@@ -12,6 +12,16 @@ package com.olo.ostrich.neck.dto
 		static private const PICKUP_TRANSPORT_VALUE:int = 2;
 		static private const PICKUP_TRANSPORT_STR:String = "Pickup";
 		
+		static public const NO_ORDER_DAYS:int = 0;
+		static public const MONDAY_ORDER_BIT:int = 1;
+		static public const TUESDAY_ORDER_BIT:int = 2;
+		static public const WEDNESDAY_ORDER_BIT:int = 4;
+		static public const THURSDAY_ORDER_BIT:int = 8;
+		static public const FRIDAY_ORDER_BIT:int = 16;
+		static public const SATURDAY_ORDER_BIT:int = 32;
+		static public const SUNDAY_ORDER_BIT:int = 64;
+		
+		
 		public var id:Number;
 		public var name:String;
 		public var transport:int;
@@ -21,6 +31,7 @@ package com.olo.ostrich.neck.dto
 		public var contactEmail:String;
 		public var webAddress:String;
 		public var webOrderAddress:String;
+		public var orderDays:int;
 		
 		public var inventoryItems:ArrayCollection;
 		
@@ -42,6 +53,7 @@ package com.olo.ostrich.neck.dto
 			clone.contactEmail = contactEmail;
 			clone.webAddress = webAddress;
 			clone.webOrderAddress = webOrderAddress;
+			clone.orderDays = orderDays;
 		
 			return clone;
 		}

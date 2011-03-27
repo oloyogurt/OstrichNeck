@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Modify Order" paneName="{PANE_NAME}" creationComplete="onCreationComplete()"
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="806" height="484" borderColor="#7BA7C6" backgroundColor="#504D59" borderStyle="none" cornerRadius="0">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			import com.olo.ostrich.neck.dto.InventoryItem;
+			import mx.effects.Move;
+			import mx.events.CollectionEventKind;
+			import com.olo.ostrich.neck.dto.InventoryOrderItem;
+			import mx.events.AdvancedDataGridEvent;
+			import mx.controls.TextInput;
+			import mx.events.DataGridEvent;
+			import mx.events.CollectionEvent;
+			import mx.events.DragEvent;
+			import mx.collections.ArrayCollection;
+			import com.olo.ostrich.neck.dto.InventoryOrder;
+			
+			static public const PANE_NAME:String = "modifyOrderPane";
+			
+			[Bindable] private var _order:InventoryOrder = null;
+			[Bindable] private var _availableItems:ArrayCollection = null;
+			
+			
+			private function onCreationComplete():void
+			{
+				searchTI.setFocus();
+				searchTI.drawFocus(true);
+			}
+			
+			
+			override public function set auxProvider(ap:Object):void
+			{
+				if (!(ap is ArrayCollection)) throw new Error("ERROR: ModifyOrderPane:set auxProvider only accepts an array of InventoryOrderItems.");
+			
+				_availableItems = ArrayCollection(ap);
+				
+				if (_availableItems.sort == null)
+				{
+					var sf:SortField = new SortField();
+					sf.name = "itemName";
+					var sort:Sort = new Sort();
+					sort.fields = [sf];
+					_availableItems.sort = sort;
+					_availableItems.refresh();
+				}
+			}
+			
+			
+			override public function get auxProvider():Object
+			{
+				return _availableItems;
+			}
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is InventoryOrder)) throw new Error("ERROR: ModifyOrderPane:set dataProvider - Only accepts an InventoryOrder");
+					
+					_order = InventoryOrder(dp);
+					_order.orderItems.addEventListener(CollectionEvent.COLLECTION_CHANGE, onOrderItemsChange, false, 0, true);
+					
+					onChange();
+					
+					if (_order.orderItems.sort == null)
+					{
+						var sf:SortField = new SortField();
+						sf.name = "itemName";
+						var sort:Sort = new Sort();
+						sort.fields = [sf];
+						_order.orderItems.sort = sort;
+						_order.orderItems.refresh();
+					}
+				}
+			}
+			
+			
+			private function onOrderItemsChange(e:CollectionEvent):void
+			{
+				if ((e.kind == CollectionEventKind.ADD) || (e.kind == CollectionEventKind.REMOVE) || e.kind == CollectionEventKind.UPDATE)
+				{
+					calculateNewOrderTotal();
+				}
+			}
+			
+			
+			private function onChange():void
+			{
+				super.isValid = true;
+			}
+			
+			
+			private function calculateNewOrderTotal():void
+			{
+				_order.total = 0;
+				for each (var io:InventoryOrderItem in _order.orderItems)
+				{
+					io.extendedPrice = io.purchasedUnitPrice * io.caseQuantity;
+					
+					_order.total += io.extendedPrice;
+				}
+				
+				orderTotalTI.text = numberFormatter.format(_order.total);
+			}
+			
+			
+			private function onMoveToOrder():void
+			{
+				if (availableADG.selectedItem != null)
+				{
+					var movingItem:InventoryOrderItem = InventoryOrderItem(availableADG.selectedItem);
+					_order.orderItems.addItemAt(movingItem, 0);
+					_availableItems.removeItemAt(_availableItems.getItemIndex(movingItem));
+					
+					searchTI.text = "";
+				}
+			}
+			
+			
+			private function onMoveToAvailable():void
+			{
+				if (inOrderADG.selectedItem != null)
+				{
+					var movingItem:InventoryOrderItem = InventoryOrderItem(inOrderADG.selectedItem);
+					_availableItems.addItemAt(movingItem, 0);
+					_order.orderItems.removeItemAt(_order.orderItems.getItemIndex(movingItem));
+				}
+			}
+			
+			
+			private function onSearch():void
+			{
+				var pattern:RegExp = new RegExp(searchTI.text, "i");
+				for (var i:int=0; i < _availableItems.length; ++i)
+				{
+					var item:InventoryOrderItem = InventoryOrderItem(_availableItems.getItemAt(i));
+					if (item.itemName.match(pattern))
+					{
+						availableADG.selectedIndex = i;
+						availableADG.scrollToIndex(i);
+						break;
+					}
+				}
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Binding destination="_order.receiveDate" source="rxDateDF.selectedDate"/>
+	<mx:Binding destination="_order.invoiceNumber" source="invoiceNumTI.text"/>
+	
+	<mx:NumberFormatter id="numberFormatter" precision="2" useThousandsSeparator="true"/>
+	<mx:CurrencyFormatter id="moneyFormat" precision="2"/>
+	
+	<mx:Panel width="348" layout="absolute" cornerRadius="17" title="Available Items" horizontalAlign="left" top="10" left="10" bottom="10">
+		<mx:AdvancedDataGrid id="availableADG" doubleClickEnabled="true" doubleClick="onMoveToOrder()" dataProvider="{_availableItems}" designViewDataType="flat" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" allowMultipleSelection="true" left="0" right="0" top="0" bottom="0">
+			<mx:columns>
+				<mx:AdvancedDataGridColumn headerText="Name" dataField="itemName"/>
+				<mx:AdvancedDataGridColumn headerText="Price" formatter="{moneyFormat}" dataField="purchasedUnitPrice"/>
+			</mx:columns>
+		</mx:AdvancedDataGrid>
+		<mx:ControlBar>
+			<mx:Label text="Search:" bottom="10" fontWeight="bold" left="83"/>			
+			<mx:TextInput id="searchTI" change="onSearch()" enter="onMoveToOrder()" width="266"/>
+		</mx:ControlBar>
+	</mx:Panel>
+	
+	<mx:Panel width="416" layout="absolute" cornerRadius="17" right="10" top="10" bottom="42" title="Items In The Order">
+		<mx:AdvancedDataGrid id="inOrderADG" doubleClickEnabled="true" doubleClick="onMoveToAvailable()" dataProvider="{_order.orderItems}" designViewDataType="flat" editable="true" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" allowMultipleSelection="true" left="0" top="0" bottom="0" right="0">
+			<mx:columns>
+				<mx:AdvancedDataGridColumn headerText="Name" dataField="itemName" editable="false"/>
+				<mx:AdvancedDataGridColumn headerText="Price" dataField="purchasedUnitPrice" editable="true" formatter="{moneyFormat}"/>
+				<mx:AdvancedDataGridColumn headerText="Cases" dataField="caseQuantity" editable="true"/>
+				<mx:AdvancedDataGridColumn headerText="Total" formatter="{moneyFormat}" dataField="extendedPrice" editable="false"/>
+			</mx:columns>
+		</mx:AdvancedDataGrid>
+		<mx:ControlBar>
+			<mx:Spacer width="208" height="5"/>
+			<mx:Label text="Order Total:" fontWeight="bold"/>
+			<mx:TextInput id="orderTotalTI" width="97" editable="false" textAlign="right" text="{moneyFormat.format(_order.total)}" color="#FF0000" fontWeight="bold"/>
+		</mx:ControlBar>
+	</mx:Panel>
+	
+	<mx:Label text="Receive Date:" fontWeight="bold" fontSize="15" color="#000000" bottom="10" right="108"/>
+	<mx:DateField id="rxDateDF" selectedDate="{_order.receiveDate}" bottom="12" right="10"/>
+	<mx:Label text="Invoice #:" fontWeight="bold" fontSize="15" color="#000000" bottom="10" right="337"/>
+	<mx:TextInput id="invoiceNumTI" text="{_order.invoiceNumber}" width="94" bottom="10" right="235"/>
+	
+</DefaultWizardCanvasPane>
