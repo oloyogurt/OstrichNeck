@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Label xmlns:mx="http://www.adobe.com/2006/mxml" paddingLeft="10">
+    <mx:Script>
+        <![CDATA[
+        	import com.olo.ostrich.neck.dto.InventoryOrderItem;
+        	import com.olo.ostrich.neck.dto.InventoryItem;
+        	import com.olo.ostrich.neck.dto.InventoryStorageVessel;
+        	import mx.controls.advancedDataGridClasses.AdvancedDataGridListData;
+
+        override public function set data(value:Object):void
+        {
+        	super.data = value;
+        	text = "";
+        	
+        	if (this.listData is AdvancedDataGridListData)
+        	{
+        		var d:AdvancedDataGridListData = AdvancedDataGridListData(this.listData);
+        		
+	           if ((value is InventoryItem) || (value is InventoryOrderItem))
+	           {
+	           		var active:Boolean = (value is InventoryItem)? value.active : true; 
+	           		
+	           		if ((d.dataField == "purchasedUnitPrice") || (d.dataField == "extendedPrice"))
+	           		{
+	           			text = moneyFormat.format(value[d.dataField]);
+	           		}
+	           		else if (d.dataField == "currentQuantity")
+	           		{
+	           			text = floatFormat.format(value[d.dataField]);
+	           		}
+	           		else
+	           		{
+		           		text = value[d.dataField];
+		           	}
+	           		//var item:InventoryItem = InventoryItem(value);
+	           	
+	           		if ((value.currentQuantity < value.reorderPoint) &&
+	           			(active == true))
+	           		{
+	           			setStyle("color", "red");
+	           		}
+	           		else
+	           		{
+	           			setStyle("color", "black");
+	           		}
+	           }
+        	}
+        }
+        ]]>
+    </mx:Script>
+    
+    <mx:CurrencyFormatter id="moneyFormat" precision="2"/>
+    <mx:NumberFormatter id="floatFormat" precision="2"/>
+
+</mx:Label>

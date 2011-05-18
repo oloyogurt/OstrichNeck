@@ -57,5 +57,31 @@ package com.olo.ostrich.neck.dto
 			return taxable;
 		}
 		
+		
+		[Transient] public function get currentQuantity():Number
+		{
+			var value:Number = NaN;
+			
+			if (inventoryItem != null)
+			{
+				value = inventoryItem.currentQuantity;
+			}
+			
+			return value;
+		}
+		
+		
+		[Transient] public function get reorderPoint():Number
+		{
+			var value:Number = NaN;
+			
+			if (inventoryItem != null)
+			{
+				value = inventoryItem.reorderPoint;
+			}
+			
+			return value;
+		} 
+		
 	}
 }

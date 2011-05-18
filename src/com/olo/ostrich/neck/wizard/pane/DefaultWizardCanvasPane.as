@@ -51,11 +51,20 @@ package com.olo.ostrich.neck.wizard.pane
 			return null;
 		}
 		
-		public function set auxProvider(ap:Object):void
+		public function set aux1Provider(ap:Object):void
 		{
 		}
 		
-		public function get auxProvider():Object
+		public function get aux1Provider():Object
+		{
+			return null;
+		}
+		
+		public function set aux2Provider(ap:Object):void
+		{
+		}
+		
+		public function get aux2Provider():Object
 		{
 			return null;
 		}

@@ -48,7 +48,8 @@ package com.olo.ostrich.neck.dto
 		public var taxable:Boolean;
 		public var notes:String;
 		public var active:Boolean;
-		public var currentQuantity:int;
+		public var currentQuantity:Number;
+		public var reorderPoint:Number;
 		
 		public var distributor:Distributor;
 		public var inventoryStorageVessel:InventoryStorageVessel;
@@ -80,6 +81,8 @@ package com.olo.ostrich.neck.dto
 			clone.notes = notes;
 			clone.active = active;
 			clone.currentQuantity = currentQuantity;
+			clone.reorderPoint = reorderPoint;
+			
 			clone.distributor = distributor;
 			clone.inventoryStorageVessel = inventoryStorageVessel;
 			
@@ -94,6 +97,26 @@ package com.olo.ostrich.neck.dto
 		public function get categoryAttStr():String
 		{
 			return categoryStr(category);
+		}
+		
+		
+		// Used for hierarchical data grid
+		[Transient] public function get inventoryItemName():String
+		{
+			return name;
+		}
+		
+		
+		[Transient] public function get distribName():String
+		{
+			var name:String = "";
+			
+			if (distributor != null)
+			{
+				name = distributor.name;
+			}
+			
+			return name;
 		}
 		
 		

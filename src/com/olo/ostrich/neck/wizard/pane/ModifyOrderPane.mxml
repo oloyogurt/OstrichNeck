@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DefaultWizardCanvasPane paneTitle="Modify Order" paneName="{PANE_NAME}" creationComplete="onCreationComplete()"
-	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="806" height="484" borderColor="#7BA7C6" backgroundColor="#504D59" borderStyle="none" cornerRadius="0">
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="838" height="484" borderColor="#7BA7C6" backgroundColor="#504D59" borderStyle="none" cornerRadius="0">
 	
 	<mx:Script>
 		<![CDATA[
@@ -31,7 +31,7 @@
 			}
 			
 			
-			override public function set auxProvider(ap:Object):void
+			override public function set aux1Provider(ap:Object):void
 			{
 				if (!(ap is ArrayCollection)) throw new Error("ERROR: ModifyOrderPane:set auxProvider only accepts an array of InventoryOrderItems.");
 			
@@ -49,7 +49,7 @@
 			}
 			
 			
-			override public function get auxProvider():Object
+			override public function get aux1Provider():Object
 			{
 				return _availableItems;
 			}
@@ -157,11 +157,13 @@
 	<mx:NumberFormatter id="numberFormatter" precision="2" useThousandsSeparator="true"/>
 	<mx:CurrencyFormatter id="moneyFormat" precision="2"/>
 	
-	<mx:Panel width="348" layout="absolute" cornerRadius="17" title="Available Items" horizontalAlign="left" top="10" left="10" bottom="10">
+	<mx:Panel width="394" layout="absolute" cornerRadius="17" title="Available Items" horizontalAlign="left" top="10" left="10" bottom="10">
 		<mx:AdvancedDataGrid id="availableADG" doubleClickEnabled="true" doubleClick="onMoveToOrder()" dataProvider="{_availableItems}" designViewDataType="flat" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" allowMultipleSelection="true" left="0" right="0" top="0" bottom="0">
 			<mx:columns>
-				<mx:AdvancedDataGridColumn headerText="Name" dataField="itemName"/>
-				<mx:AdvancedDataGridColumn headerText="Price" formatter="{moneyFormat}" dataField="purchasedUnitPrice"/>
+				<mx:AdvancedDataGridColumn headerText="Name" dataField="itemName" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn headerText="Price" formatter="{moneyFormat}" textAlign="right" width="70" dataField="purchasedUnitPrice" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn dataField="currentQuantity" headerText="Quantity" textAlign="right" width="80" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn dataField="reorderPoint" headerText="Reorder @" textAlign="right" width="100" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
 			</mx:columns>
 		</mx:AdvancedDataGrid>
 		<mx:ControlBar>
@@ -173,16 +175,16 @@
 	<mx:Panel width="416" layout="absolute" cornerRadius="17" right="10" top="10" bottom="42" title="Items In The Order">
 		<mx:AdvancedDataGrid id="inOrderADG" doubleClickEnabled="true" doubleClick="onMoveToAvailable()" dataProvider="{_order.orderItems}" designViewDataType="flat" editable="true" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" allowMultipleSelection="true" left="0" top="0" bottom="0" right="0">
 			<mx:columns>
-				<mx:AdvancedDataGridColumn headerText="Name" dataField="itemName" editable="false"/>
-				<mx:AdvancedDataGridColumn headerText="Price" dataField="purchasedUnitPrice" editable="true" formatter="{moneyFormat}"/>
-				<mx:AdvancedDataGridColumn headerText="Cases" dataField="caseQuantity" editable="true"/>
-				<mx:AdvancedDataGridColumn headerText="Total" formatter="{moneyFormat}" dataField="extendedPrice" editable="false"/>
+				<mx:AdvancedDataGridColumn headerText="Name" dataField="itemName" editable="false" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn headerText="Price" width="70" textAlign="right" dataField="purchasedUnitPrice" editable="true" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn headerText="Cases" width="70" textAlign="right" dataField="caseQuantity" editable="true" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn headerText="Total" textAlign="right" width="80" dataField="extendedPrice" editable="false" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
 			</mx:columns>
 		</mx:AdvancedDataGrid>
 		<mx:ControlBar>
 			<mx:Spacer width="208" height="5"/>
 			<mx:Label text="Order Total:" fontWeight="bold"/>
-			<mx:TextInput id="orderTotalTI" width="97" editable="false" textAlign="right" text="{moneyFormat.format(_order.total)}" color="#FF0000" fontWeight="bold"/>
+			<mx:TextInput id="orderTotalTI" width="97" editable="false" textAlign="right" text="{moneyFormat.format(_order.total)}" color="#0012FF" fontWeight="bold"/>
 		</mx:ControlBar>
 	</mx:Panel>
 	

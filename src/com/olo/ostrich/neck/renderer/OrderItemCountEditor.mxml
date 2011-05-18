@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TextInput xmlns:mx="http://www.adobe.com/2006/mxml">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.dto.InventoryItem;
+			import mx.controls.advancedDataGridClasses.AdvancedDataGridListData;
+			
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				text = "";
+				
+				if (this.listData is AdvancedDataGridListData)
+				{
+					var d:AdvancedDataGridListData = AdvancedDataGridListData(this.listData);
+					
+					text = formatter.format(d.dataField);
+					
+					if (value is InventoryItem)
+					{
+						var ii:InventoryItem = InventoryItem(value);
+						text = formatter.format(ii.currentQuantity);
+						
+						if ((ii.currentQuantity < ii.reorderPoint) && (ii.active == true))
+						{
+							setStyle("color", "red");
+						}
+						else
+						{
+							setStyle("color", "black");
+						}
+					}
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:NumberFormatter id="formatter" precision="2"/>
+	
+</mx:TextInput>

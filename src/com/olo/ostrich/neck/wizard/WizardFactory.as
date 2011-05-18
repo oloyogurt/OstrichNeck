@@ -6,9 +6,7 @@ package com.olo.ostrich.neck.wizard
 	import com.olo.ostrich.neck.wizard.pane.ChangeMachineFlavorPane;
 	import com.olo.ostrich.neck.wizard.pane.EditBlockNewsPane;
 	import com.olo.ostrich.neck.wizard.pane.EditEggConfigPane;
-	import com.olo.ostrich.neck.wizard.pane.EditInventoryDistributorPane;
 	import com.olo.ostrich.neck.wizard.pane.EditInventoryItemDatePane;
-	import com.olo.ostrich.neck.wizard.pane.EditInventoryStorageVesselPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineCleaningNotesPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineDetailsPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineInventoryPane;
@@ -160,9 +158,7 @@ package com.olo.ostrich.neck.wizard
 			}
 			else if (wizardType == EDIT_INVENTORY_WIZARD_TYPE)
 			{
-				panes = [new EditInventoryPane(),
-						 new EditInventoryDistributorPane(),
-						 new EditInventoryStorageVesselPane()];
+				panes = [new EditInventoryPane()];
 				title = "Edit Inventory";
 			}
 			else if (wizardType == EDIT_INVENTORY_ITEM_DATE_WIZARD_TYPE)

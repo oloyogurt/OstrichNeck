@@ -1,5 +1,7 @@
 package com.olo.ostrich.neck.dto
 {
+	import mx.collections.ArrayCollection;
+	
 	[Bindable]
 	[RemoteClass(alias="com.olo.ostrich.nest.dto.InventoryStorageVessel")]
 	public class InventoryStorageVessel implements ICloneable
@@ -17,11 +19,10 @@ package com.olo.ostrich.neck.dto
 		public var name:String;
 		public var type:int;
 		public var category:int;
-		public var overstock:Boolean;
-		public var standardCapacity:int;
-		public var minCapacity:int;
-		public var maxCapacity:int;
 		public var containerInfo:String;
+		public var active:Boolean;
+		
+		public var inventoryItems:ArrayCollection;
 		
 		
 		public function InventoryStorageVessel()
@@ -37,13 +38,17 @@ package com.olo.ostrich.neck.dto
 			clone.name = name;
 			clone.type = type;
 			clone.category = category;
-			clone.overstock = overstock;
-			clone.standardCapacity = standardCapacity;
-			clone.minCapacity = minCapacity;
-			clone.maxCapacity = maxCapacity;
 			clone.containerInfo = containerInfo;
+			clone.active = active;
 			
 			return clone;
+		}
+		
+		
+		// Used for hierarchical data grid
+		[Transient] public function get salesChannelName():String
+		{
+			return name;
 		}
 		
 		

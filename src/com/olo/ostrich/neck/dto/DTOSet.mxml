@@ -2,9 +2,35 @@
 <Object xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:dto="com.olo.ostrich.neck.dto.*" xmlns:model="com.olo.ostrich.neck.model.*">
 
 	<!-- Instantiate DTO objects so that serializer can map to java objects -->
+	<dto:BlockNews/>
+	<dto:DirtyWord/>
+	<dto:Distributor/>
+	<dto:EggConfig/>
+	<dto:HashReference/>
+	<dto:InventoryItem/>
+	<dto:InventoryItemDate/>
+	<dto:InventoryOrder/>
+	<dto:InventoryOrderItem/>
+	<dto:InventoryStorageVessel/>
+	<dto:ItemDetailBase/>
+	<dto:MachineCleaning/>
+	<dto:MachineMaintenance/>
+	<dto:SummaryNews/>
+	<dto:User/>
+	<dto:VideoInfo/>
 	<dto:Yogurt/>
 	<dto:Machine/>
 	<dto:MachineInventory/>
+	
+	<model:DaySalesModel/>
+	<model:FlavorSalesModel/>
+	<model:InventoryTotalsModel/>
+	<model:MachineCleaningModel/>
+	<model:MachineInventoryModel/>
 	<model:MachineMaintenanceModel/>
+	<model:OldInventoryItemModel/>
+	<model:ScoreboardModel/>
+	<model:TotalSalesModel/>
+	<model:TweetModel/>
 
 </Object>

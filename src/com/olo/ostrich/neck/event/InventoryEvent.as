@@ -38,6 +38,7 @@ package com.olo.ostrich.neck.event
 		static public const EDIT_INVENTORY_COUNTS:String = "editInventoryCounts";
 		static public const SAVE_INVENTORY_COUNTS:String = "saveInventoryCounts";
 		static public const FETCH_INVENTORY_TOTALS:String = "fetchInventoryTotals";
+		static public const FETCH_TRANSIENT_INVENTORIES:String = "fetchTransientInventories";
 		
 		public var inventoryObjs:ArrayCollection = null;
 		public var distributors:ArrayCollection = null;
@@ -47,6 +48,7 @@ package com.olo.ostrich.neck.event
 		public var inventoryItem:InventoryItem = null;
 		public var distributor:Distributor = null;
 		public var order:InventoryOrder = null;
+		public var containerId:Number = -1;
 		
 		public function InventoryEvent(type:String, bubbles:Boolean=true, cancelable:Boolean=false)
 		{

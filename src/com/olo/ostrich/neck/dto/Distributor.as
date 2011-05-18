@@ -12,7 +12,6 @@ package com.olo.ostrich.neck.dto
 		static private const PICKUP_TRANSPORT_VALUE:int = 2;
 		static private const PICKUP_TRANSPORT_STR:String = "Pickup";
 		
-		static public const NO_ORDER_DAYS:int = 0;
 		static public const MONDAY_ORDER_BIT:int = 1;
 		static public const TUESDAY_ORDER_BIT:int = 2;
 		static public const WEDNESDAY_ORDER_BIT:int = 4;

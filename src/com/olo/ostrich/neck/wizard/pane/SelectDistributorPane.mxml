@@ -16,7 +16,7 @@
 			[Bindable] private var _iSelected:int = -1;
 			
 			
-			override public function set auxProvider(ap:Object):void
+			override public function set aux1Provider(ap:Object):void
 			{
 				if (!(ap is ArrayCollection)) throw new Error("ERROR: SelectDistributorPane:set auxProvider only accepts an array of Distributor objects.");
 				
@@ -39,7 +39,7 @@
 			}
 			
 			
-			override public function get auxProvider():Object
+			override public function get aux1Provider():Object
 			{
 				return _distributors;
 			}

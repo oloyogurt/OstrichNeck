@@ -35,7 +35,7 @@ package com.olo.ostrich.neck.command
 				
 				_wizard = WizardFactory.getInstance().activateNewWizard(this, WizardFactory.MODIFY_ORDER_TYPE);
 				_wizard.setPaneDataProvider(ModifyOrderPane.PANE_NAME, _orderClone);
-				_wizard.setPaneAuxProvider(ModifyOrderPane.PANE_NAME, _orderItems);
+				_wizard.setPaneAux1Provider(ModifyOrderPane.PANE_NAME, _orderItems);
 			}
 		}
 		

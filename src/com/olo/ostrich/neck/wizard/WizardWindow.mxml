@@ -91,7 +91,7 @@
 			}
 			
 			
-			public function getPaneAuxProvider(paneName:String):Object
+			public function getPaneAux1Provider(paneName:String):Object
 			{
 				var ap:Object = null;
 				
@@ -99,7 +99,7 @@
 				{
 					if (pane.paneName == paneName)
 					{
-						ap = pane.auxProvider;
+						ap = pane.aux1Provider;
 						break;
 					}
 				}
@@ -108,13 +108,43 @@
 			}
 			
 			
-			public function setPaneAuxProvider(paneName:String, auxProvider:Object):void
+			public function setPaneAux1Provider(paneName:String, auxProvider:Object):void
 			{
 				for each (var pane:IWizardPane in _wizardPanes)
 				{
 					if (pane.paneName == paneName)
 					{
-						pane.auxProvider = auxProvider;
+						pane.aux1Provider = auxProvider;
+						break;
+					}
+				}
+			}
+			
+			
+			public function getPaneAux2Provider(paneName:String):Object
+			{
+				var ap:Object = null;
+				
+				for each (var pane:IWizardPane in _wizardPanes)
+				{
+					if (pane.paneName == paneName)
+					{
+						ap = pane.aux2Provider;
+						break;
+					}
+				}
+				
+				return ap;
+			}
+			
+			
+			public function setPaneAux2Provider(paneName:String, auxProvider:Object):void
+			{
+				for each (var pane:IWizardPane in _wizardPanes)
+				{
+					if (pane.paneName == paneName)
+					{
+						pane.aux2Provider = auxProvider;
 						break;
 					}
 				}

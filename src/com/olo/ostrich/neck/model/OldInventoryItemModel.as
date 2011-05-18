@@ -6,6 +6,7 @@ package com.olo.ostrich.neck.model
 	{
 		public var name:String;
 		public var category:String;
+		public var count:Number;
 		public var oldestItemDate:Date;
 		public var shelfLife:int;
 		public var shelfLifeDenomination:String;

@@ -11,15 +11,19 @@ package com.olo.ostrich.neck.command
 	import flash.events.Event;
 	
 	import mx.collections.ArrayCollection;
+	import mx.formatters.NumberFormatter;
 
 	public class InventoryCountsCommand implements IEditCommand, IWizardUser
 	{
+		private var _numFormat:NumberFormatter = new NumberFormatter(); 
 		private var _inventoryObs:ArrayCollection = null;
 		private var _clonedInventoryObs:ArrayCollection = null;
 		private var _wizard:WizardWindow = null;
 		
+		
 		public function InventoryCountsCommand()
 		{
+			_numFormat.precision = 2;
 		}
 
 		public function execute(event:Event):void
@@ -56,10 +60,12 @@ package com.olo.ostrich.neck.command
 		
 		public function wizardComplete():void
 		{
-			// Convert case counts back down to individuals
+			// Convert case counts back down to individuals and force
+			//   max 2 precision in count
 			for each (var clone:InventoryItem in _clonedInventoryObs)
 			{
 				clone.currentQuantity += clone.boxCount * clone.itemsInCase;
+				clone.currentQuantity = Number(_numFormat.format(clone.currentQuantity));
 				clone.boxCount = 0;
 			}
 			

@@ -45,7 +45,7 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Binding destination="_inventoryItemDate.itemCount" source="int(itemCountTI.text)"/>
+	<mx:Binding destination="_inventoryItemDate.itemCount" source="Number(itemCountTI.text)"/>
 	<mx:Binding destination="_inventoryItemDate.dateFormat" source="inventoryDF.selectedDate"/>
 	
 	<mx:Label text="Item Count:" textAlign="right" fontWeight="bold" left="63" top="52" fontSize="12" width="83"/>

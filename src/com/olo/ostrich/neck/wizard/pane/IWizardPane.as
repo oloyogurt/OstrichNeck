@@ -12,8 +12,10 @@ package com.olo.ostrich.neck.wizard.pane
 		function get paneName():String;
 		function set dataProvider(dp:Object):void;
 		function get dataProvider():Object;
-		function set auxProvider(ap:Object):void;
-		function get auxProvider():Object;
+		function set aux1Provider(ap:Object):void;
+		function get aux1Provider():Object;
+		function set aux2Provider(ap:Object):void;
+		function get aux2Provider():Object;
 		function set paneTitle(title:String):void;
 		function get paneTitle():String;
 	}

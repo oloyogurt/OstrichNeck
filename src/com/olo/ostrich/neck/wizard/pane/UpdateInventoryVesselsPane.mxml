@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DefaultWizardCanvasPane paneTitle="Update Inventory Vessels" paneName="{PANE_NAME}"
-	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="338">
 	
 	<mx:Script>
 		<![CDATA[
@@ -45,8 +45,7 @@
 				_inventoryVessel.category = (categoryDB.selectedIndex + 1);
 				_inventoryVessel.type = (typeCB.selectedIndex + 1);
 					
-				if ((nameTI.text.length > 0) && (categoryDB.selectedIndex >= 0) && (typeCB.selectedIndex >= 0) && (standardCapacityTI.text.length > 0)
-					&& (minCapacityTI.text.length > 0) && (maxCapacityTI.text.length > 0))
+				if ((nameTI.text.length > 0) && (categoryDB.selectedIndex >= 0) && (typeCB.selectedIndex >= 0))
 				{
 					isValid = true;
 				}
@@ -60,10 +59,8 @@
 	</mx:Script>
 	
 	<mx:Binding destination="_inventoryVessel.name" source="nameTI.text"/>
-	<mx:Binding destination="_inventoryVessel.standardCapacity" source="int(standardCapacityTI.text)"/>
-	<mx:Binding destination="_inventoryVessel.minCapacity" source="int(minCapacityTI.text)"/>
-	<mx:Binding destination="_inventoryVessel.maxCapacity" source="int(maxCapacityTI.text)"/>
 	<mx:Binding destination="_inventoryVessel.containerInfo" source="capacityDetailsTA.text"/>
+	<mx:Binding destination="_inventoryVessel.active" source="Boolean(activeCB.selected)"/>
 	
 	<mx:Label text="Name:" fontWeight="bold" textAlign="right" top="31" left="104.5"/>
 	<mx:Label text="Type:" fontWeight="bold" textAlign="right" top="61" left="110.5"/>
@@ -71,13 +68,8 @@
 	<mx:TextInput change="onChange()" text="{_inventoryVessel.name}" id="nameTI" top="29" left="188.5"/>
 	<mx:ComboBox change="onChange()" dataProvider="{_types}" id="typeCB" top="59" left="188.5"></mx:ComboBox>
 	<mx:ComboBox change="onChange()" dataProvider="{_categories}" id="categoryDB" top="85" left="188.5"></mx:ComboBox>
-	<mx:Label text="Container Details:" fontWeight="bold" textAlign="right" top="191" left="39"/>
-	<mx:Label text="Min Capacity:" fontWeight="bold" textAlign="right" top="113" left="66.5"/>
-	<mx:Label text="Max Capacity:" fontWeight="bold" textAlign="right" top="139" left="62.5"/>
-	<mx:TextInput change="onChange()" text="{_inventoryVessel.minCapacity}" id="minCapacityTI" top="111" left="187.5" width="109"/>
-	<mx:TextInput change="onChange()" text="{_inventoryVessel.maxCapacity}" id="maxCapacityTI" top="137" left="187.5" width="109"/>
-	<mx:TextInput change="onChange()" text="{_inventoryVessel.standardCapacity}" id="standardCapacityTI" top="163" left="187.5" width="109"/>
-	<mx:TextArea change="onChange()" text="{_inventoryVessel.containerInfo}" id="capacityDetailsTA" left="187.5" top="190" height="73"/>
-	<mx:Label text="Standard Capacity:" left="22.5" top="165" fontWeight="bold" textAlign="right" width="123.5"/>
+	<mx:Label text="Container Details:" fontWeight="bold" textAlign="right" top="146" left="39.5"/>
+	<mx:CheckBox id="activeCB" change="onChange()" label="Active" selected="{_inventoryVessel.active}" fontWeight="bold" left="188.5" top="115"/>
+	<mx:TextArea change="onChange()" text="{_inventoryVessel.containerInfo}" id="capacityDetailsTA" left="188.5" top="145" right="31.5" bottom="25"/>
 	
 </DefaultWizardCanvasPane>

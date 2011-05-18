@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DefaultWizardCanvasPane paneTitle="Yogurt Inventory Details" paneName="{PANE_NAME}" 
-	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="599" height="396">
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="599" height="502">
 	
 	<mx:Script>
 		<![CDATA[
+			import com.olo.ostrich.neck.dto.InventoryStorageVessel;
+			import com.olo.ostrich.neck.dto.Distributor;
 			import com.olo.ostrich.neck.dto.Yogurt;
 			import mx.collections.Sort;
 			import mx.collections.SortField;
@@ -16,6 +18,8 @@
 			
 			[Bindable] private var _inventory:InventoryItem = null;
 			[Bindable] private var _yogurt:ArrayCollection = null;
+			[Bindable] private var _distributors:ArrayCollection = null;
+			[Bindable] private var _containers:ArrayCollection = null;
 			
 			
 			public function set yogurt(list:ArrayCollection):void
@@ -55,9 +59,77 @@
 			}
 			
 			
+			override public function set aux1Provider(ap1:Object):void
+			{
+				if (ap1 != null)
+				{
+					if (!(ap1 is ArrayCollection)) throw new Error("EditYogurtInventoryPane:set aux1Provider - Only accepts an array of Distributor types");
+				
+					_distributors = ArrayCollection(ap1);
+					
+					if ((_inventory != null) && (_inventory.distributor != null))
+					{
+						// Find distributor in list and set combo box
+						for (var i:int=0; i < _distributors.length; ++i)
+						{
+							var d:Distributor = Distributor(_distributors.getItemAt(i));
+							if (d.name == _inventory.distribName)
+							{
+								distributorCB.selectedIndex = i;
+							}
+						}
+					}
+				}
+			}
+			
+			
+			override public function get aux1Provider():Object
+			{
+				return _distributors;
+			}
+			
+			
+			override public function set aux2Provider(ap2:Object):void
+			{
+				if (ap2 != null)
+				{
+					if (!(ap2 is ArrayCollection)) throw new Error("EditYogurtInventoryPane:set aux1Provider - Only accepts an array of InventoryStorageVessel types");
+				
+					_containers = ArrayCollection(ap2);
+					
+					if ((_inventory != null) && (_inventory.distributor != null))
+					{
+						// Find container in list and set combo box
+						for (var i:int=0; i < _containers.length; ++i)
+						{
+							var s:InventoryStorageVessel = InventoryStorageVessel(_containers.getItemAt(i));
+							if (s.name == _inventory.inventoryStorageVessel.name)
+							{
+								containerCB.selectedIndex = i;
+							}
+						}
+					}
+				}
+			}
+			
+			
+			override public function get aux2Provider():Object
+			{
+				return _containers;
+			}
+			
+			
 			private function onChange():void
 			{
-				super.isValid = ((_inventory.name != null) && (_inventory.name.length > 0)) ? true : false;
+				if (_distributors)
+				{
+					_inventory.distributor = Distributor(_distributors.getItemAt(distributorCB.selectedIndex));
+				}
+				
+				if (_containers)
+				{
+					_inventory.inventoryStorageVessel = InventoryStorageVessel(_containers.getItemAt(containerCB.selectedIndex));
+				}
 				
 				_inventory.shelfLifeDenomination = shelfLifeDenomCB.selectedIndex;
 				
@@ -70,6 +142,12 @@
 					_inventory.itemDetail = null;
 					knownItemsPanel.enabled = false;
 				}
+				
+				super.isValid = ((_inventory.name != null) && 
+								 (_inventory.name.length > 0) && 
+								 (_inventory.distributor != null) &&
+								 (_inventory.inventoryStorageVessel != null)) 
+						? true : false;
 			}
 			
 			
@@ -115,6 +193,17 @@
 				onChange();
 			}
 			
+			
+			private function distriLabelFunc(o:Object):String
+			{
+				return o.name;
+			}
+			
+			private function containerFunc(o:Object):String
+			{
+				return o.name;
+			}
+			
 		]]>
 	</mx:Script>
 	
@@ -125,33 +214,38 @@
 	<mx:Binding destination="_inventory.shelfLife" source="int(shelfLifeTI.text)"/>
 	<mx:Binding destination="_inventory.shelfLifeDenomination" source="shelfLifeDenomCB.selectedItem.data"/>
 	<mx:Binding destination="_inventory.notes" source="notesTA.text"/>
-	<mx:Binding destination="_inventory.active" source="activeCB.selected"/>
 	<mx:Binding destination="_inventory.itemNumber" source="itemNumberTI.text"/>
 	<mx:Binding destination="_inventory.category" source="typeCB.selectedIndex"/>
 	<mx:Binding destination="_inventory.taxable" source="taxableCB.selected"/>
+	<mx:Binding destination="_inventory.reorderPoint" source="Number(reorderPointTI.text)"/>
 	
 	<mx:CurrencyValidator source="{costTI}" precision="2" property="text" trigger="{costTI}" triggerEvent="change" invalid="Alert.show('Please enter a valid dollar amount');"/>
 	
 	<mx:Label text="Name:" fontWeight="bold" textAlign="right" width="89" top="23" left="20"/>
-	<mx:Label text="Manufacturer:" fontWeight="bold" textAlign="right" width="89" top="75" left="14"/>
-	<mx:Label text="Cost Per Case:" fontWeight="bold" textAlign="right" width="89" top="103" left="20"/>
-	<mx:Label text="Shelf Life:" fontWeight="bold" textAlign="right" width="89" top="187" left="19"/>
-	<mx:Label text="Notes:" fontWeight="bold" textAlign="left" width="55" top="245" left="31"/>
+	<mx:Label text="Manufacturer:" fontWeight="bold" textAlign="right" width="89" top="127" left="14"/>
+	<mx:Label text="Cost Per Case:" fontWeight="bold" textAlign="right" width="89" top="155" left="20"/>
+	<mx:Label text="Shelf Life:" fontWeight="bold" textAlign="right" width="89" top="265" left="19"/>
+	<mx:Label text="Notes:" fontWeight="bold" textAlign="left" width="55" top="323" left="31"/>
 	<mx:TextInput text="{_inventory.name}" change="onNameChange()" id="nameTI" top="21" left="118" width="161"/>
 	<mx:Label text="Type:" fontWeight="bold" textAlign="right" left="73" top="49"/>
-	<mx:ComboBox x="117" y="47" id="typeCB" change="onChange()" selectedIndex="{_inventory.category}" dataProvider="{InventoryItem.INVENTORY_TYPES}" width="162"></mx:ComboBox>
-	<mx:TextInput text="{_inventory.manufactureName}" change="onChange()" id="manufacturerTI" top="75" left="117" width="161"/>
-	<mx:TextInput text="{_inventory.cost}" change="onChange()" id="costTI" top="101" left="118" width="161"/>
-	<mx:Label text="Items Per Case:" fontWeight="bold" textAlign="right" width="99" top="129" left="10"/>
-	<mx:TextInput text="{_inventory.itemsInCase}" change="onChange()" id="caseCountTI" top="127" left="117" width="162"/>
-	<mx:TextInput id="itemNumberTI" left="117" top="155" text="{_inventory.itemNumber}" width="162"/>
-	<mx:TextInput text="{_inventory.shelfLife}" change="onChange()" width="69" id="shelfLifeTI" top="185" left="117"/>
-	<mx:ComboBox width="84" change="onChange()" dataProvider="{InventoryItem.SHELF_LIFE_DENOMINATIONS}" id="shelfLifeDenomCB" top="185" left="194"></mx:ComboBox>
-	<mx:CheckBox id="taxableCB" selected="{_inventory.taxable}" label="Taxable" fontWeight="bold" left="117" top="215"/>
-	<mx:CheckBox id="activeCB" label="Active" top="215" selected="{_inventory.active}" width="63" left="215" fontWeight="bold"/>
-	<mx:CheckBox id="associatedCB" click="onAssociatedCBClick()" selected="{Boolean(_inventory.itemDetail)}" label="Associated" fontWeight="bold" left="117" top="243"/>
-	<mx:TextArea text="{_inventory.notes}" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" change="onChange()" left="20" top="271" bottom="10" id="notesTA" cornerRadius="17" right="321"/>
-	<mx:Label text="Item Number:" fontWeight="bold" textAlign="right" width="89" top="157" left="19"/>
+	<mx:ComboBox id="typeCB" change="onChange()" selectedIndex="{_inventory.category}" dataProvider="{InventoryItem.INVENTORY_TYPES}" width="162" left="117" top="47"/>
+	<mx:Label text="Distributor:" fontWeight="bold" textAlign="right" left="38" top="75"/>
+	<mx:ComboBox change="onChange()" labelFunction="distriLabelFunc" dataProvider="{_distributors}" width="162" left="117" top="73" id="distributorCB"/>
+	<mx:Label text="Sales Channel:" fontWeight="bold" textAlign="right" left="22" top="101"/>
+	<mx:ComboBox change="onChange()" labelFunction="containerFunc" dataProvider="{_containers}" id="containerCB" width="162" left="117" top="99"/>
+	<mx:TextInput text="{_inventory.manufactureName}" change="onChange()" id="manufacturerTI" top="127" left="117" width="161"/>
+	<mx:TextInput text="{_inventory.cost}" change="onChange()" id="costTI" top="153" left="118" width="161"/>
+	<mx:Label text="Items Per Case:" fontWeight="bold" textAlign="right" width="99" top="181" left="10"/>
+	<mx:TextInput text="{_inventory.itemsInCase}" change="onChange()" id="caseCountTI" top="179" left="117" width="162"/>
+	<mx:Label text="Reorder Point:" fontWeight="bold" textAlign="right" width="99" top="207" left="10"/>
+	<mx:TextInput text="{_inventory.reorderPoint}" change="onChange()" id="reorderPointTI" top="205" left="117" width="162"/>	
+	<mx:TextInput id="itemNumberTI" left="117" top="233" text="{_inventory.itemNumber}" width="162"/>
+	<mx:TextInput text="{_inventory.shelfLife}" change="onChange()" width="69" id="shelfLifeTI" top="263" left="117"/>
+	<mx:ComboBox width="84" change="onChange()" dataProvider="{InventoryItem.SHELF_LIFE_DENOMINATIONS}" id="shelfLifeDenomCB" top="263" left="194"></mx:ComboBox>
+	<mx:CheckBox id="taxableCB" selected="{_inventory.taxable}" label="Taxable" fontWeight="bold" left="117" top="293"/>
+	<mx:CheckBox id="associatedCB" click="onAssociatedCBClick()" selected="{Boolean(_inventory.itemDetail)}" label="Associated" fontWeight="bold" left="117" top="321"/>
+	<mx:TextArea text="{_inventory.notes}" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" change="onChange()" left="20" top="349" bottom="10" id="notesTA" cornerRadius="17" right="321"/>
+	<mx:Label text="Item Number:" fontWeight="bold" textAlign="right" width="89" top="235" left="19"/>
 	<mx:VRule x="301" width="2" top="10" bottom="10"/>
 	
 	<mx:Panel width="250" id="knownItemsPanel" layout="absolute" title="Known Items" left="325" top="15" bottom="16" borderColor="#6FB33D">
