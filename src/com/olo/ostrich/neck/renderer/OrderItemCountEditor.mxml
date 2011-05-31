@@ -22,7 +22,7 @@
 						var ii:InventoryItem = InventoryItem(value);
 						text = formatter.format(ii.currentQuantity);
 						
-						if ((ii.currentQuantity < ii.reorderPoint) && (ii.active == true))
+						if ((ii.currentQuantity <= ii.reorderPoint) && (ii.active == true))
 						{
 							setStyle("color", "red");
 						}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DefaultWizardCanvasPane paneTitle="Edit Inventory Counts" paneName="{PANE_NAME}" borderColor="#7BA7C6" backgroundColor="#504D59" creationComplete="onCreationComplete()"
-	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="684" height="410">
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="816" height="410">
 	
 	<mx:Script>
 		<![CDATA[
@@ -95,9 +95,10 @@
 		<mx:AdvancedDataGrid id="inventoryGrid" dataProvider="{_inventories}" designViewDataType="flat" editable="true" left="5" top="5" right="5" bottom="5">
 			<mx:columns>
 				<mx:AdvancedDataGridColumn headerText="Item Name" dataField="name" editable="false" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
-				<mx:AdvancedDataGridColumn headerText="Boxes" dataField="boxCount" textAlign="right" editable="true" width="80" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn headerText="Cases" dataField="boxCount" textAlign="right" editable="true" width="80" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
 				<mx:AdvancedDataGridColumn headerText="Items" textAlign="right" dataField="currentQuantity" editable="true" width="80" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer" itemEditor="com.olo.ostrich.neck.renderer.OrderItemCountEditor"/>
 				<mx:AdvancedDataGridColumn headerText="Type" dataField="categoryStrValue" editable="false" width="100" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn headerText="Distributor" dataField="distribName" editable="false" width="150" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
 				<mx:AdvancedDataGridColumn headerText="Manufacturer" dataField="manufactureName" editable="false" width="120" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
 			</mx:columns>
 		</mx:AdvancedDataGrid>

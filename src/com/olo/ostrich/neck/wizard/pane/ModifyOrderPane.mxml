@@ -187,7 +187,6 @@
 			<mx:TextInput id="orderTotalTI" width="97" editable="false" textAlign="right" text="{moneyFormat.format(_order.total)}" color="#0012FF" fontWeight="bold"/>
 		</mx:ControlBar>
 	</mx:Panel>
-	
 	<mx:Label text="Receive Date:" fontWeight="bold" fontSize="15" color="#000000" bottom="10" right="108"/>
 	<mx:DateField id="rxDateDF" selectedDate="{_order.receiveDate}" bottom="12" right="10"/>
 	<mx:Label text="Invoice #:" fontWeight="bold" fontSize="15" color="#000000" bottom="10" right="337"/>

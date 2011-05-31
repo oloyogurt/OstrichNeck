@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DefaultWizardCanvasPane paneTitle="Yogurt Inventory Details" paneName="{PANE_NAME}" 
-	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="599" height="502">
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="757" height="502">
 	
 	<mx:Script>
 		<![CDATA[
@@ -218,6 +218,7 @@
 	<mx:Binding destination="_inventory.category" source="typeCB.selectedIndex"/>
 	<mx:Binding destination="_inventory.taxable" source="taxableCB.selected"/>
 	<mx:Binding destination="_inventory.reorderPoint" source="Number(reorderPointTI.text)"/>
+	<mx:Binding destination="_inventory.reorderPointText" source="reorderPointTextTI.text"/>
 	
 	<mx:CurrencyValidator source="{costTI}" precision="2" property="text" trigger="{costTI}" triggerEvent="change" invalid="Alert.show('Please enter a valid dollar amount');"/>
 	
@@ -238,18 +239,25 @@
 	<mx:Label text="Items Per Case:" fontWeight="bold" textAlign="right" width="99" top="181" left="10"/>
 	<mx:TextInput text="{_inventory.itemsInCase}" change="onChange()" id="caseCountTI" top="179" left="117" width="162"/>
 	<mx:Label text="Reorder Point:" fontWeight="bold" textAlign="right" width="99" top="207" left="10"/>
-	<mx:TextInput text="{_inventory.reorderPoint}" change="onChange()" id="reorderPointTI" top="205" left="117" width="162"/>	
+	<mx:TextInput text="{_inventory.reorderPoint}" change="onChange()" id="reorderPointTI" top="205" left="117" width="69"/>	
+	<mx:TextInput text="{_inventory.reorderPointText}" change="onChange()" id="reorderPointTextTI" top="205" left="194" width="85"/>	
 	<mx:TextInput id="itemNumberTI" left="117" top="233" text="{_inventory.itemNumber}" width="162"/>
 	<mx:TextInput text="{_inventory.shelfLife}" change="onChange()" width="69" id="shelfLifeTI" top="263" left="117"/>
 	<mx:ComboBox width="84" change="onChange()" dataProvider="{InventoryItem.SHELF_LIFE_DENOMINATIONS}" id="shelfLifeDenomCB" top="263" left="194"></mx:ComboBox>
 	<mx:CheckBox id="taxableCB" selected="{_inventory.taxable}" label="Taxable" fontWeight="bold" left="117" top="293"/>
 	<mx:CheckBox id="associatedCB" click="onAssociatedCBClick()" selected="{Boolean(_inventory.itemDetail)}" label="Associated" fontWeight="bold" left="117" top="321"/>
-	<mx:TextArea text="{_inventory.notes}" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" change="onChange()" left="20" top="349" bottom="10" id="notesTA" cornerRadius="17" right="321"/>
+	<mx:TextArea text="{_inventory.notes}" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" change="onChange()" left="20" top="349" bottom="10" id="notesTA" cornerRadius="17" width="273"/>
 	<mx:Label text="Item Number:" fontWeight="bold" textAlign="right" width="89" top="235" left="19"/>
 	<mx:VRule x="301" width="2" top="10" bottom="10"/>
 	
-	<mx:Panel width="250" id="knownItemsPanel" layout="absolute" title="Known Items" left="325" top="15" bottom="16" borderColor="#6FB33D">
+	<mx:Panel width="330" id="knownItemsPanel" layout="absolute" title="Known Items" left="325" top="15" bottom="16" borderColor="#6FB33D">
 		<mx:List id="itemList" doubleClickEnabled="true" doubleClick="onAssociate()" dataProvider="{_yogurt}" labelField="yocreamName" left="5" top="5" bottom="31" right="5"/>
+<!-- TODO Add Manufacturer		<mx:AdvancedDataGrid id="itemList" doubleClickEnabled="true" doubleClick="onAssociate()" dataProvider="{_yogurt}" left="5" top="5" bottom="31" right="5">
+			<mx:columns>
+				<mx:AdvancedDataGridColumn headerText="Name" dataField="yocreamName" editable="false"/>
+				<mx:AdvancedDataGridColumn headerText=""
+			</mx:columns>
+		</mx:AdvancedDataGrid>-->
 		<mx:Label text="Search:" left="5" bottom="5"/>
 		<mx:TextInput id="searchTI" change="onSearch()" enter="onAssociate()" bottom="5" left="60" right="5"/>
 		<mx:ControlBar>

@@ -50,6 +50,7 @@ package com.olo.ostrich.neck.dto
 		public var active:Boolean;
 		public var currentQuantity:Number;
 		public var reorderPoint:Number;
+		public var reorderPointText:String;
 		
 		public var distributor:Distributor;
 		public var inventoryStorageVessel:InventoryStorageVessel;
@@ -82,6 +83,7 @@ package com.olo.ostrich.neck.dto
 			clone.active = active;
 			clone.currentQuantity = currentQuantity;
 			clone.reorderPoint = reorderPoint;
+			clone.reorderPointText = reorderPointText;
 			
 			clone.distributor = distributor;
 			clone.inventoryStorageVessel = inventoryStorageVessel;

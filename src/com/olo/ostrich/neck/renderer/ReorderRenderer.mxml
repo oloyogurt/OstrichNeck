@@ -18,7 +18,9 @@
         		
 	           if ((value is InventoryItem) || (value is InventoryOrderItem))
 	           {
-	           		var active:Boolean = (value is InventoryItem)? value.active : true; 
+	           		var active:Boolean = (value is InventoryItem)? value.active : true;
+	           		var caseCount:int = (value is InventoryItem)? value.boxCount : 0;
+	           		var itemsPerCase:int = (value is InventoryItem) ? value.itemsInCase : 0;
 	           		
 	           		if ((d.dataField == "purchasedUnitPrice") || (d.dataField == "extendedPrice"))
 	           		{
@@ -32,9 +34,8 @@
 	           		{
 		           		text = value[d.dataField];
 		           	}
-	           		//var item:InventoryItem = InventoryItem(value);
 	           	
-	           		if ((value.currentQuantity < value.reorderPoint) &&
+	           		if (((value.currentQuantity + (caseCount * itemsPerCase)) <= value.reorderPoint) &&
 	           			(active == true))
 	           		{
 	           			setStyle("color", "red");
