@@ -23,9 +23,14 @@ package com.olo.ostrich.neck.event
 		static public const FETCH_VIDEO_INFO:String = "fetchVideoInfo";
 		static public const UPDATE_VIDEO_INFO:String = "updateVideoInfo";
 		static public const SAVE_VIDEO_INFO:String = "saveVideoInfo";
+		static public const FETCH_BLOCKED_USERS:String = "fetchBlockedUsers";
+		static public const ADD_BLOCKED_USERS:String = "addBlockedUsers";
+		static public const SAVE_BLOCKED_USERS:String = "saveBlockedUsers";
+		static public const DELETE_BLOCKED_USERS:String = "deleteBlockedUsers";
 		
 		public var dirtyWords:ArrayCollection = null;
 		public var hashReferences:ArrayCollection = null;
+		public var users:ArrayCollection = null;
 		public var eggConfig:EggConfig = null;
 		public var videoInfo:VideoInfo = null;
 

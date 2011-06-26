@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Add Blocked User" paneName="{PANE_NAME}"
+	 xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.IViewCursor;
+			import com.olo.ostrich.neck.dto.BlockedUser;
+			import mx.collections.ArrayCollection;
+			
+			static public const PANE_NAME:String = "addBlockedUser";
+			[Bindable] private var _blockedUsers:ArrayCollection = null;
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					_blockedUsers = ArrayCollection(dp);
+				}
+			}
+			
+			
+			private function onAddBlockedUser():void
+			{
+				if (blockedUserTI.text)
+				{
+					var found:Boolean = false;
+					for each (var user:BlockedUser in _blockedUsers)
+					{
+						if (user.userName == blockedUserTI.text)
+						{
+							found = true;
+							break;
+						}
+					}
+					
+					if (found == false)
+					{
+						var newUser:BlockedUser = new BlockedUser();
+						newUser.userName = blockedUserTI.text;
+						_blockedUsers.addItem(newUser);
+					}
+					
+					blockedUserTI.text = null;
+				}
+				
+				onChange();
+			}
+			
+			
+			private function onRemoveBlockedUser():void
+			{
+				var selectedItems:Array = blockedUserList.selectedItems;
+				
+				for each (var selectedItem:BlockedUser in selectedItems)
+				{
+					var cursor:IViewCursor = _blockedUsers.createCursor();
+					while (!cursor.afterLast)
+					{
+						var user:BlockedUser = BlockedUser(cursor.current);
+						if (user.userName == selectedItem.userName)
+						{
+							cursor.remove();
+							break;
+						}
+						
+						cursor.moveNext();
+					}
+				}
+				
+				onChange();				
+			}
+			
+			
+			private function onChange():void
+			{
+				if (_blockedUsers && (_blockedUsers.length > 0)) isValid = true;
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Label text="Blocked User:" bottom="40" left="10" fontWeight="bold"/>
+	<mx:TextInput id="blockedUserTI" enter="onAddBlockedUser()" left="101" right="10" bottom="38"/>
+	<mx:Button label="Add" paddingRight="2" paddingLeft="2" bottom="10" enabled="{Boolean(blockedUserTI.text)}" click="onAddBlockedUser()" left="10"/>
+	<mx:Button label="Remove" paddingLeft="2" paddingRight="2" bottom="10" enabled="{blockedUserList.selectedItem}" click="onRemoveBlockedUser()" left="58" width="57"/>
+	<mx:List id="blockedUserList" allowMultipleSelection="true" dataProvider="{_blockedUsers}" labelField="userName" top="10" left="10" right="10" bottom="68"/>
+	
+</DefaultWizardCanvasPane>

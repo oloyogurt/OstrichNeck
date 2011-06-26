@@ -1,5 +1,6 @@
 package com.olo.ostrich.neck.wizard
 {
+	import com.olo.ostrich.neck.wizard.pane.AddBlockedUserPane;
 	import com.olo.ostrich.neck.wizard.pane.AddDirtyWordsPane;
 	import com.olo.ostrich.neck.wizard.pane.AddHashReferencePane;
 	import com.olo.ostrich.neck.wizard.pane.ChangeMachineCleaningPane;
@@ -7,13 +8,13 @@ package com.olo.ostrich.neck.wizard
 	import com.olo.ostrich.neck.wizard.pane.EditBlockNewsPane;
 	import com.olo.ostrich.neck.wizard.pane.EditEggConfigPane;
 	import com.olo.ostrich.neck.wizard.pane.EditInventoryItemDatePane;
+	import com.olo.ostrich.neck.wizard.pane.EditInventoryPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineCleaningNotesPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineDetailsPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineInventoryPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineMaintenancePane;
 	import com.olo.ostrich.neck.wizard.pane.EditMoviePane;
 	import com.olo.ostrich.neck.wizard.pane.EditSummaryNewsPane;
-	import com.olo.ostrich.neck.wizard.pane.EditInventoryPane;
 	import com.olo.ostrich.neck.wizard.pane.EditYogurtPane;
 	import com.olo.ostrich.neck.wizard.pane.InventoryCountsPane;
 	import com.olo.ostrich.neck.wizard.pane.ModifyOrderPane;
@@ -48,7 +49,8 @@ package com.olo.ostrich.neck.wizard
 		static public const EDIT_INVENTORY_ITEM_DATE_WIZARD_TYPE:String = "editInventoryItemDateWizardType";
 		static public const CREATE_NEW_ORDER_WIZARD_TYPE:String = "createNewOrderWizardType";
 		static public const MODIFY_ORDER_TYPE:String = "modifyOrderType";
-		static public const INVENTORY_COUTS:String = "inventoryCounts"; 
+		static public const INVENTORY_COUTS:String = "inventoryCounts";
+		static public const ADD_BLOCKED_USERS_TYPE:String = "addBlockedUsersType";
 		
 		
 		static private var _instance:WizardFactory = null;
@@ -180,6 +182,11 @@ package com.olo.ostrich.neck.wizard
 			{
 				panes = [new InventoryCountsPane()];
 				title = "Inventory Counts";
+			}
+			else if (wizardType == ADD_BLOCKED_USERS_TYPE)
+			{
+				panes = [new AddBlockedUserPane()];
+				title = "Add Blocked Users";
 			}
 			
 			wizard.wizardPanes = new ArrayCollection(panes);
