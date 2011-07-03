@@ -14,7 +14,7 @@
 			{
 				if (dp != null)
 				{
-					if (!(dp is EggConfig)) throw new Error("EditEggConfigPange:set dataProvider - Only accepts the EggConfig type");
+					if (!(dp is EggConfig)) throw new Error("EditEggConfigPane:set dataProvider - Only accepts the EggConfig type");
 					
 					_eggConfig = EggConfig(dp);
 				}

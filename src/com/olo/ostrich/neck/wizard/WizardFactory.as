@@ -5,6 +5,7 @@ package com.olo.ostrich.neck.wizard
 	import com.olo.ostrich.neck.wizard.pane.AddHashReferencePane;
 	import com.olo.ostrich.neck.wizard.pane.ChangeMachineCleaningPane;
 	import com.olo.ostrich.neck.wizard.pane.ChangeMachineFlavorPane;
+	import com.olo.ostrich.neck.wizard.pane.ChangeVoteFlavorsPane;
 	import com.olo.ostrich.neck.wizard.pane.EditBlockNewsPane;
 	import com.olo.ostrich.neck.wizard.pane.EditEggConfigPane;
 	import com.olo.ostrich.neck.wizard.pane.EditInventoryItemDatePane;
@@ -51,6 +52,7 @@ package com.olo.ostrich.neck.wizard
 		static public const MODIFY_ORDER_TYPE:String = "modifyOrderType";
 		static public const INVENTORY_COUTS:String = "inventoryCounts";
 		static public const ADD_BLOCKED_USERS_TYPE:String = "addBlockedUsersType";
+		static public const CHANGE_VOTE_FLAVORS_TYPE:String = "changeVoteFlavorsType";
 		
 		
 		static private var _instance:WizardFactory = null;
@@ -187,6 +189,11 @@ package com.olo.ostrich.neck.wizard
 			{
 				panes = [new AddBlockedUserPane()];
 				title = "Add Blocked Users";
+			}
+			else if (wizardType == CHANGE_VOTE_FLAVORS_TYPE)
+			{
+				panes = [new ChangeVoteFlavorsPane()];
+				title = "Change Vote Flavors";
 			}
 			
 			wizard.wizardPanes = new ArrayCollection(panes);

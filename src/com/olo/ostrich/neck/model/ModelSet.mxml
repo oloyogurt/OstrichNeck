@@ -2,6 +2,16 @@
 <Object xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:model="com.olo.ostrich.neck.model.*">
 
 	<!-- Instantiate Model objects so that serializer can map to java objects -->
+	<model:DaySalesModel/>
+	<model:FlavorSalesModel/>
+	<model:InventoryTotalsModel/>
+	<model:MachineCleaningModel/>
 	<model:MachineInventoryModel/>
-
+	<model:MachineMaintenanceModel/>
+	<model:OldInventoryItemModel/>
+	<model:ScoreboardModel/>
+	<model:TotalSalesModel/>
+	<model:TweetModel/>
+	<model:FlavorModel/>
+	
 </Object>

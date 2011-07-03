@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Change Vote Flavors" paneName="{PANE_NAME}" 
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="336" height="138" backgroundColor="#503838">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.model.FlavorModel;
+			static public const PANE_NAME:String = "changeVoteFlavorsPane";
+			
+			[Bindable] private var _voteFlavorsModel:FlavorModel = null;
+			
+			
+			override public function set dataProvider(dp:Object):void
+			{
+				if (dp != null)
+				{
+					if (!(dp is FlavorModel)) throw new Error("ChangeVoteFlavorsPane:set dataProvider - Only accepts the VoteFlavorModel type");
+					_voteFlavorsModel = FlavorModel(dp);
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				return _voteFlavorsModel;
+			}
+			
+			
+			private function onChange():void
+			{
+				if (flavor1TI.text && (flavor1TI.text.length > 0) && flavor2TI.text && (flavor2TI.text.length > 0) &&
+					flavor3TI.text && (flavor3TI.text.length > 0))
+				{
+					super.isValid = true;
+				}
+				else
+				{
+					super.isValid = false;
+				}
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Binding source="flavor1TI.text" destination="_voteFlavorsModel.flavor1Name"/>
+	<mx:Binding source="flavor2TI.text" destination="_voteFlavorsModel.flavor2Name"/>
+	<mx:Binding source="flavor3TI.text" destination="_voteFlavorsModel.flavor3Name"/>
+	
+	<mx:Label text="Flavor 1:" fontWeight="bold" left="30.5" top="23" fontSize="16" color="#D05B9A"/>
+	<mx:Label text="Flavor 2:" top="53" fontWeight="bold" left="30.5" fontSize="16" color="#86CCEC"/>
+	<mx:Label text="Flavor 3:" left="30.5" top="83" fontWeight="bold" fontSize="16" color="#FEE674"/>
+	<mx:TextInput left="119.5" change="onChange()" top="26" maxChars="50" id="flavor1TI" text="{_voteFlavorsModel.flavor1Name}"/>
+	<mx:TextInput left="119.5" change="onChange()" top="56" maxChars="50" id="flavor2TI" text="{_voteFlavorsModel.flavor2Name}"/>
+	<mx:TextInput left="119.5" change="onChange()" top="86" maxChars="50" id="flavor3TI" text="{_voteFlavorsModel.flavor3Name}"/>
+	
+</DefaultWizardCanvasPane>
