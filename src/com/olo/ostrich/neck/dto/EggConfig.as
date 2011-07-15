@@ -12,6 +12,7 @@ package com.olo.ostrich.neck.dto
 		public var showBlockNews:Boolean;
 		public var showSummaryNews:Boolean;
 		public var showPhotos:Boolean;
+		public var showVoting:Boolean;
 		
 		
 		public function EggConfig()
@@ -30,6 +31,7 @@ package com.olo.ostrich.neck.dto
 			clone.showBlockNews = showBlockNews;
 			clone.showSummaryNews = showSummaryNews;
 			clone.showPhotos = showPhotos;
+			clone.showVoting = showVoting;
 			
 			return clone;
 		}

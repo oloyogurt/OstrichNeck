@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DefaultWizardCanvasPane paneTitle="Edit Egg Config" paneName="{PANE_NAME}" 
-	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="336">
 	
 	<mx:Script>
 		<![CDATA[
@@ -42,6 +42,7 @@
 	<mx:Binding source="photosCB.selected" destination="_eggConfig.showPhotos"/>
 	<mx:Binding source="foursquareCB.selected" destination="_eggConfig.showFoursquare"/>
 	<mx:Binding source="twitterCB.selected" destination="_eggConfig.showTweets"/>
+	<mx:Binding source="votingCB.selected" destination="_eggConfig.showVoting"/>
 	
 	<mx:Label text="Ostrich Egg Elements" horizontalCenter="-1" top="24" fontWeight="bold" fontSize="14"/>
 	<mx:HRule left="17" right="18" top="53"/>
@@ -52,5 +53,6 @@
 	<mx:CheckBox id="photosCB" change="onChange()" selected="{_eggConfig.showPhotos}" label="Photos" fontWeight="bold" top="196" horizontalCenter="0" width="119"/>
 	<mx:CheckBox id="foursquareCB" change="onChange()" selected="{_eggConfig.showFoursquare}" label="Foursquare" fontWeight="bold" top="226" horizontalCenter="0" width="120"/>
 	<mx:CheckBox id="twitterCB" change="onChange()" selected="{_eggConfig.showTweets}" label="Twitter" fontWeight="bold" top="256" horizontalCenter="0" width="119"/>
+	<mx:CheckBox id="votingCB" change="onChange()" selected="{_eggConfig.showVoting}" label="Voting" fontWeight="bold" top="286" horizontalCenter="0" width="119"/>
 	
 </DefaultWizardCanvasPane>
