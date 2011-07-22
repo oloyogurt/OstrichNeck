@@ -22,5 +22,6 @@
 	<dto:Yogurt/>
 	<dto:Machine/>
 	<dto:MachineInventory/>
+	<dto:OstrichMetaData/>
 	
 </Object>

@@ -39,6 +39,7 @@ package com.olo.ostrich.neck.event
 		static public const SAVE_INVENTORY_COUNTS:String = "saveInventoryCounts";
 		static public const FETCH_INVENTORY_TOTALS:String = "fetchInventoryTotals";
 		static public const FETCH_TRANSIENT_INVENTORIES:String = "fetchTransientInventories";
+		static public const FETCH_OSTRICH_META_DATA:String = "fetchOstrichMetaData";
 		
 		public var inventoryObjs:ArrayCollection = null;
 		public var distributors:ArrayCollection = null;
