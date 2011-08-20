@@ -21,7 +21,6 @@ package com.olo.ostrich.neck.wizard
 	import com.olo.ostrich.neck.wizard.pane.ModifyOrderPane;
 	import com.olo.ostrich.neck.wizard.pane.SelectDistributorPane;
 	import com.olo.ostrich.neck.wizard.pane.UpdateDistributorPane;
-	import com.olo.ostrich.neck.wizard.pane.UpdateInventoryVesselsPane;
 	
 	import flash.display.DisplayObject;
 	
@@ -139,11 +138,6 @@ package com.olo.ostrich.neck.wizard
 			{
 				panes = [new EditMachineCleaningNotesPane()];
 				title = "Edit Machine Cleaning Notes";
-			}
-			else if (wizardType == UPDATE_INVENTORY_VESSELS_WIZARD_TYPE)
-			{
-				panes = [new UpdateInventoryVesselsPane()];
-				title = "Update Inventory Vessels";
 			}
 			else if (wizardType == UPDATE_DISTRIBUTOR_WIZARD_TYPE)
 			{

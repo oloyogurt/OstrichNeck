@@ -10,10 +10,6 @@ package com.olo.ostrich.neck.event
 
 	public class InventoryEvent extends Event
 	{
-		static public const FETCH_ALL_INVENTORY_VESSELS:String = "fetchAllInventoryVessels";
-		static public const UPDATE_INVENTORY_VESSELS:String = "updateInventoryVessels";
-		static public const SAVE_INVENTORY_VESSELS:String = "saveInventoryVessels";
-		static public const REMOVE_INVENTORY_VESSELS:String = "removeInventoryVessels";
 		static public const FETCH_ALL_INVENTORY_ITEMS:String = "fetchAllInventoryItems";
 		static public const UPDATE_INVENTORY_ITEMS:String = "updateInventoryItems";
 		static public const SAVE_INVENTORY_ITEMS:String = "saveInventoryItems";
@@ -43,13 +39,11 @@ package com.olo.ostrich.neck.event
 		
 		public var inventoryObjs:ArrayCollection = null;
 		public var distributors:ArrayCollection = null;
-		public var containers:ArrayCollection = null;
 		public var orders:ArrayCollection = null;
 		public var orderItems:ArrayCollection = null;
 		public var inventoryItem:InventoryItem = null;
 		public var distributor:Distributor = null;
 		public var order:InventoryOrder = null;
-		public var containerId:Number = -1;
 		
 		public function InventoryEvent(type:String, bubbles:Boolean=true, cancelable:Boolean=false)
 		{

@@ -4,7 +4,6 @@
         <![CDATA[
         	import com.olo.ostrich.neck.dto.InventoryOrderItem;
         	import com.olo.ostrich.neck.dto.InventoryItem;
-        	import com.olo.ostrich.neck.dto.InventoryStorageVessel;
         	import mx.controls.advancedDataGridClasses.AdvancedDataGridListData;
 
         override public function set data(value:Object):void
@@ -18,7 +17,7 @@
         		
 	           if ((value is InventoryItem) || (value is InventoryOrderItem))
 	           {
-	           		var active:Boolean = (value is InventoryItem)? value.active : true;
+	           		var reorder:Boolean = (value is InventoryItem)? value.reorder : true;
 	           		var caseCount:int = (value is InventoryItem)? value.boxCount : 0;
 	           		var itemsPerCase:int = (value is InventoryItem) ? value.itemsInCase : 0;
 	           		
@@ -36,7 +35,7 @@
 		           	}
 	           	
 	           		if (((value.currentQuantity + (caseCount * itemsPerCase)) <= value.reorderPoint) &&
-	           			(active == true))
+	           			(reorder == true))
 	           		{
 	           			setStyle("color", "red");
 	           		}

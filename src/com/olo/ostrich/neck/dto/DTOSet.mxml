@@ -12,7 +12,6 @@
 	<dto:InventoryItemDate/>
 	<dto:InventoryOrder/>
 	<dto:InventoryOrderItem/>
-	<dto:InventoryStorageVessel/>
 	<dto:ItemDetailBase/>
 	<dto:MachineCleaning/>
 	<dto:MachineMaintenance/>

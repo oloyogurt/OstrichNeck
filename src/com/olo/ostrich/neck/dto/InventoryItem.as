@@ -12,6 +12,12 @@ package com.olo.ostrich.neck.dto
 		static public const INVENTORY_CATEGORY_HOUSEHOLD:int = 2;
 		static public const INVENTORY_CATEGORY_OTHER:int = 3;
 		
+		static public const INVENTORY_LOCATION_WALK_IN_COOLER:int = 0;
+		static public const INVENTORY_LOCATION_FREEZER:int = 1;
+		static public const INVENTORY_LOCATION_DRY_FOOD_SHELVING:int = 2;
+		static public const INVENTORY_LOCATION_STORAGE_SHELVING:int = 3;
+		static public const INVENTORY_LOCATION_OTHER:int = 4;
+			
 		static private const SHELF_LIFE_DAYS:int = 0;
 		static private const SHELF_LIFE_MONTHS:int = 1;
 		static private const SHELF_LIFE_YEARS:int = 2;
@@ -20,6 +26,12 @@ package com.olo.ostrich.neck.dto
 		static public const INVENTORY_CATEGORY_TOPPING_STR:String = "Topping";
 		static public const INVENTORY_CATEGORY_HOUSEHOLD_STR:String = "Household";
 		static public const INVENTORY_CATEGORY_OTHER_STR:String = "Other";
+		
+		static private const INVENTORY_LOCATION_WALK_IN_COOLER_STR:String = "Walk-in Cooler";
+		static private const INVENTORY_LOCATION_FREEZER_STR:String = "Freezer";
+		static private const INVENTORY_LOCATION_DRY_FOOD_SHELVING_STR:String = "Dry Food Shelving";
+		static private const INVENTORY_LOCATION_STORAGE_SHELVING_STR:String = "Storage Shelving";
+		static private const INVENTORY_LOCATION_OTHER_STR:String = "Other";		
 		
 		static private const SHELF_LIFE_DAYS_STR:String = "Days";
 		static private const SHELF_LIFE_MONTHS_STR:String = "Months";
@@ -33,27 +45,36 @@ package com.olo.ostrich.neck.dto
 																							 {label:"Topping", data:1},
 																							 {label:"Household", data:2},
 																							 {label:"Other", data:3}]);
+																							 
+		[Transient] static public var INVENTORY_LOCATIONS:ArrayCollection = new ArrayCollection([{label:"Walk-in", data:0},
+																								 {label:"Freezer", data:1},
+																								 {label:"Food Shelving", data:2},
+																								 {label:"Storage Shelving", data:3},
+																								 {label:"Other", data:4}]);
 	
 		public var id:Number;
 		public var name:String;
 		public var manufactureName:String;
 		public var itemsInCase:int;
 		public var category:int;
+		public var location:int;
 		public var itemNumber:String;
-		public var cost:Number;
+		public var lastPricePaid:Number;
+		public var priceAvg:Number;
 		public var newestDate:Date;
 		public var oldestDate:Date;
 		public var shelfLife:int;
 		public var shelfLifeDenomination:int;
 		public var taxable:Boolean;
 		public var notes:String;
-		public var active:Boolean;
+		public var reorder:Boolean;
 		public var currentQuantity:Number;
 		public var reorderPoint:Number;
 		public var reorderPointText:String;
+		public var show:Boolean;
+		public var weightedOz:int;
 		
 		public var distributor:Distributor;
-		public var inventoryStorageVessel:InventoryStorageVessel;
 		public var itemDetail:ItemDetailBase;
 		
 		[Transient] public var boxCount:int = 0; 
@@ -72,21 +93,24 @@ package com.olo.ostrich.neck.dto
 			clone.manufactureName = manufactureName;
 			clone.itemsInCase = itemsInCase;
 			clone.category = category;
+			clone.location = location;
 			clone.itemNumber = itemNumber;
-			clone.cost = cost;
+			clone.lastPricePaid = lastPricePaid;
+			clone.priceAvg = priceAvg;
 			clone.newestDate = newestDate;
 			clone.oldestDate = oldestDate;
 			clone.shelfLife = shelfLife;
 			clone.shelfLifeDenomination = shelfLifeDenomination;
 			clone.taxable = taxable;
 			clone.notes = notes;
-			clone.active = active;
+			clone.reorder = reorder;
 			clone.currentQuantity = currentQuantity;
 			clone.reorderPoint = reorderPoint;
 			clone.reorderPointText = reorderPointText;
+			clone.show = show;
+			clone.weightedOz = weightedOz;
 			
 			clone.distributor = distributor;
-			clone.inventoryStorageVessel = inventoryStorageVessel;
 			
 			clone.itemDetail = itemDetail;
 			
@@ -96,7 +120,7 @@ package com.olo.ostrich.neck.dto
 		}
 		
 		
-		public function get categoryAttStr():String
+		[Transient] public function get categoryAttStr():String
 		{
 			return categoryStr(category);
 		}
@@ -149,6 +173,37 @@ package com.olo.ostrich.neck.dto
 		}
 		
 		
+		[Transient] public function get locationStrValue():String
+		{
+			return locationStr(this.location);
+		}
+		
+		
+		[Transient] static public function locationStr(value:int):String
+		{
+			var rtnStr:String = INVENTORY_LOCATION_OTHER_STR;
+			
+			if (value == INVENTORY_LOCATION_WALK_IN_COOLER)
+			{
+				rtnStr = INVENTORY_LOCATION_WALK_IN_COOLER_STR;
+			}
+			else if (value == INVENTORY_LOCATION_FREEZER)
+			{
+				rtnStr = INVENTORY_LOCATION_FREEZER_STR;
+			}
+			else if (value == INVENTORY_LOCATION_DRY_FOOD_SHELVING)
+			{
+				rtnStr = INVENTORY_LOCATION_DRY_FOOD_SHELVING_STR;
+			}
+			else if (value == INVENTORY_LOCATION_STORAGE_SHELVING)
+			{
+				rtnStr = INVENTORY_LOCATION_STORAGE_SHELVING_STR;
+			}
+			
+			return rtnStr;
+		}
+		
+		
 		[Transient] public function get shelfLifeStr():String
 		{
 			var valueStr:String = "UNKNOWN";
@@ -182,6 +237,17 @@ package com.olo.ostrich.neck.dto
 				if (days < 0) days = 0;
 			}
 			return days;
+		}
+		
+		
+		[Transient] public function get lastPricePaidOz():Number
+		{
+			return ((lastPricePaid / itemsInCase) / weightedOz);
+		}
+		
+		[Transient] public function get avgPriceOz():Number
+		{
+			return ((priceAvg / itemsInCase) / weightedOz);
 		}
 	}
 }
