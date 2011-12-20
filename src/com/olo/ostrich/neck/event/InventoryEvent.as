@@ -15,7 +15,6 @@ package com.olo.ostrich.neck.event
 		static public const SAVE_INVENTORY_ITEMS:String = "saveInventoryItems";
 		static public const REMOVE_INVENTORY_ITEMS:String = "removeInventoryItems";
 		static public const FETCH_INVENTORY_DATE_ITEMS:String = "fetchInventoryDateItems";
-		static public const UPDATE_INVENTORY_DATES:String = "updateInventoryDates";
 		static public const SAVE_INVENTORY_DATES:String = "saveInventoryDates";
 		static public const REMOVE_INVENTORY_DATES:String = "removeInventoryDates";
 		static public const FETCH_LOW_CONTAINERS:String = "fetchLowContainers";

@@ -20,6 +20,6 @@
 	<mx:RemoteObject id="machineService" destination="MachineService"/>
 	<mx:RemoteObject id="newsService" destination="NewsService"/>
 	<mx:RemoteObject id="configUtilitiesService" destination="ConfigUtilitiesService"/>
-	<mx:RemoteObject id="inventoryService" destination="InventoryService"/>
+	<mx:RemoteObject id="inventoryService" destination="InventoryService" showBusyCursor="true"/>
 
 </mx:Object>

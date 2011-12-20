@@ -4,7 +4,6 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import com.olo.ostrich.neck.dto.Distributor;
 			import com.olo.ostrich.neck.dto.Yogurt;
 			import mx.collections.Sort;
 			import mx.collections.SortField;
@@ -17,8 +16,7 @@
 			
 			[Bindable] private var _inventory:InventoryItem = null;
 			[Bindable] private var _yogurt:ArrayCollection = null;
-			[Bindable] private var _distributors:ArrayCollection = null;
-			
+
 			
 			public function set yogurt(list:ArrayCollection):void
 			{
@@ -56,47 +54,12 @@
 				return _inventory;
 			}
 			
-			
-			override public function set aux1Provider(ap1:Object):void
-			{
-				if (ap1 != null)
-				{
-					if (!(ap1 is ArrayCollection)) throw new Error("EditYogurtInventoryPane:set aux1Provider - Only accepts an array of Distributor types");
-				
-					_distributors = ArrayCollection(ap1);
-					
-					if ((_inventory != null) && (_inventory.distributor != null))
-					{
-						// Find distributor in list and set combo box
-						for (var i:int=0; i < _distributors.length; ++i)
-						{
-							var d:Distributor = Distributor(_distributors.getItemAt(i));
-							if (d.name == _inventory.distribName)
-							{
-								distributorCB.selectedIndex = i;
-							}
-						}
-					}
-				}
-			}
-			
-			
-			override public function get aux1Provider():Object
-			{
-				return _distributors;
-			}
-			
 
 			private function onChange():void
-			{
-				if (_distributors)
-				{
-					_inventory.distributor = Distributor(_distributors.getItemAt(distributorCB.selectedIndex));
-				}
-				
+			{		
 				_inventory.shelfLifeDenomination = shelfLifeDenomCB.selectedIndex;
 				
-				if (typeCB.selectedLabel == InventoryItem.INVENTORY_CATEGORY_YOGURT_STR)
+				if (typeCB.selectedLabel == InventoryItem.INVENTORY_CATEGORY_FOOD_YOGURT_STR)
 				{
 					knownItemsPanel.enabled = true;
 				}
@@ -107,8 +70,7 @@
 				}
 				
 				super.isValid = ((_inventory.name != null) && 
-								 (_inventory.name.length > 0) && 
-								 (_inventory.distributor != null))
+								 (_inventory.name.length > 0))
 						? true : false;
 			}
 			
@@ -175,40 +137,36 @@
 	<mx:Binding destination="_inventory.shelfLife" source="int(shelfLifeTI.text)"/>
 	<mx:Binding destination="_inventory.shelfLifeDenomination" source="shelfLifeDenomCB.selectedItem.data"/>
 	<mx:Binding destination="_inventory.notes" source="notesTA.text"/>
-	<mx:Binding destination="_inventory.itemNumber" source="itemNumberTI.text"/>
 	<mx:Binding destination="_inventory.category" source="typeCB.selectedIndex"/>
 	<mx:Binding destination="_inventory.location" source="locationCB.selectedIndex"/>
 	<mx:Binding destination="_inventory.taxable" source="taxableCB.selected"/>
 	<mx:Binding destination="_inventory.reorderPoint" source="Number(reorderPointTI.text)"/>
 	<mx:Binding destination="_inventory.reorderPointText" source="reorderPointTextTI.text"/>
-	<mx:Binding destination="_inventory.weightedOz" source="int(weightedOzTI)"/>
+	<mx:Binding destination="_inventory.weightedOz" source="Number(weightedOzTI.text)"/>
+	<mx:Binding destination="_inventory.reorder" source="reorderCB.selected"/>
 	
 	<mx:Label text="Name:" fontWeight="bold" textAlign="right" width="89" top="23" left="20"/>
-	<mx:Label text="Manufacturer:" fontWeight="bold" textAlign="right" width="89" top="131" left="15"/>
-	<mx:Label text="Shelf Life:" fontWeight="bold" textAlign="right" width="89" top="243" left="19"/>
-	<mx:Label text="Notes:" fontWeight="bold" textAlign="left" width="55" top="316" left="19"/>
+	<mx:Label text="Manufacturer:" fontWeight="bold" textAlign="right" width="89" top="105" left="21"/>
+	<mx:Label text="Shelf Life:" fontWeight="bold" textAlign="right" width="89" top="195" left="20"/>
+	<mx:Label text="Notes:" fontWeight="bold" textAlign="left" width="55" top="283" left="10"/>
 	<mx:TextInput text="{_inventory.name}" change="onNameChange()" id="nameTI" top="21" left="118" width="161"/>
 	<mx:Label text="Type:" fontWeight="bold" textAlign="right" left="73" top="49"/>
 	<mx:ComboBox id="typeCB" change="onChange()" selectedIndex="{_inventory.category}" dataProvider="{InventoryItem.INVENTORY_TYPES}" width="162" left="117" top="47"/>
-	<mx:Label text="Distributor:" fontWeight="bold" textAlign="right" left="38" top="105"/>
-	<mx:ComboBox change="onChange()" labelFunction="distriLabelFunc" dataProvider="{_distributors}" width="162" left="117" top="103" id="distributorCB"/>
 	<mx:ComboBox change="onChange()" selectedIndex="{_inventory.location}" dataProvider="{InventoryItem.INVENTORY_LOCATIONS}" width="162" left="117" top="73" id="locationCB"/>
-	<mx:TextInput text="{_inventory.manufactureName}" change="onChange()" id="manufacturerTI" top="131" left="118" width="161"/>
-	<mx:Label text="Items Per Case:" fontWeight="bold" textAlign="right" width="99" top="159" left="10"/>
-	<mx:TextInput text="{_inventory.itemsInCase}" change="onChange()" id="caseCountTI" top="157" left="117" width="162"/>
-	<mx:Label text="Reorder Point:" fontWeight="bold" textAlign="right" width="99" top="185" left="10"/>
-	<mx:TextInput text="{_inventory.reorderPoint}" change="onChange()" id="reorderPointTI" top="183" left="117" width="69"/>	
-	<mx:TextInput text="{_inventory.reorderPointText}" change="onChange()" id="reorderPointTextTI" top="183" left="194" width="85"/>	
-	<mx:TextInput id="itemNumberTI" left="117" top="211" text="{_inventory.itemNumber}" width="162"/>
-	<mx:TextInput text="{_inventory.shelfLife}" change="onChange()" width="69" id="shelfLifeTI" top="241" left="117"/>
-	<mx:ComboBox width="84" change="onChange()" dataProvider="{InventoryItem.SHELF_LIFE_DENOMINATIONS}" id="shelfLifeDenomCB" top="241" left="194"></mx:ComboBox>
-	<mx:CheckBox id="taxableCB" selected="{_inventory.taxable}" label="Taxable" fontWeight="bold" left="213" top="297"/>
-	<mx:CheckBox id="associatedCB" click="onAssociatedCBClick()" selected="{Boolean(_inventory.itemDetail)}" label="Associated" fontWeight="bold" left="117" top="297"/>
-	<mx:TextArea text="{_inventory.notes}" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" change="onChange()" left="20" top="342" bottom="10" id="notesTA" cornerRadius="17" width="273"/>
-	<mx:Label text="Item Number:" fontWeight="bold" textAlign="right" width="89" top="213" left="19"/>
+	<mx:TextInput text="{_inventory.manufactureName}" change="onChange()" id="manufacturerTI" top="103" left="118" width="161"/>
+	<mx:Label text="Items Per Case:" fontWeight="bold" textAlign="right" width="99" top="135" left="10"/>
+	<mx:TextInput text="{_inventory.itemsInCase}" change="onChange()" id="caseCountTI" top="133" left="117" width="162"/>
+	<mx:Label text="Reorder Point:" fontWeight="bold" textAlign="right" width="99" top="165" left="10"/>
+	<mx:TextInput text="{_inventory.reorderPoint}" change="onChange()" id="reorderPointTI" top="163" left="117" width="69"/>	
+	<mx:TextInput text="{_inventory.reorderPointText}" change="onChange()" id="reorderPointTextTI" top="163" left="194" width="85"/>	
+	<mx:TextInput text="{_inventory.shelfLife}" change="onChange()" width="69" id="shelfLifeTI" top="193" left="117"/>
+	<mx:ComboBox width="84" change="onChange()" dataProvider="{InventoryItem.SHELF_LIFE_DENOMINATIONS}" id="shelfLifeDenomCB" top="193" left="194"></mx:ComboBox>
+	<mx:CheckBox id="taxableCB" selected="{_inventory.taxable}" label="Taxable" fontWeight="bold" left="117" top="253"/>
+	<mx:CheckBox id="associatedCB" click="onAssociatedCBClick()" selected="{Boolean(_inventory.itemDetail)}" label="Associated" fontWeight="bold" left="194" top="253"/>
+	<mx:TextArea text="{_inventory.notes}" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" change="onChange()" left="20" top="309" bottom="10" id="notesTA" cornerRadius="17" width="273"/>
 	<mx:Label text="Location:" fontWeight="bold" textAlign="right" left="33" top="75" width="76"/>
-	<mx:Label text="Weighted Oz:" fontWeight="bold" textAlign="right" width="89" top="273" left="19"/>
-	<mx:TextInput text="{_inventory.weightedOz}" change="onChange()" width="69" id="weightedOzTI" top="271" left="116"/>	
+	<mx:Label text="Weighted Oz:" fontWeight="bold" textAlign="right" width="89" top="225" left="20"/>
+	<mx:TextInput text="{_inventory.weightedOz}" change="onChange()" width="69" id="weightedOzTI" top="223" left="117"/>	
 	<mx:VRule x="301" width="2" top="10" bottom="10"/>
 	
 	<mx:Panel width="330" id="knownItemsPanel" layout="absolute" title="Known Items" left="325" top="15" bottom="16" borderColor="#6FB33D">
@@ -225,5 +183,6 @@
 			<mx:Button label="Associate" click="onAssociate()" enabled="{itemList.selectedItem}"/>
 		</mx:ControlBar>
 	</mx:Panel>
+	<mx:CheckBox id="reorderCB" selected="{_inventory.reorder}" label="Reorder" fontWeight="bold" left="38" top="253"/>
 	
 </DefaultWizardCanvasPane>

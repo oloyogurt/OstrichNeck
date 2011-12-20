@@ -18,9 +18,6 @@ package com.olo.ostrich.neck.command
 		private var _modelClone:InventoryItem = null;
 		private var _wizard:WizardWindow = null;
 		
-		private var _distributors:ArrayCollection = null;
-		
-		
 		public function EditInventoryCommand()
 		{
 		}
@@ -32,11 +29,9 @@ package com.olo.ostrich.neck.command
 			{
 				_model = InventoryItem(InventoryEvent(event).inventoryObjs[0]);
 				_modelClone = _model.clone();
-				_distributors = InventoryEvent(event).distributors;
 				
 				_wizard = WizardFactory.getInstance().activateNewWizard(this, WizardFactory.EDIT_INVENTORY_WIZARD_TYPE);
 				_wizard.setPaneDataProvider(EditInventoryPane.PANE_NAME, _modelClone);
-				_wizard.setPaneAux1Provider(EditInventoryPane.PANE_NAME, _distributors);
 			}
 		}
 		

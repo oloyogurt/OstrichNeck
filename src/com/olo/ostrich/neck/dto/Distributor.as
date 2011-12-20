@@ -33,6 +33,7 @@ package com.olo.ostrich.neck.dto
 		public var orderDays:int;
 		
 		public var inventoryItems:ArrayCollection;
+		public var orders:ArrayCollection;
 		
 		
 		public function Distributor()

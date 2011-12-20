@@ -40,7 +40,7 @@ package com.olo.ostrich.neck.command
 						var clone:InventoryItem = item.clone();
 						
 						// Calculate out case counts (Not for yogurt since we always unbox)
-						if (clone.category != InventoryItem.INVENTORY_CATEGORY_YOGURT)
+						if (clone.category != InventoryItem.INVENTORY_CATEGORY_FOOD_YOGURT)
 						{
 							if (item.itemsInCase > 1)
 							{

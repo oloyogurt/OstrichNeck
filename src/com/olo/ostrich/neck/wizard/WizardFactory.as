@@ -46,7 +46,6 @@ package com.olo.ostrich.neck.wizard
 		static public const EDIT_EGG_CONFIG_WIZARD_TYPE:String = "editEggConfigWizardType";
 		static public const EDIT_MOVIE_WIZARD_TYPE:String = "editMovieWizardType";
 		static public const EDIT_INVENTORY_WIZARD_TYPE:String = "editInventoryWizardType";
-		static public const EDIT_INVENTORY_ITEM_DATE_WIZARD_TYPE:String = "editInventoryItemDateWizardType";
 		static public const CREATE_NEW_ORDER_WIZARD_TYPE:String = "createNewOrderWizardType";
 		static public const MODIFY_ORDER_TYPE:String = "modifyOrderType";
 		static public const INVENTORY_COUTS:String = "inventoryCounts";
@@ -158,11 +157,6 @@ package com.olo.ostrich.neck.wizard
 			{
 				panes = [new EditInventoryPane()];
 				title = "Edit Inventory";
-			}
-			else if (wizardType == EDIT_INVENTORY_ITEM_DATE_WIZARD_TYPE)
-			{
-				panes = [new EditInventoryItemDatePane()];
-				title = "Edit Inventory Item Date";
 			}
 			else if (wizardType == CREATE_NEW_ORDER_WIZARD_TYPE)
 			{

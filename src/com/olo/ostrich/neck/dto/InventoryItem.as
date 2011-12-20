@@ -7,10 +7,18 @@ package com.olo.ostrich.neck.dto
 	public class InventoryItem implements ICloneable
 	{
 		// Keep in synch with server object
-		static public const INVENTORY_CATEGORY_YOGURT:int = 0;
-		static public const INVENTORY_CATEGORY_TOPPING:int = 1;
-		static public const INVENTORY_CATEGORY_HOUSEHOLD:int = 2;
-		static public const INVENTORY_CATEGORY_OTHER:int = 3;
+		static public const INVENTORY_CATEGORY_FOOD_YOGURT:int = 0;
+		static public const INVENTORY_CATEGORY_FOOD_TOPPING:int = 1;
+		static public const INVENTORY_CATEGORY_FOOD_DRINK:int = 2;
+		static public const INVENTORY_CATEGORY_FOOD_OTHER:int = 3;
+		static public const INVENTORY_CATEGORY_NON_FOOD_CUPS:int = 4;
+		static public const INVENTORY_CATEGORY_NON_FOOD_NAPKINS:int = 5;
+		static public const INVENTORY_CATEGORY_NON_FOOD_SPOONS:int = 6;
+		static public const INVENTORY_CATEGORY_NON_FOOD_MERCHANDISE:int = 7;
+		static public const INVENTORY_CATEGORY_NON_FOOD_OTHER:int = 8;
+		static public const INVENTORY_CATEGORY_SUPPLIES_CLEANING:int = 9;
+		static public const INVENTORY_CATEGORY_SUPPLIES_KITCHEN:int = 10;
+		static public const INVENTORY_CATEGORY_SUPPLIES_OTHER:int = 11;
 		
 		static public const INVENTORY_LOCATION_WALK_IN_COOLER:int = 0;
 		static public const INVENTORY_LOCATION_FREEZER:int = 1;
@@ -22,10 +30,19 @@ package com.olo.ostrich.neck.dto
 		static private const SHELF_LIFE_MONTHS:int = 1;
 		static private const SHELF_LIFE_YEARS:int = 2;
 		
-		static public const INVENTORY_CATEGORY_YOGURT_STR:String = "Yogurt";
-		static public const INVENTORY_CATEGORY_TOPPING_STR:String = "Topping";
-		static public const INVENTORY_CATEGORY_HOUSEHOLD_STR:String = "Household";
-		static public const INVENTORY_CATEGORY_OTHER_STR:String = "Other";
+		
+		static public const INVENTORY_CATEGORY_FOOD_YOGURT_STR:String = "Yogurt";
+		static public const INVENTORY_CATEGORY_FOOD_TOPPING_STR:String = "Topping";
+		static public const INVENTORY_CATEGORY_FOOD_DRINK_STR:String = "Drink";
+		static public const INVENTORY_CATEGORY_FOOD_OTHER_STR:String = "Food (Other)";
+		static public const INVENTORY_CATEGORY_NON_FOOD_CUPS_STR:String = "Cups";
+		static public const INVENTORY_CATEGORY_NON_FOOD_NAPKINS_STR:String = "Napkins";
+		static public const INVENTORY_CATEGORY_NON_FOOD_SPOONS_STR:String = "Spoons";
+		static public const INVENTORY_CATEGORY_NON_FOOD_MERCHANDISE_STR:String = "Merchandise";
+		static public const INVENTORY_CATEGORY_NON_FOOD_OTHER_STR:String = "Non-Food (Other)";
+		static public const INVENTORY_CATEGORY_SUPPLIES_CLEANING_STR:String = "Supplies (Cleaning)";
+		static public const INVENTORY_CATEGORY_SUPPLIES_KITCHEN_STR:String = "Supplies (Kitchen)";
+		static public const INVENTORY_CATEGORY_SUPPLIES_OTHER_STR:String = "Supplies (Other)";
 		
 		static private const INVENTORY_LOCATION_WALK_IN_COOLER_STR:String = "Walk-in Cooler";
 		static private const INVENTORY_LOCATION_FREEZER_STR:String = "Freezer";
@@ -43,8 +60,16 @@ package com.olo.ostrich.neck.dto
 																			  				   		  
 		[Transient] static public var INVENTORY_TYPES:ArrayCollection = new ArrayCollection([{label:"Yogurt", data:0},
 																							 {label:"Topping", data:1},
-																							 {label:"Household", data:2},
-																							 {label:"Other", data:3}]);
+																							 {label:"Drink", data:2},
+																							 {label:"Food (Other)", data:3},
+																							 {label:"Cups", data:3},
+																							 {label:"Napkins", data:3},
+																							 {label:"Spoons", data:3},
+																							 {label:"Merchandise", data:3},
+																							 {label:"Non-Food (Other)", data:3},
+																							 {label:"Supplies (Cleaning)", data:3},
+																							 {label:"Supplies (Kitchen)", data:3},
+																							 {label:"Supplies (Other)", data:3}]);
 																							 
 		[Transient] static public var INVENTORY_LOCATIONS:ArrayCollection = new ArrayCollection([{label:"Walk-in", data:0},
 																								 {label:"Freezer", data:1},
@@ -72,7 +97,8 @@ package com.olo.ostrich.neck.dto
 		public var reorderPoint:Number;
 		public var reorderPointText:String;
 		public var show:Boolean;
-		public var weightedOz:int;
+		public var weightedOz:Number;
+		public var lastOrderDate:Number;
 		
 		public var distributor:Distributor;
 		public var itemDetail:ItemDetailBase;
@@ -109,6 +135,7 @@ package com.olo.ostrich.neck.dto
 			clone.reorderPointText = reorderPointText;
 			clone.show = show;
 			clone.weightedOz = weightedOz;
+			clone.lastOrderDate = lastOrderDate;
 			
 			clone.distributor = distributor;
 			
@@ -117,6 +144,12 @@ package com.olo.ostrich.neck.dto
 			clone.boxCount = boxCount;
 			
 			return clone;
+		}
+		
+		
+		[Transient] public function get lastOrderDateStr():Date
+		{
+			return new Date(lastOrderDate);
 		}
 		
 		
@@ -135,14 +168,7 @@ package com.olo.ostrich.neck.dto
 		
 		[Transient] public function get distribName():String
 		{
-			var name:String = "";
-			
-			if (distributor != null)
-			{
-				name = distributor.name;
-			}
-			
-			return name;
+			return (distributor != null) ? distributor.name : "Unknown";
 		}
 		
 		
@@ -152,24 +178,37 @@ package com.olo.ostrich.neck.dto
 		}
 		
 		
-		[Transient] static public function categoryStr(value:int):String
+		[Transient] static public function categoryStr(category:int):String
 		{
-			var rtnStr:String = INVENTORY_CATEGORY_OTHER_STR;
+			var value:String = "UNKNOWN";
 			
-			if (value == INVENTORY_CATEGORY_YOGURT)
-			{
-				rtnStr = INVENTORY_CATEGORY_YOGURT_STR;
-			}
-			else if (value == INVENTORY_CATEGORY_TOPPING)
-			{
-				rtnStr = INVENTORY_CATEGORY_TOPPING_STR;
-			}
-			else if (value == INVENTORY_CATEGORY_HOUSEHOLD)
-			{
-				rtnStr = INVENTORY_CATEGORY_HOUSEHOLD_STR;
+			if (category == INVENTORY_CATEGORY_FOOD_YOGURT) {
+				value = INVENTORY_CATEGORY_FOOD_YOGURT_STR;
+			} else if (category == INVENTORY_CATEGORY_FOOD_TOPPING) {
+				value = INVENTORY_CATEGORY_FOOD_TOPPING_STR;
+			} else if (category == INVENTORY_CATEGORY_FOOD_DRINK) {
+				value = INVENTORY_CATEGORY_FOOD_DRINK_STR;
+			} else if (category == INVENTORY_CATEGORY_FOOD_OTHER) {
+				value = INVENTORY_CATEGORY_FOOD_OTHER_STR;
+			} else if (category == INVENTORY_CATEGORY_NON_FOOD_CUPS) {
+				value = INVENTORY_CATEGORY_NON_FOOD_CUPS_STR;
+			} else if (category == INVENTORY_CATEGORY_NON_FOOD_NAPKINS) {
+				value = INVENTORY_CATEGORY_NON_FOOD_NAPKINS_STR;
+			} else if (category == INVENTORY_CATEGORY_NON_FOOD_SPOONS) {
+				value = INVENTORY_CATEGORY_NON_FOOD_SPOONS_STR;
+			} else if (category == INVENTORY_CATEGORY_NON_FOOD_MERCHANDISE) {
+				value = INVENTORY_CATEGORY_NON_FOOD_MERCHANDISE_STR;
+			} else if (category == INVENTORY_CATEGORY_NON_FOOD_OTHER) {
+				value = INVENTORY_CATEGORY_NON_FOOD_OTHER_STR;
+			} else if (category == INVENTORY_CATEGORY_SUPPLIES_CLEANING) {
+				value = INVENTORY_CATEGORY_SUPPLIES_CLEANING_STR;
+			} else if (category == INVENTORY_CATEGORY_SUPPLIES_KITCHEN) {
+				value = INVENTORY_CATEGORY_SUPPLIES_KITCHEN_STR;
+			} else if (category == INVENTORY_CATEGORY_SUPPLIES_OTHER) {
+				value = INVENTORY_CATEGORY_SUPPLIES_OTHER_STR;
 			}
 		
-			return rtnStr;
+			return value;
 		}
 		
 		
@@ -242,12 +281,12 @@ package com.olo.ostrich.neck.dto
 		
 		[Transient] public function get lastPricePaidOz():Number
 		{
-			return ((lastPricePaid / itemsInCase) / weightedOz);
+			return (lastPricePaid / weightedOz);
 		}
 		
 		[Transient] public function get avgPriceOz():Number
 		{
-			return ((priceAvg / itemsInCase) / weightedOz);
+			return (priceAvg / weightedOz);
 		}
 	}
 }

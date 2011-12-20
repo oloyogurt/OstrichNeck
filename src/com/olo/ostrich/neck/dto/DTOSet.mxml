@@ -22,5 +22,6 @@
 	<dto:Machine/>
 	<dto:MachineInventory/>
 	<dto:OstrichMetaData/>
+	<dto:Cogs/>
 	
 </Object>

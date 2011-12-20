@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DefaultWizardCanvasPane paneTitle="Edit Inventory Counts" paneName="{PANE_NAME}" borderColor="#7BA7C6" backgroundColor="#504D59" creationComplete="onCreationComplete()"
-	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="816" height="410">
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="914" height="410">
 	
 	<mx:Script>
 		<![CDATA[
@@ -33,9 +33,13 @@
 					if (_inventories.sort == null)
 					{
 						var sf1:SortField = new SortField();
-						sf1.name = "name";
+						sf1.name = "locationStrValue";
+						var sf3:SortField = new SortField();
+						sf3.name = "categoryStrValue";
+						var sf2:SortField = new SortField();
+						sf2.name = "name";
 						var sort:Sort = new Sort();
-						sort.fields = [sf1];
+						sort.fields = [sf1, sf3, sf2];
 						_inventories.sort = sort;
 						_inventories.refresh();
 					}
@@ -50,24 +54,17 @@
 			public function filterFunction(item:Object):Boolean
 			{
 				var inventoryItem:InventoryItem = InventoryItem(item);
-				if (inventoryItem.category == InventoryItem.INVENTORY_CATEGORY_YOGURT)
+				if (inventoryItem.category == InventoryItem.INVENTORY_CATEGORY_FOOD_YOGURT)
 				{
 					return (yogurtCB.selected == true) ? true : false;
 				}
-				else if (inventoryItem.category == InventoryItem.INVENTORY_CATEGORY_TOPPING)
+				else if (inventoryItem.category == InventoryItem.INVENTORY_CATEGORY_FOOD_TOPPING)
 				{
 					return (toppingsCB.selected == true) ? true : false;
 				}
-				else if (inventoryItem.category == InventoryItem.INVENTORY_CATEGORY_HOUSEHOLD)
-				{
-					return (householdsCB.selected == true) ? true : false;
-				}
-				else if (inventoryItem.category == InventoryItem.INVENTORY_CATEGORY_OTHER)
-				{
+				else {
 					return (otherCB.selected == true) ? true : false;
 				}
-				
-				return true;
 			}
 			
 			
@@ -95,21 +92,21 @@
 		<mx:AdvancedDataGrid id="inventoryGrid" dataProvider="{_inventories}" designViewDataType="flat" editable="true" left="5" top="5" right="5" bottom="5">
 			<mx:columns>
 				<mx:AdvancedDataGridColumn headerText="Item Name" dataField="name" editable="false" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
-				<mx:AdvancedDataGridColumn headerText="Cases" dataField="boxCount" textAlign="right" editable="true" width="80" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
-				<mx:AdvancedDataGridColumn headerText="Items" textAlign="right" dataField="currentQuantity" editable="true" width="80" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer" itemEditor="com.olo.ostrich.neck.renderer.OrderItemCountEditor"/>
-				<mx:AdvancedDataGridColumn headerText="Type" dataField="categoryStrValue" editable="false" width="100" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
-				<mx:AdvancedDataGridColumn headerText="Distributor" dataField="distribName" editable="false" width="150" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn headerText="Items/Case" textAlign="right" dataField="itemsInCase" editable="false" width="100" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn headerText="Back Stock" dataField="boxCount" textAlign="right" editable="true" width="100" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn headerText="Open Qty." textAlign="right" dataField="currentQuantity" editable="true" width="100" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer" itemEditor="com.olo.ostrich.neck.renderer.OrderItemCountEditor"/>
 				<mx:AdvancedDataGridColumn headerText="Manufacturer" dataField="manufactureName" editable="false" width="120" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn headerText="Type" dataField="categoryStrValue" editable="false" width="100" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
+				<mx:AdvancedDataGridColumn headerText="Location" dataField="locationStrValue" editable="false" width="100" itemRenderer="com.olo.ostrich.neck.renderer.ReorderRenderer"/>
 			</mx:columns>
 		</mx:AdvancedDataGrid>
 	</mx:Panel>
 	
 	<mx:CheckBox id="yogurtCB" label="Yogurt" click="_inventories.refresh()" fontWeight="bold" color="#C7E9F0" selected="true" x="10" y="378"/>
 	<mx:CheckBox id="toppingsCB" label="Toppings" click="_inventories.refresh()" fontWeight="bold" color="#C7E9F0" bottom="10" left="82" selected="true"/>
-	<mx:CheckBox id="householdsCB" label="Households" click="_inventories.refresh()" fontWeight="bold" color="#C7E9F0" bottom="10" left="165" selected="true"/>
-	<mx:CheckBox id="otherCB" label="Other" click="_inventories.refresh()" fontWeight="bold" color="#C7E9F0" bottom="10" left="263" selected="true"/>
-	<mx:Label text="Search:" fontWeight="bold" color="#C7E9F0" fontSize="12" left="339" bottom="10"/>
-	<mx:VRule bottom="8" left="329" width="2" height="25"/>
-	<mx:TextInput id="searchTI" change="onSearch()" bottom="10" left="403" right="10"/>
+	<mx:CheckBox id="otherCB" label="Other" click="_inventories.refresh()" fontWeight="bold" color="#C7E9F0" bottom="10" left="165" selected="true"/>
+	<mx:Label text="Search:" fontWeight="bold" color="#C7E9F0" fontSize="12" left="244" bottom="10"/>
+	<mx:VRule bottom="8" left="231" width="2" height="25"/>
+	<mx:TextInput id="searchTI" change="onSearch()" bottom="10" left="308" right="10"/>
 	
 </DefaultWizardCanvasPane>

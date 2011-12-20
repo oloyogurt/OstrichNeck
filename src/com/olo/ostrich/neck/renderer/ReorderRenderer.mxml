@@ -2,9 +2,11 @@
 <mx:Label xmlns:mx="http://www.adobe.com/2006/mxml" paddingLeft="10">
     <mx:Script>
         <![CDATA[
+        	import mx.formatters.DateFormatter;
         	import com.olo.ostrich.neck.dto.InventoryOrderItem;
         	import com.olo.ostrich.neck.dto.InventoryItem;
         	import mx.controls.advancedDataGridClasses.AdvancedDataGridListData;
+        	
 
         override public function set data(value:Object):void
         {
@@ -29,6 +31,10 @@
 	           		{
 	           			text = floatFormat.format(value[d.dataField]);
 	           		}
+	           		else if (d.dataField == "oldestDate")
+	           		{
+	           			text = dateFormat.format(value[d.dataField]);
+	           		}
 	           		else
 	           		{
 		           		text = value[d.dataField];
@@ -49,6 +55,7 @@
         ]]>
     </mx:Script>
     
+    <mx:DateFormatter id="dateFormat"/>
     <mx:CurrencyFormatter id="moneyFormat" precision="2"/>
     <mx:NumberFormatter id="floatFormat" precision="2"/>
 
