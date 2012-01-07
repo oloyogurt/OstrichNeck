@@ -58,6 +58,8 @@
 			private function onChange():void
 			{		
 				_inventory.shelfLifeDenomination = shelfLifeDenomCB.selectedIndex;
+				_inventory.location = (InventoryItem.INVENTORY_LOCATIONS[locationCB.selectedIndex]).data;
+				_inventory.category = (InventoryItem.INVENTORY_TYPES[typeCB.selectedIndex]).data;
 				
 				if (typeCB.selectedLabel == InventoryItem.INVENTORY_CATEGORY_FOOD_YOGURT_STR)
 				{
@@ -98,6 +100,15 @@
 					var selectedYogurt:Yogurt = Yogurt(itemList.selectedItem);
 					_inventory.name = selectedYogurt.yocreamName;
 					_inventory.itemDetail = selectedYogurt;
+					_inventory.manufactureName = "YoCream";
+					_inventory.location = InventoryItem.INVENTORY_LOCATION_WALK_IN_YOGURT;
+					locationCB.selectedIndex = _inventory.locationIndex;
+					_inventory.itemsInCase = 6;
+					_inventory.reorderPoint = 18;
+					_inventory.reorderPointText = "Cartons";
+					_inventory.shelfLife = 17;
+					_inventory.shelfLifeDenomination = 0;
+					_inventory.reorder = false;
 					
 					onChange();
 				}
@@ -108,6 +119,7 @@
 			{
 				_inventory.itemDetail = null;
 				associatedCB.executeBindings();
+				locationCB.executeBindings();
 			}
 			
 			
@@ -138,7 +150,6 @@
 	<mx:Binding destination="_inventory.shelfLifeDenomination" source="shelfLifeDenomCB.selectedItem.data"/>
 	<mx:Binding destination="_inventory.notes" source="notesTA.text"/>
 	<mx:Binding destination="_inventory.category" source="typeCB.selectedIndex"/>
-	<mx:Binding destination="_inventory.location" source="locationCB.selectedIndex"/>
 	<mx:Binding destination="_inventory.taxable" source="taxableCB.selected"/>
 	<mx:Binding destination="_inventory.reorderPoint" source="Number(reorderPointTI.text)"/>
 	<mx:Binding destination="_inventory.reorderPointText" source="reorderPointTextTI.text"/>
@@ -151,8 +162,8 @@
 	<mx:Label text="Notes:" fontWeight="bold" textAlign="left" width="55" top="283" left="10"/>
 	<mx:TextInput text="{_inventory.name}" change="onNameChange()" id="nameTI" top="21" left="118" width="161"/>
 	<mx:Label text="Type:" fontWeight="bold" textAlign="right" left="73" top="49"/>
-	<mx:ComboBox id="typeCB" change="onChange()" selectedIndex="{_inventory.category}" dataProvider="{InventoryItem.INVENTORY_TYPES}" width="162" left="117" top="47"/>
-	<mx:ComboBox change="onChange()" selectedIndex="{_inventory.location}" dataProvider="{InventoryItem.INVENTORY_LOCATIONS}" width="162" left="117" top="73" id="locationCB"/>
+	<mx:ComboBox id="typeCB" change="onChange()" selectedIndex="{_inventory.categoryIndex}" dataProvider="{InventoryItem.INVENTORY_TYPES}" width="162" left="117" top="47"/>
+	<mx:ComboBox change="onChange()" selectedIndex="{_inventory.locationIndex}" dataProvider="{InventoryItem.INVENTORY_LOCATIONS}" width="162" left="117" top="73" id="locationCB"/>
 	<mx:TextInput text="{_inventory.manufactureName}" change="onChange()" id="manufacturerTI" top="103" left="118" width="161"/>
 	<mx:Label text="Items Per Case:" fontWeight="bold" textAlign="right" width="99" top="135" left="10"/>
 	<mx:TextInput text="{_inventory.itemsInCase}" change="onChange()" id="caseCountTI" top="133" left="117" width="162"/>
@@ -183,6 +194,6 @@
 			<mx:Button label="Associate" click="onAssociate()" enabled="{itemList.selectedItem}"/>
 		</mx:ControlBar>
 	</mx:Panel>
-	<mx:CheckBox id="reorderCB" selected="{_inventory.reorder}" label="Reorder" fontWeight="bold" left="38" top="253"/>
+	<mx:CheckBox id="reorderCB" enabled="{_inventory.category != InventoryItem.INVENTORY_CATEGORY_FOOD_YOGURT}" selected="{_inventory.reorder}" label="Reorder" fontWeight="bold" left="38" top="253"/>
 	
 </DefaultWizardCanvasPane>

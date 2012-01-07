@@ -7,6 +7,7 @@ package com.olo.ostrich.neck.command
 	import com.olo.ostrich.neck.wizard.WizardFactory;
 	import com.olo.ostrich.neck.wizard.WizardWindow;
 	import com.olo.ostrich.neck.wizard.pane.ChangeMachineFlavorPane;
+	import com.olo.ostrich.neck.wizard.pane.ChangeMachineFlavorSimplePane;
 	
 	import flash.events.Event;
 
@@ -27,9 +28,15 @@ package com.olo.ostrich.neck.command
 			{
 				_model = MachineEvent(event).inventoryModel;
 				_modelClone = _model.clone();
-				
-				_wizard = WizardFactory.getInstance().activateNewWizard(this, WizardFactory.CHANGE_MACHINE_FLAVOR_DETAILS_WIZARD_TYPE);
-				_wizard.setPaneDataProvider(ChangeMachineFlavorPane.PANE_NAME, _modelClone);
+			
+				if (event.type == MachineEvent.NEW_MACHINE_FLAVOR) {	
+					_wizard = WizardFactory.getInstance().activateNewWizard(this, WizardFactory.CHANGE_MACHINE_FLAVOR_DETAILS_WIZARD_TYPE);
+					_wizard.setPaneDataProvider(ChangeMachineFlavorPane.PANE_NAME, _modelClone);
+				}
+				else if (event.type == MachineEvent.NEW_MACHINE_FLAVOR_SIMPLE) {
+					_wizard = WizardFactory.getInstance().activateNewWizard(this, WizardFactory.CHANGE_MACHINE_FLAVOR_SIMPLE_WIZARD_TYPE);
+					_wizard.setPaneDataProvider(ChangeMachineFlavorSimplePane.PANE_NAME, _modelClone);					
+				}
 			}
 		}
 		

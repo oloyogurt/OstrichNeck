@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultWizardCanvasPane paneTitle="Edit Inventory" isValid="true" paneName="{PANE_NAME}" creationComplete="onCreationComplete()"
+	xmlns="com.olo.ostrich.neck.wizard.pane.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="688" height="378">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.model.BulkYogurtUsageModel;
+			import com.olo.ostrich.neck.renderer.BulkYogurtUsageUpdateRenderer;
+			import com.olo.ostrich.neck.dto.Machine;
+			import mx.collections.ArrayCollection;
+		
+			static public const PANE_NAME:String = "editMachineInventoryBulkPane";
+			
+			[Bindable] private var _date:Date = new Date();
+			
+			private var _machines:ArrayCollection = new ArrayCollection();
+			private var _machinesSet:Boolean = false;
+			private var _machineInventoryHash:Object = null;
+			private var _hashSet:Boolean = false;
+			private var _renderesSet:Boolean = false;
+
+			
+			public function onCreationComplete():void {
+				// Default date to yesterday
+				_date.setDate(_date.getDate() - 1);
+				dateDF.executeBindings();
+			}
+			
+			
+			public function set machines(list:ArrayCollection):void {
+				_machines = list;
+				_machinesSet = true;
+				
+				invalidateDisplayList();
+			}
+			
+			
+			public function set machineInventoryHash(hash:Object):void {
+				_machineInventoryHash = hash;
+				_hashSet = true;
+				
+				invalidateDisplayList();
+			}
+			
+			
+			override protected function updateDisplayList(w:Number, h:Number):void {
+				super.updateDisplayList(w, h);
+				
+				if ((_machinesSet == true) && (_hashSet == true) && (_renderesSet == false)) {
+					for (var i:int=0; i < myVBox.numChildren; ++i) {
+						// Remove previous entries
+						myVBox.removeChildAt(0);
+					}
+					
+					for each (var machine:Machine in _machines) {
+						var renderer:BulkYogurtUsageUpdateRenderer = new BulkYogurtUsageUpdateRenderer();
+						renderer.machine = machine;
+						renderer.machineInventoryHash = _machineInventoryHash;
+						myVBox.addChild(renderer);
+					}
+					
+					_renderesSet = true;
+				}
+			}
+			
+			
+			override public function get dataProvider():Object
+			{
+				var modelList:ArrayCollection = new ArrayCollection();
+				
+				if (myVBox.numChildren > 0) {
+					for (var i:int=0; i < myVBox.numChildren; ++i) {
+						var renderer:BulkYogurtUsageUpdateRenderer = BulkYogurtUsageUpdateRenderer(myVBox.getChildAt(i));
+						
+						var model:BulkYogurtUsageModel = new BulkYogurtUsageModel();
+						model.machineNumber = renderer.machineNum;
+						model.hopper1Increment = renderer.hopper1Value;
+						model.hopper2Increment = renderer.hopper2Value;
+						model.activeDate = dateDF.selectedDate;
+						modelList.addItem(model);
+					}
+				}
+				
+				return modelList;
+			}
+		
+		]]>
+	</mx:Script>
+	
+	<mx:VBox id="myVBox" top="10" left="10" right="10" bottom="41">
+	</mx:VBox>
+	<mx:DateField id="dateDF" bottom="10" left="180" selectedDate="{_date}"/>
+	<mx:Label text="Date Yogurt Was Used:" fontWeight="bold" left="10" bottom="8" width="162" fontSize="12" height="23"/>
+	
+</DefaultWizardCanvasPane>

@@ -37,19 +37,22 @@ package com.olo.ostrich.neck.command
 					_clonedInventoryObs = new ArrayCollection();
 					for each (var item:InventoryItem in _inventoryObs)
 					{
-						var clone:InventoryItem = item.clone();
-						
-						// Calculate out case counts (Not for yogurt since we always unbox)
-						if (clone.category != InventoryItem.INVENTORY_CATEGORY_FOOD_YOGURT)
-						{
-							if (item.itemsInCase > 1)
+						// Only show "LIVE" items in the counts intput wizard.
+						// Wizard items should match exactly downloaded counts sheet
+						if ((item.currentQuantity > 0) || (item.reorder == true)) {
+							var clone:InventoryItem = item.clone();
+							
+							// Calculate out case counts (Not for yogurt since we always unbox)
+							if (clone.category != InventoryItem.INVENTORY_CATEGORY_FOOD_YOGURT)
 							{
-								clone.boxCount = Math.floor(item.currentQuantity / item.itemsInCase);
-								clone.currentQuantity = item.currentQuantity % item.itemsInCase;
+								if (item.itemsInCase > 1)
+								{
+									clone.boxCount = Math.floor(item.currentQuantity / item.itemsInCase);
+									clone.currentQuantity = item.currentQuantity % item.itemsInCase;
+								}
 							}
+							_clonedInventoryObs.addItem(clone);
 						}
-						
-						_clonedInventoryObs.addItem(clone);
 					}
 				
 					_wizard = WizardFactory.getInstance().activateNewWizard(this, WizardFactory.INVENTORY_COUTS);

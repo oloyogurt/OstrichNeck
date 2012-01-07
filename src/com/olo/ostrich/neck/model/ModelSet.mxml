@@ -13,5 +13,6 @@
 	<model:TotalSalesModel/>
 	<model:TweetModel/>
 	<model:FlavorModel/>
+	<model:BulkYogurtUsageModel/>
 	
 </Object>

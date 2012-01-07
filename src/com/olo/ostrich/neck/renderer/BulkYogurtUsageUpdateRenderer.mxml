@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas backgroundColor="{_machine.colorColorValue}" cornerRadius="17" borderStyle="solid" borderColor="#091D2B" horizontalScrollPolicy="off" verticalScrollPolicy="off"
+	xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="60">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.model.MachineInventoryModel;
+			import com.olo.ostrich.neck.dto.Machine;
+			
+			[Bindable] private var _machine:Machine = null;
+			[Bindable] private var _yo1Str:String = "???";
+			[Bindable] private var _yo2Str:String = "???";
+			
+			private var _machineInventoryHash:Object = null;
+			private var _machineInventoryHashSet:Boolean = false;
+			
+			
+			public function set machine(m:Machine):void {
+				_machine = m;
+				invalidateDisplayList();
+			}
+			
+			
+			public function set machineInventoryHash(machineInventoryHash:Object):void {
+				_machineInventoryHash = machineInventoryHash;
+				_machineInventoryHashSet = true;
+				invalidateDisplayList();
+			}
+			
+			
+			public function get hopper1Value():int {
+				return int(hopper1TI.text);
+			}
+			
+			
+			public function get hopper2Value():int {
+				return int(hopper2TI.text);
+			}
+			
+			
+			public function get machineNum():int {
+				return _machine.machineNumber;
+			}
+			
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				
+				if ((_machineInventoryHashSet == true) && (_machine != null))
+				{
+					if (_machineInventoryHash != null)
+					{
+						var model1:MachineInventoryModel = getInventoryModelFromHash(_machineInventoryHash, 1);
+						if (model1 != null)	{
+							_yo1Str = model1.yogurt.yocreamName + " / " + model1.yogurt.oloName;
+						}
+						
+						var model2:MachineInventoryModel = getInventoryModelFromHash(_machineInventoryHash, 2);
+						if (model2 != null)	{
+							_yo2Str = model2.yogurt.yocreamName + " / " + model2.yogurt.oloName;
+						}
+					}
+				}
+			}	
+			
+			
+			private function getInventoryModelFromHash(hash:Object, hopperNum:int):MachineInventoryModel
+			{
+				var model:MachineInventoryModel = null;
+				
+				if ((_machineInventoryHash != null) && (_machine != null))
+				{
+					model = MachineInventoryModel(_machineInventoryHash[MachineInventoryModel.getInventoryKey(_machine, hopperNum)]);
+				}
+				
+				return model;
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:HRule height="2" left="65" right="10"  verticalCenter="0" strokeColor="#000000" strokeWidth="6"/>
+	<mx:Label x="10" text="{_machine.machineNumber}" verticalCenter="0" fontWeight="bold" fontSize="35" width="82"/>
+	<mx:Label text="{_yo1Str}" left="65" top="3" fontWeight="bold" fontSize="17" right="83"/>
+	<mx:Label text="{_yo2Str}" left="65" fontWeight="bold" fontSize="18" right="83" bottom="4" height="28"/>
+	<mx:TextInput id="hopper1TI" top="2" right="15" fontWeight="bold" fontSize="12" width="39" textAlign="right"/>
+	<mx:TextInput id="hopper2TI" right="15" fontWeight="bold" fontSize="12" width="39" bottom="2" height="24" textAlign="right"/>
+	
+</mx:Canvas>

@@ -16,8 +16,11 @@ package com.olo.ostrich.neck.event
 		static public const SAVE_MACHINE_DETAILS:String = "saveMachineDetails";
 		static public const FETCH_ALL_ACTIVE_MACHINE_INVENTORIES:String = "fetchAllActiveMachineInventories";
 		static public const EDIT_MACHINE_INVENTORY:String = "editMachineInventory";
+		static public const EDIT_MACHINE_INVENTORY_BULK:String = "editMachineInventoryBulk";
 		static public const NEW_MACHINE_FLAVOR:String = "newMachineFlavor";
+		static public const NEW_MACHINE_FLAVOR_SIMPLE:String = "newMachineFlavorSimple";
 		static public const SAVE_MACHINE_INVENTORY:String = "saveMachineInventory";
+		static public const SAVE_MACHINE_INVENTORY_BULK:String = "saveMachineInventoryBulk";
 		static public const SAVE_MACHINE_FLAVOR:String = "saveMachineFlavor";
 		static public const FETCH_SCOREBOARD_DATA:String = "fetchScoreboardData";
 		static public const UPDATE_TRENDING_DATA:String = "updateTrendingData";

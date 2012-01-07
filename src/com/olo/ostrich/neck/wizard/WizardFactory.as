@@ -5,13 +5,14 @@ package com.olo.ostrich.neck.wizard
 	import com.olo.ostrich.neck.wizard.pane.AddHashReferencePane;
 	import com.olo.ostrich.neck.wizard.pane.ChangeMachineCleaningPane;
 	import com.olo.ostrich.neck.wizard.pane.ChangeMachineFlavorPane;
+	import com.olo.ostrich.neck.wizard.pane.ChangeMachineFlavorSimplePane;
 	import com.olo.ostrich.neck.wizard.pane.ChangeVoteFlavorsPane;
 	import com.olo.ostrich.neck.wizard.pane.EditBlockNewsPane;
 	import com.olo.ostrich.neck.wizard.pane.EditEggConfigPane;
-	import com.olo.ostrich.neck.wizard.pane.EditInventoryItemDatePane;
 	import com.olo.ostrich.neck.wizard.pane.EditInventoryPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineCleaningNotesPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineDetailsPane;
+	import com.olo.ostrich.neck.wizard.pane.EditMachineInventoryBulkPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineInventoryPane;
 	import com.olo.ostrich.neck.wizard.pane.EditMachineMaintenancePane;
 	import com.olo.ostrich.neck.wizard.pane.EditMoviePane;
@@ -32,8 +33,10 @@ package com.olo.ostrich.neck.wizard
 	{
 		static public const EDIT_YOGURT_WIZARD_TYPE:String = "editYogurtWizard";
 		static public const EDIT_MACHINE_INVENTORY_WIZARD_TYPE:String = "editMachineInventoryWizard";
+		static public const EDIT_MACHINE_INVENTORY_BULK_WIZARD_TYPE:String = "editMachineInventoryBulkWizard";
 		static public const EDIT_MACHINE_DETAILS_WIZARD_TYPE:String = "editMachineDetailsWizard";
 		static public const CHANGE_MACHINE_FLAVOR_DETAILS_WIZARD_TYPE:String = "changeMachineFlavorDetailsWizard";
+		static public const CHANGE_MACHINE_FLAVOR_SIMPLE_WIZARD_TYPE:String = "changeMachineFlavorSimpleWizard";
 		static public const EDIT_BLOCK_NEWS_WIZARD_TYPE:String = "editBlockNewsWizard";
 		static public const EDIT_SUMMARY_NEWS_WIZARD_TYPE:String = "editSummaryNewsWizard";
 		static public const ADD_DIRTY_WORDS_TYPE:String = "addDirtyWords";
@@ -93,6 +96,11 @@ package com.olo.ostrich.neck.wizard
 				panes = [new EditMachineInventoryPane()];
 				title = "Edit Machine Inventory";
 			}
+			else if (wizardType == EDIT_MACHINE_INVENTORY_BULK_WIZARD_TYPE)
+			{
+				panes = [new EditMachineInventoryBulkPane()];
+				title = "Increment Yogurt Usage";
+			}
 			else if (wizardType == EDIT_MACHINE_DETAILS_WIZARD_TYPE)
 			{
 				panes = [new EditMachineDetailsPane()];
@@ -101,6 +109,11 @@ package com.olo.ostrich.neck.wizard
 			else if (wizardType == CHANGE_MACHINE_FLAVOR_DETAILS_WIZARD_TYPE)
 			{
 				panes = [new ChangeMachineFlavorPane()];
+				title = "Change Machine Flavor";
+			}
+			else if (wizardType == CHANGE_MACHINE_FLAVOR_SIMPLE_WIZARD_TYPE)
+			{
+				panes = [new ChangeMachineFlavorSimplePane()];
 				title = "Change Machine Flavor";
 			}
 			else if (wizardType == EDIT_BLOCK_NEWS_WIZARD_TYPE)
