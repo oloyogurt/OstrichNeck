@@ -155,6 +155,7 @@
 	<mx:Binding destination="_inventory.reorderPointText" source="reorderPointTextTI.text"/>
 	<mx:Binding destination="_inventory.weightedOz" source="Number(weightedOzTI.text)"/>
 	<mx:Binding destination="_inventory.reorder" source="reorderCB.selected"/>
+	<mx:Binding destination="_inventory.prepaid" source="prepaidCB.selected"/>
 	
 	<mx:Label text="Name:" fontWeight="bold" textAlign="right" width="89" top="23" left="20"/>
 	<mx:Label text="Manufacturer:" fontWeight="bold" textAlign="right" width="89" top="105" left="21"/>
@@ -195,5 +196,6 @@
 		</mx:ControlBar>
 	</mx:Panel>
 	<mx:CheckBox id="reorderCB" enabled="{_inventory.category != InventoryItem.INVENTORY_CATEGORY_FOOD_YOGURT}" selected="{_inventory.reorder}" label="Reorder" fontWeight="bold" left="38" top="253"/>
+	<mx:CheckBox label="Prepaid" selected="{_inventory.prepaid}" left="194" top="223" fontWeight="bold" id="prepaidCB"/>
 	
 </DefaultWizardCanvasPane>

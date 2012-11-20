@@ -5,12 +5,15 @@ package com.olo.ostrich.neck.dto
 	public class InventoryItemDate implements ICloneable
 	{
 		public var id:Number;
-		public var itemCount:Number;
+		public var currentCount:Number;
+		public var purchasedCount:Number;
 		public var year:int;
 		public var month:int;
 		public var day:int;
 		public var dayOfWeek:int;
-		public var unitPrice:Number;
+		public var itemPrice:Number;
+		public var totalPurchasedPrice:Number;
+		public var addedTimestamp:Number;
 		
 		public var inventoryItem:InventoryItem;
 		
@@ -23,12 +26,14 @@ package com.olo.ostrich.neck.dto
 			var clone:InventoryItemDate = (target == null) ? new InventoryItemDate() : InventoryItemDate(target);
 			
 			clone.id = id;
-			clone.itemCount = itemCount;
+			clone.currentCount = currentCount;
+			clone.purchasedCount = purchasedCount;
 			clone.year = year;
 			clone.month = month;
 			clone.day = day;
 			clone.dayOfWeek = dayOfWeek;
-			clone.unitPrice = unitPrice;
+			clone.itemPrice = itemPrice;
+			clone.addedTimestamp = addedTimestamp;
 			
 			if (inventoryItem != null) clone.inventoryItem = inventoryItem;
 			

@@ -21,5 +21,6 @@
 	<mx:RemoteObject id="newsService" destination="NewsService"/>
 	<mx:RemoteObject id="configUtilitiesService" destination="ConfigUtilitiesService"/>
 	<mx:RemoteObject id="inventoryService" destination="InventoryService" showBusyCursor="true"/>
+	<mx:RemoteObject id="loyaltyService" destination="LoyaltyService" showBusyCursor="true"/>
 
 </mx:Object>

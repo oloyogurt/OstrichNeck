@@ -2,6 +2,7 @@ package com.olo.ostrich.neck.command
 {
 	import com.asfusion.mate.events.Dispatcher;
 	import com.olo.ostrich.neck.dto.InventoryOrder;
+	import com.olo.ostrich.neck.dto.InventoryOrderItem;
 	import com.olo.ostrich.neck.event.InventoryEvent;
 	import com.olo.ostrich.neck.wizard.IWizardUser;
 	import com.olo.ostrich.neck.wizard.WizardFactory;
@@ -42,6 +43,7 @@ package com.olo.ostrich.neck.command
 		public function wizardComplete():void
 		{
 			_orderClone.clone(_order);
+			
 			var saveEvent:InventoryEvent = new InventoryEvent(InventoryEvent.SAVE_MODIFIED_ORDER);
 			saveEvent.order = _order;
 			(new Dispatcher).dispatchEvent(saveEvent);

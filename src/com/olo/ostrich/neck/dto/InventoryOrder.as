@@ -4,7 +4,7 @@ package com.olo.ostrich.neck.dto
 	
 	
 	[Bindable]
-	[RemoteClass(alias="com.olo.ostrich.nest.dto.InventoryOrder")]
+	[RemoteClass(alias="com.olo.ostrich.nest.model.InventoryOrderModel")]
 	public class InventoryOrder implements ICloneable
 	{
 		public var id:Number;
@@ -13,6 +13,7 @@ package com.olo.ostrich.neck.dto
 		public var invoiceNumber:String;
 		public var total:Number;
 		public var receivedBy:String;
+		public var paid:Boolean;
 		
 		public var distributor:Distributor;
 		public var orderItems:ArrayCollection;
@@ -31,6 +32,7 @@ package com.olo.ostrich.neck.dto
 			clone.invoiceNumber = invoiceNumber;
 			clone.total = total;
 			clone.receivedBy = receivedBy;
+			clone.paid = paid;
 			
 			clone.distributor = distributor;
 			

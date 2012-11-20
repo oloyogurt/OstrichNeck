@@ -45,12 +45,12 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Binding destination="_inventoryItemDate.itemCount" source="Number(itemCountTI.text)"/>
+	<mx:Binding destination="_inventoryItemDate.currentCount" source="Number(itemCountTI.text)"/>
 	<mx:Binding destination="_inventoryItemDate.dateFormat" source="inventoryDF.selectedDate"/>
 	
 	<mx:Label text="Item Count:" textAlign="right" fontWeight="bold" left="63" top="52" fontSize="12" width="83"/>
 	<mx:Label text="Date:" visible="{_createMode}" textAlign="right" fontWeight="bold" top="102" fontSize="12" width="83" left="63"/>
-	<mx:TextInput id="itemCountTI" left="154" text="{_inventoryItemDate.itemCount}" top="52" editable="true" width="74"/>
+	<mx:TextInput id="itemCountTI" left="154" text="{_inventoryItemDate.currentCount}" top="52" editable="true" width="74"/>
 	<mx:DateField id="inventoryDF" visible="{_createMode}" change="onChange()" selectedDate="{_inventoryItemDate.dateFormat}" top="102" left="154"/>
 	
 </DefaultWizardCanvasPane>

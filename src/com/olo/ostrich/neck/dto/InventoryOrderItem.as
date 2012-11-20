@@ -1,7 +1,7 @@
 package com.olo.ostrich.neck.dto
 {
 	[Bindable]
-	[RemoteClass(alias="com.olo.ostrich.nest.dto.InventoryOrderItem")]
+	[RemoteClass(alias="com.olo.ostrich.nest.model.InventoryOrderItemModel")]
 	public class InventoryOrderItem implements ICloneable
 	{
 		public var id:Number;

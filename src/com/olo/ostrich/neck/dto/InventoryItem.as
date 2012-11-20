@@ -3,7 +3,7 @@ package com.olo.ostrich.neck.dto
 	import mx.collections.ArrayCollection;
 	
 	[Bindable]
-	[RemoteClass(alias="com.olo.ostrich.nest.dto.InventoryItem")]
+	[RemoteClass(alias="com.olo.ostrich.nest.model.InventoryModel")]
 	public class InventoryItem implements ICloneable
 	{
 		// Keep in synch with server object & collections below
@@ -117,6 +117,7 @@ package com.olo.ostrich.neck.dto
 		public var show:Boolean;
 		public var weightedOz:Number;
 		public var lastOrderDate:Number;
+		public var prepaid:Boolean;
 		
 		public var distributor:Distributor;
 		public var itemDetail:ItemDetailBase;
@@ -154,6 +155,7 @@ package com.olo.ostrich.neck.dto
 			clone.show = show;
 			clone.weightedOz = weightedOz;
 			clone.lastOrderDate = lastOrderDate;
+			clone.prepaid = prepaid;
 			
 			clone.distributor = distributor;
 			

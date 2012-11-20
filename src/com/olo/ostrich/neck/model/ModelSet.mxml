@@ -14,5 +14,7 @@
 	<model:TweetModel/>
 	<model:FlavorModel/>
 	<model:BulkYogurtUsageModel/>
+	<model:LoyaltySummaryModel/>
+	<model:ZipCodeMap/>
 	
 </Object>
