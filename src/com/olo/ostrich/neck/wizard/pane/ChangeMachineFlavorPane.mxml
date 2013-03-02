@@ -74,7 +74,7 @@
 	<mx:Label text="Current Manufacturer Name:" left="10" top="68" textAlign="right" fontWeight="bold" width="168"/>
 	<mx:TextInput text="{_model.machine.name}" width="173" left="186" top="8" enabled="false" editable="false"/>
 	<mx:TextInput text="{_yogurtClone.oloName}" width="173" left="186" top="37" enabled="false" editable="false"/>
-	<mx:TextInput text="{_yogurtClone.yocreamName}" width="173" left="186" top="66" enabled="false" editable="false"/>
+	<mx:TextInput text="{_yogurtClone.manufactureName}" width="173" left="186" top="66" enabled="false" editable="false"/>
 	<mx:Label text="Flavor Since:" textAlign="right" fontWeight="bold" right="191" top="10"/>
 	<mx:TextInput text="{_machineInventoryClone.startDate}" width="173" editable="false" enabled="false" right="10" top="8"/>
 	
@@ -83,7 +83,7 @@
 	<mx:AdvancedDataGrid id="yogurtGrid" change="onChange()" dataProvider="{_yogurtList}" horizontalScrollPolicy="off" verticalScrollPolicy="auto" designViewDataType="flat" allowMultipleSelection="false" left="10" top="117" bottom="10" width="363">
 		<mx:columns>
 			<mx:AdvancedDataGridColumn headerText="Olo Name" dataField="oloName"/>
-			<mx:AdvancedDataGridColumn headerText="Manufacturer Name" dataField="yocreamName"/>
+			<mx:AdvancedDataGridColumn headerText="Manufacturer Name" dataField="manufactureName"/>
 		</mx:columns>
 	</mx:AdvancedDataGrid>
 	
@@ -94,7 +94,7 @@
 	<mx:Label text="Selected Olo Name:" fontWeight="bold" textAlign="right" right="268" bottom="194"/>
 	<mx:Label text="Selected Manufacturer Name:" fontWeight="bold" textAlign="right" right="268" bottom="151"/>
 	<mx:TextInput text="{Yogurt(yogurtGrid.selectedItem).oloName}" width="187" editable="false" displayAsPassword="false" enabled="true" right="56" bottom="192"/>
-	<mx:TextInput text="{Yogurt(yogurtGrid.selectedItem).yocreamName}" width="187" editable="false" displayAsPassword="false" enabled="true" right="56" bottom="149"/>
+	<mx:TextInput text="{Yogurt(yogurtGrid.selectedItem).manufactureName}" width="187" editable="false" displayAsPassword="false" enabled="true" right="56" bottom="149"/>
 	<mx:TextArea text="Selecting a new flavor for this machine will deactivate the existing associated flavor including all time bound trending collected while that flavor was active. This is to be done when a flavor switch is performed on a machine." borderStyle="solid" cornerRadius="9" width="328" editable="false" right="56" fontSize="12" textAlign="center" top="126" height="94"/>
 	<mx:Label text="Date:" fontWeight="bold" left="527" top="340"/>
 	<mx:DateField id="activeDF" selectedDate="{_model.date}" left="589" top="338"/>

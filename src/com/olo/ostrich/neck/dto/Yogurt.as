@@ -7,8 +7,9 @@ package com.olo.ostrich.neck.dto
 	public class Yogurt extends ItemDetailBase implements ICloneable
 	{
 		public var id:Number;
-		public var yocreamName:String;
+		public var manufactureName:String;
 		public var oloName:String;
+		public var manufacturer:String;
 		public var ingredients:String;
 		public var nsa:Boolean;
 		public var kosher:Boolean;
@@ -49,8 +50,9 @@ package com.olo.ostrich.neck.dto
 			var clone:Yogurt = (target == null) ? new Yogurt() : Yogurt(target);
 			
 			clone.id = id;
-			clone.yocreamName = yocreamName;
+			clone.manufactureName = manufactureName;
 			clone.oloName = oloName;
+			clone.manufacturer = manufacturer;
 			clone.ingredients = ingredients;
 			clone.nsa = nsa;
 			clone.kosher = kosher;
@@ -88,7 +90,8 @@ package com.olo.ostrich.neck.dto
 		{
 			id = 0;
 			oloName = yogurtXML.name;
-			yocreamName = yogurtXML.yocreamName;
+			manufactureName = yogurtXML.yocreamName;
+			manufacturer = yogurtXML.manufacturer;
 			ingredients = yogurtXML.ingredients;
 			nsa = (yogurtXML.hasOwnProperty("nsa")) ? true : false;
 			kosher = (yogurtXML.hasOwnProperty("kosher")) ? true : false;
@@ -139,8 +142,9 @@ package com.olo.ostrich.neck.dto
 		public function print():void
 		{
 			trace("id: "+id);
-			trace("yocreamName: "+yocreamName);
+			trace("manufactureName: "+manufactureName);
 			trace("oloName: "+oloName);
+			trace("manufacturer: "+manufacturer);
 			trace("ingredients: "+ingredients);
 			trace("nsa: "+nsa);
 			trace("kosher: "+kosher);

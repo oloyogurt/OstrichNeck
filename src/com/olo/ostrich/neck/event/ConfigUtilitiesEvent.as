@@ -27,12 +27,18 @@ package com.olo.ostrich.neck.event
 		static public const ADD_BLOCKED_USERS:String = "addBlockedUsers";
 		static public const SAVE_BLOCKED_USERS:String = "saveBlockedUsers";
 		static public const DELETE_BLOCKED_USERS:String = "deleteBlockedUsers";
+		static public const CONFIG_LOC_ID:String = "configLocID";
 		
 		public var dirtyWords:ArrayCollection = null;
 		public var hashReferences:ArrayCollection = null;
 		public var users:ArrayCollection = null;
 		public var eggConfig:EggConfig = null;
 		public var videoInfo:VideoInfo = null;
+		static public var LOC_ID:Number = 0;
+		
+		public function get locID():Number {
+			return ConfigUtilitiesEvent.LOC_ID;
+		}
 
 		public function ConfigUtilitiesEvent(type:String, bubbles:Boolean=true, cancelable:Boolean=false)
 		{

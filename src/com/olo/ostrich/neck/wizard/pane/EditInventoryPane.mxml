@@ -25,7 +25,7 @@
 				if (_yogurt.sort == null)
 				{
 					var sf:SortField = new SortField();
-					sf.name = "yocreamName";
+					sf.name = "manufactureName";
 					var sort:Sort = new Sort();
 					sort.fields = [sf];
 					_yogurt.sort = sort;
@@ -83,7 +83,7 @@
 				for (var i:int=0; i < _yogurt.length; ++i)
 				{
 					var item:Yogurt = Yogurt(_yogurt.getItemAt(i));
-					if (item.yocreamName.match(pattern))
+					if (item.manufactureName.match(pattern))
 					{
 						itemList.selectedIndex = i;
 						itemList.scrollToIndex(i);
@@ -98,9 +98,9 @@
 				if (itemList.selectedItem != null)
 				{
 					var selectedYogurt:Yogurt = Yogurt(itemList.selectedItem);
-					_inventory.name = selectedYogurt.yocreamName;
+					_inventory.name = selectedYogurt.manufactureName;
 					_inventory.itemDetail = selectedYogurt;
-					_inventory.manufactureName = "YoCream";
+					_inventory.manufactureName = selectedYogurt.manufacturer;
 					_inventory.location = InventoryItem.INVENTORY_LOCATION_WALK_IN_YOGURT;
 					locationCB.selectedIndex = _inventory.locationIndex;
 					_inventory.itemsInCase = 6;
@@ -182,10 +182,10 @@
 	<mx:VRule x="301" width="2" top="10" bottom="10"/>
 	
 	<mx:Panel width="330" id="knownItemsPanel" layout="absolute" title="Known Items" left="325" top="15" bottom="16" borderColor="#6FB33D">
-		<mx:List id="itemList" doubleClickEnabled="true" doubleClick="onAssociate()" dataProvider="{_yogurt}" labelField="yocreamName" left="5" top="5" bottom="31" right="5"/>
+		<mx:List id="itemList" doubleClickEnabled="true" doubleClick="onAssociate()" dataProvider="{_yogurt}" labelField="manufactureName" left="5" top="5" bottom="31" right="5"/>
 <!-- TODO Add Manufacturer		<mx:AdvancedDataGrid id="itemList" doubleClickEnabled="true" doubleClick="onAssociate()" dataProvider="{_yogurt}" left="5" top="5" bottom="31" right="5">
 			<mx:columns>
-				<mx:AdvancedDataGridColumn headerText="Name" dataField="yocreamName" editable="false"/>
+				<mx:AdvancedDataGridColumn headerText="Name" dataField="manufactureName" editable="false"/>
 				<mx:AdvancedDataGridColumn headerText=""
 			</mx:columns>
 		</mx:AdvancedDataGrid>-->

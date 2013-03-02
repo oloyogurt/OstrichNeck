@@ -45,7 +45,8 @@
 	</mx:Script>
 	
 	<mx:Binding destination="_yogurt.oloName" source="oloNameTI.text"/>
-	<mx:Binding destination="_yogurt.yocreamName" source="yocreamNameTI.text"/>
+	<mx:Binding destination="_yogurt.manufactureName" source="yocreamNameTI.text"/>
+	<mx:Binding destination="_yogurt.manufacturer" source="manufactureNameTI.text"/>
 	<mx:Binding destination="_yogurt.nsa" source="nsaCB.selected"/>
 	<mx:Binding destination="_yogurt.kosher" source="kosherCB.selected"/>
 	<mx:Binding destination="_yogurt.ingredients" source="ingredientsTA.text"/>
@@ -69,13 +70,13 @@
 	<mx:Binding destination="_yogurt.calories" source="{int(caloriesTI.text)}"/>
 
 	<mx:Text text="Olo Name:" fontWeight="bold" width="100" textAlign="right" left="10" top="53"/>
-	<mx:Text text="Yocream Name:" fontWeight="bold" width="100" textAlign="right" left="10" top="87"/>
+	<mx:Text text="Manufacture Name:" fontWeight="bold" width="100" textAlign="right" left="10" top="79"/>
 	<mx:TextArea change="onChange()" id="ingredientsTA" text="{_yogurt.ingredients}" editable="true" left="10" right="10" bottom="10" wordWrap="true" top="339"/>
 	<mx:Label text="Yogurt Information:" fontSize="13" fontWeight="bold" left="10" top="10"/>
 	<mx:HRule left="10" right="10" top="37"/>
-	<mx:Label text="Serving Size:" fontWeight="bold" textAlign="right" width="113.5" left="409" top="53"/>
-	<mx:Label text="Calories From Fat:" width="113.5" textAlign="right" fontWeight="bold" left="409" top="87"/>
-	<mx:Label text="Total Fat:" width="68" textAlign="right" fontWeight="bold" left="617" top="53"/>
+	<mx:Label text="Serving Size:" fontWeight="bold" textAlign="right" width="113.5" left="483" top="53"/>
+	<mx:Label text="Calories From Fat:" width="113.5" textAlign="right" fontWeight="bold" left="483" top="87"/>
+	<mx:Label text="Total Fat:" width="68" textAlign="right" fontWeight="bold" left="691" top="53"/>
 	<mx:Label text="Trans Fat:" textAlign="right" fontWeight="bold" left="191" top="125"/>
 	<mx:Label text="Cholesterol:" textAlign="right" fontWeight="bold" left="331" top="123"/>
 	<mx:Label text="Sodium:" fontWeight="bold" textAlign="right" left="353" top="165"/>
@@ -92,13 +93,13 @@
 	<mx:Label text="Contains:" textAlign="right" fontWeight="bold" top="206" left="492" width="93"/>
 	
 	<mx:TextInput change="onChange()" left="118" top="51" id="oloNameTI" text="{_yogurt.oloName}" editable="true" width="160"/>
-	<mx:TextInput change="onChange()" left="118" top="85" id="yocreamNameTI" text="{_yogurt.yocreamName}" editable="true" width="160"/>
-	<mx:CheckBox change="onChange()" label="NSA:" selected="{_yogurt.nsa}" labelPlacement="left" fontWeight="bold" width="75" id="nsaCB" enabled="true" textAlign="right" left="302" top="51"/>
-	<mx:CheckBox change="onChange()" label="Kosher:" selected="{_yogurt.kosher}" labelPlacement="left" fontWeight="bold" width="75" id="kosherCB" enabled="true" textAlign="right" left="302" top="85"/>	
-	<mx:TextInput change="onChange()" editable="true" id="servingSizeTI" width="55.5" left="530.5" top="51" text="{_yogurt.servingSize}"/>
-	<mx:TextInput change="onChange()" width="56" editable="true" id="calFromFatTI" left="530" top="85" text="{_yogurt.calFromFat}"/>
-	<mx:TextInput change="onChange()" width="56" id="totalFatTI" editable="true" left="693" top="51" text="{_yogurt.totalFat}"/>
-	<mx:TextInput change="onChange()" id="saturatedFatTI" text="{_yogurt.saturatedFat}" width="56" left="693" top="85" editable="true"/>	
+	<mx:TextInput change="onChange()" left="118" top="85" id="yocreamNameTI" text="{_yogurt.manufactureName}" editable="true" width="160"/>
+	<mx:CheckBox change="onChange()" label="NSA:" selected="{_yogurt.nsa}" labelPlacement="left" fontWeight="bold" width="75" id="nsaCB" enabled="true" textAlign="right" left="317" top="85"/>
+	<mx:CheckBox change="onChange()" label="Kosher:" selected="{_yogurt.kosher}" labelPlacement="left" fontWeight="bold" width="75" id="kosherCB" enabled="true" textAlign="right" left="400" top="85"/>	
+	<mx:TextInput change="onChange()" editable="true" id="servingSizeTI" width="55.5" left="604.5" top="51" text="{_yogurt.servingSize}"/>
+	<mx:TextInput change="onChange()" width="56" editable="true" id="calFromFatTI" left="604" top="85" text="{_yogurt.calFromFat}"/>
+	<mx:TextInput change="onChange()" width="56" id="totalFatTI" editable="true" left="767" top="51" text="{_yogurt.totalFat}"/>
+	<mx:TextInput change="onChange()" id="saturatedFatTI" text="{_yogurt.saturatedFat}" width="56" left="767" top="85" editable="true"/>	
 	<mx:TextInput change="onChange()" id="caloriesTI" text="{_yogurt.calories}" width="56" editable="true" left="118" top="123"/>
 	<mx:TextInput change="onChange()" width="56" id="transFatTI" editable="true" left="261" top="123" text="{_yogurt.transFat}"/>
 	<mx:TextInput change="onChange()" width="56" id="cholTI" editable="true" left="412" top="121" text="{_yogurt.cholesterol}"/>
@@ -116,6 +117,8 @@
 	<mx:TextArea change="onChange()" height="63" id="containsTA" editable="true" wordWrap="true" top="205" left="593" text="{_yogurt.contains}" right="10"/>
 	<mx:Text text="Ingredients:" fontWeight="bold" width="83.5" textAlign="right" height="20" left="10" top="311"/>
 	<mx:Label text="Calories:" textAlign="right" fontWeight="bold" left="56" top="125"/>
-	<mx:Label text="Saturated Fat:" fontWeight="bold" textAlign="right" left="597" top="87"/>
+	<mx:Label text="Saturated Fat:" fontWeight="bold" textAlign="right" left="671" top="87"/>
+	<mx:Label text="Manufacturer:" left="286" top="53" fontWeight="bold" height="38"/>
+	<mx:TextInput change="onChange()" left="380" top="51" id="manufactureNameTI" text="{_yogurt.manufacturer}" editable="true" width="126"/>
 
 </DefaultWizardCanvasPane>

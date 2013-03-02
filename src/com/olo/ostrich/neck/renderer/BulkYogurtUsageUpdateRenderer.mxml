@@ -53,12 +53,12 @@
 					{
 						var model1:MachineInventoryModel = getInventoryModelFromHash(_machineInventoryHash, 1);
 						if (model1 != null)	{
-							_yo1Str = model1.yogurt.yocreamName + " / " + model1.yogurt.oloName;
+							_yo1Str = model1.yogurt.manufactureName + " / " + model1.yogurt.oloName;
 						}
 						
 						var model2:MachineInventoryModel = getInventoryModelFromHash(_machineInventoryHash, 2);
 						if (model2 != null)	{
-							_yo2Str = model2.yogurt.yocreamName + " / " + model2.yogurt.oloName;
+							_yo2Str = model2.yogurt.manufactureName + " / " + model2.yogurt.oloName;
 						}
 					}
 				}

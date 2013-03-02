@@ -43,6 +43,10 @@ package com.olo.ostrich.neck.event
 		public var machineMaintenance:MachineMaintenance = null;
 		public var machineCleaning:MachineCleaning = null;
 		
+		public function get locID():Number {
+			return ConfigUtilitiesEvent.LOC_ID;
+		}
+		
 		
 		public function MachineEvent(type:String, bubbles:Boolean=true, cancelable:Boolean=false)
 		{

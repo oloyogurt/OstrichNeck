@@ -20,6 +20,10 @@ package com.olo.ostrich.neck.event
 		public var blockNews:ArrayCollection = null;
 		public var summaryNews:ArrayCollection = null;
 		
+		public function get locID():Number {
+			return ConfigUtilitiesEvent.LOC_ID;
+		}
+		
 		public function NewsEvent(type:String, bubbles:Boolean=true, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);

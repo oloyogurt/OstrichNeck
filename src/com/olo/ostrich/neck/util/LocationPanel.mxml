@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="286" height="166" title="Location">
+
+	<mx:Script>
+		<![CDATA[
+			import com.olo.ostrich.neck.event.ConfigUtilitiesEvent;
+			import mx.managers.PopUpManager;
+			
+			private function onClick():void {
+				var e:ConfigUtilitiesEvent = new ConfigUtilitiesEvent(ConfigUtilitiesEvent.CONFIG_LOC_ID);
+				
+				if (NH.selected == true) {
+					ConfigUtilitiesEvent.LOC_ID = 1;
+				}
+				else {
+					ConfigUtilitiesEvent.LOC_ID = 2;
+				}
+				
+				dispatchEvent(e);
+			}
+		]]>
+	</mx:Script>
+
+	<mx:RadioButtonGroup id="locationGruop"/>
+	<mx:RadioButton id="NH" y="23" label="Nob Hill" groupName="locationGruop" selected="true" fontWeight="bold" right="47"/>
+	<mx:RadioButton id="VR" y="53" label="Ventan Ranch" groupName="locationGruop" fontWeight="bold" right="10"/>
+	<mx:Label x="10" y="10" text="Choose Your Location:" fontWeight="bold"/>
+	<mx:ControlBar>
+		<mx:Button label="OK" click="onClick()"/>
+	</mx:ControlBar>
+	
+</mx:Panel>

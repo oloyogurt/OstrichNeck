@@ -24,6 +24,7 @@ package com.olo.ostrich.neck.command
 		public function InventoryCountsCommand()
 		{
 			_numFormat.precision = 2;
+			_numFormat.useThousandsSeparator = false;
 		}
 
 		public function execute(event:Event):void
@@ -70,7 +71,8 @@ package com.olo.ostrich.neck.command
 				clone.currentQuantity += clone.boxCount * clone.itemsInCase;
 				clone.currentQuantity = Number(_numFormat.format(clone.currentQuantity));
 				clone.boxCount = 0;
-			}
+				trace("Updating ["+clone.name+"] to a new current count ["+clone.currentQuantity+"]");
+			} 
 			
 			var saveEvent:InventoryEvent = new InventoryEvent(InventoryEvent.SAVE_INVENTORY_COUNTS);
 			saveEvent.inventoryObjs = _clonedInventoryObs;

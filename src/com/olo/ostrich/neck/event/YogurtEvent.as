@@ -12,7 +12,10 @@ package com.olo.ostrich.neck.event
 		static public const SAVE_YOGURT:String = "saveYogurt";
 		
 		public var yogurts:ArrayCollection = null;
-		
+				
+		public function get locID():Number {
+			return ConfigUtilitiesEvent.LOC_ID;
+		}
 		public function YogurtEvent(type:String, bubbles:Boolean=true, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);

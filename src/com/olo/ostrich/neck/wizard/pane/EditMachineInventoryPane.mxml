@@ -72,7 +72,7 @@
 	<mx:Label text="Olo Flavor Name:" textAlign="right" fontWeight="bold" left="10" top="113" width="144"/>
 	<mx:Label text="Manufacturer Flavor Name:" fontWeight="bold" textAlign="right" top="113" right="263"/>
 	<mx:TextInput text="{_model.yogurt.oloName}" left="162" top="111" editable="false" enabled="false" width="187"/>
-	<mx:TextInput text="{_model.yogurt.yocreamName}" top="111" editable="false" enabled="false" right="68" width="187"/>
+	<mx:TextInput text="{_model.yogurt.manufactureName}" top="111" editable="false" enabled="false" right="68" width="187"/>
 	<mx:Label text="Machine Name:" width="144" fontWeight="bold" textAlign="right" top="59" left="10"/>
 	<mx:Label text="Machine Number:" textAlign="right" fontWeight="bold" right="263" width="161" top="59"/>
 	<mx:TextInput text="{_model.machine.name}" width="187" left="162" top="57" editable="false" enabled="false"/>

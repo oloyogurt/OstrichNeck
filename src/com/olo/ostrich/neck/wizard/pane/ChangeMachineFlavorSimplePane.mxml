@@ -72,19 +72,19 @@
 	<mx:Label text="Current Manufacturer Name:" left="10" top="68" textAlign="right" fontWeight="bold" width="168"/>
 	<mx:TextInput text="{_model.machine.name}" width="173" left="186" top="8" enabled="false" editable="false"/>
 	<mx:TextInput text="{_yogurtClone.oloName}" width="173" left="186" top="37" enabled="false" editable="false"/>
-	<mx:TextInput text="{_yogurtClone.yocreamName}" width="173" left="186" top="66" enabled="false" editable="false"/>
+	<mx:TextInput text="{_yogurtClone.manufactureName}" width="173" left="186" top="66" enabled="false" editable="false"/>
 	
 	<mx:HRule y="103" left="10" right="10"/>
 	
 	<mx:AdvancedDataGrid id="yogurtGrid" change="onChange()" dataProvider="{_yogurtList}" horizontalScrollPolicy="off" verticalScrollPolicy="auto" designViewDataType="flat" allowMultipleSelection="false" left="10" top="117" bottom="70" width="363">
 		<mx:columns>
 			<mx:AdvancedDataGridColumn headerText="Olo Name" dataField="oloName"/>
-			<mx:AdvancedDataGridColumn headerText="Manufacturer Name" dataField="yocreamName"/>
+			<mx:AdvancedDataGridColumn headerText="Manufacturer Name" dataField="manufactureName"/>
 		</mx:columns>
 	</mx:AdvancedDataGrid>
 	<mx:Label text="Selected Olo Name:" fontWeight="bold" textAlign="right" left="10" top="394" height="18" width="116"/>
 	<mx:Label text="Selected Manufacturer Name:" fontWeight="bold" textAlign="right" left="10" top="424" height="18"/>
 	<mx:TextInput text="{Yogurt(yogurtGrid.selectedItem).oloName}" editable="false" displayAsPassword="false" enabled="true" top="392" left="192" height="22" width="187"/>
-	<mx:TextInput text="{Yogurt(yogurtGrid.selectedItem).yocreamName}" editable="false" displayAsPassword="false" enabled="true" top="422" height="22" left="192" width="187"/>
+	<mx:TextInput text="{Yogurt(yogurtGrid.selectedItem).manufactureName}" editable="false" displayAsPassword="false" enabled="true" top="422" height="22" left="192" width="187"/>
 	
 </DefaultWizardCanvasPane>

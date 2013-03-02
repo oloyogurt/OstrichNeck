@@ -9,6 +9,8 @@ package com.olo.ostrich.neck.command
 	import com.olo.ostrich.neck.wizard.pane.EditMachineInventoryPane;
 	
 	import flash.events.Event;
+	
+	import mx.managers.PopUpManager;
 
 	public class EditMachineInventoryCommand implements IEditCommand, IWizardUser
 	{
